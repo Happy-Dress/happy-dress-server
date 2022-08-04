@@ -1,3 +1,3 @@
 export abstract class IGoogleDriveClient {
-  abstract uploadImages();
+    public abstract uploadImages();
 }
