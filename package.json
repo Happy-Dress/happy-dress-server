@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "17.14.0"
+  },
   "name": "happy-dress-server",
   "version": "0.0.1",
   "description": "",
@@ -67,8 +70,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "engines": {
-    "node": "17.14.0"
   }
 }
