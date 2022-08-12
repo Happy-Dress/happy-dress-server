@@ -1,17 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AuthenticationController } from './authentication/authentication.controller';
 import { ServiceModule } from '../service/service.module';
-import { ClientModule } from '../client/client.module';
-import { DressController } from './dress/dress.controller';
+import { ImageController } from './image/image.controller';
 
 @Module({
     imports: [
         ServiceModule,
-        ClientModule,
     ],
     controllers: [
         AuthenticationController,
-        DressController,
+        ImageController,
     ],
     providers: [],
 })
