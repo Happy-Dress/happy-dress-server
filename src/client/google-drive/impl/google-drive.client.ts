@@ -6,6 +6,10 @@ import { drive_v3, google } from 'googleapis';
 import * as path from 'path';
 import { ImageUploadError } from '../expection/image-upload.error';
 import Drive = drive_v3.Drive;
+import { ImageUploadResult } from '../../../service/image/model/ImageUploadResult';
+import { FailedUploadResult } from '../../../service/image/model/FailedUploadResult';
+import { FAILED_UPLOAD_GOOGLE_DRIVE } from '../../../../exceptions/constants/image.exception.constants';
+import { Image } from '../../../service/image/model/Image';
 
 @Injectable()
 export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBootstrap {
@@ -25,11 +29,25 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
         this.googleDriveApi = google.drive({ version: 'v3', auth });
     }
 
-    public async uploadImages(images: Express.Multer.File[]): Promise<UploadedImageModel[]> {
-        return await Promise.all(images.map(image => this.uploadImage(image)));
+    public async uploadImages(images: Image[]): Promise<ImageUploadResult> {
+        const uploadedImages: UploadedImageModel[] = [];
+        const failedImages: FailedUploadResult[] = [];
+        const uploadResponse =  await Promise.allSettled(images.map(image => this.uploadImage(image)));
+        uploadResponse.forEach(response => {
+            if (response.status === 'fulfilled'){
+                uploadedImages.push(response.value);
+            } else {
+                const error: ImageUploadError = response.reason;
+                failedImages.push(error.getFailedImage());
+            }
+        });
+        return {
+            uploadedImages,
+            failedImages,
+        };
     }
 
-    private async uploadImage(image: Express.Multer.File): Promise<UploadedImageModel> {
+    private async uploadImage(image: Image): Promise<UploadedImageModel> {
         const bufferStream = new stream.PassThrough();
         bufferStream.end(image.buffer);
         try {
@@ -39,19 +57,22 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
                     body: bufferStream,
                 },
                 requestBody: {
-                    name: image.filename,
+                    name: image.originalname,
                     parents: [process.env.PARENT_FOLDER],
                 },
                 fields: this.API_RESPONSE_FIELDS,
             });
             return {
-
+                id: image.id,
                 imageUrl: `${this.IMAGE_DEFAULT_URL}${id}`,
                 imageName: name,
-
             };
         } catch (e) {
-            throw new ImageUploadError(image.originalname);
+            throw new ImageUploadError({
+                id: image.id,
+                imageName: image.originalname,
+                reason: `${FAILED_UPLOAD_GOOGLE_DRIVE}`,
+            });
         }
     }
 

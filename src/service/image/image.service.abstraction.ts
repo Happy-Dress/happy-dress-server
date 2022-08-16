@@ -1,6 +1,6 @@
-import { UploadedImageModel } from '../../client/google-drive/models/uploaded-image.model';
+import { ImageUploadResult } from './model/ImageUploadResult';
 
 export abstract class IImageService {
 
-    public abstract uploadImages(images: Express.Multer.File[]): Promise<UploadedImageModel[]>;
+    public abstract uploadImages(images: Express.Multer.File[]): Promise<ImageUploadResult>;
 }
