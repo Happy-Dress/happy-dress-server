@@ -4,7 +4,6 @@ import { IImageService } from '../image.service.abstraction';
 import { IGoogleDriveClient } from '../../../client/google-drive/google-drive.client.abstraction';
 import { ImageUploadResult } from '../model/ImageUploadResult';
 import { Image } from '../model/Image';
-import { MAX_AMOUNT, MIN_AMOUNT } from '../constants/validate-image/validate-image.constants';
 
 @Injectable()
 export class ImageService implements IImageService {
@@ -16,16 +15,10 @@ export class ImageService implements IImageService {
     private readonly imageValidator: ImageValidator;
 
     public async uploadImages(files: Express.Multer.File[]): Promise<ImageUploadResult> {
-        const images: Image[] = [];
-        files = files.splice(MIN_AMOUNT, MAX_AMOUNT);
-        files.forEach(file => images.push({ id : files.indexOf(file), ...file }));
-        const invalidImages = this.imageValidator.getInvalidImages(images);
-        const invalidImageId = invalidImages.map(image => image.id);
-        const validImages = images.filter((image) => !invalidImageId.includes(image.id));
+        const images: Image[] = files.map((file, index) => ({ id : index, ...file }));
+        const { validImages, invalidImagesMap } = this.imageValidator.getImageValidationResult(images);
         const uploadResult = await this.googleDriveClient.uploadImages(validImages);
-        const failedImages = uploadResult.failedImages || [];
-        uploadResult.failedImages = [...failedImages, ...invalidImages];
+        uploadResult.failedImages.push(...invalidImagesMap.values());
         return uploadResult;
     }
-
 }
