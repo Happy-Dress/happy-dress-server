@@ -1,7 +1,11 @@
-import { IMAGE_EXTENSIONS, MAX_IMAGE_SIZE, MIN_IMAGE_SIZE } from '../constants/validate-image/validate-image.constants';
+import {
+    IMAGE_EXTENSIONS,
+    MAX_IMAGE_SIZE,
+    MIN_IMAGE_SIZE,
+} from '../constants/validate-image/validate-image.constants';
 import { Injectable } from '@nestjs/common';
 import { FailedUploadResult } from '../model/FailedUploadResult';
-import { INVALID_EXTENSION, INVALID_SIZE } from '../../../../exceptions/constants/image.exception.constants';
+import { INVALID_EXTENSION, INVALID_SIZE } from '../../../exceptions/constants/image.exception.constants';
 import { Image } from '../model/Image';
 
 @Injectable()
@@ -13,15 +17,16 @@ export class ImageValidator {
                 failedImages.push({
                     id: image.id,
                     imageName: image.originalname,
-                    reason: `${INVALID_EXTENSION} ${image.mimetype}` });
+                    reason: `${INVALID_EXTENSION} ${image.mimetype}`,
+                });
                 return;
             }
             if (!this.isValidSize(image)) {
                 failedImages.push({
                     id: image.id,
                     imageName: image.originalname,
-                    reason: `${INVALID_SIZE}` });
-                return;
+                    reason: `${INVALID_SIZE}`,
+                });
             }
         });
         return failedImages;
@@ -34,5 +39,5 @@ export class ImageValidator {
     private isValidSize(image: Express.Multer.File): boolean {
         return image.size > MIN_IMAGE_SIZE && image.size < MAX_IMAGE_SIZE;
     }
-    
+
 }
