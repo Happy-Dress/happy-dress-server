@@ -15,7 +15,7 @@ import Params$Resource$Files$Create = drive_v3.Params$Resource$Files$Create;
 @Injectable()
 export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBootstrap {
 
-    private readonly CREDENTIALS_FILE_NAME = 'creds.json';
+    private readonly CREDENTIALS_FILE_NAME = 'google-credentials.json';
     private readonly IMAGE_DEFAULT_URL = 'https://drive.google.com/open?id=';
     private readonly API_RESPONSE_FIELDS = 'id,name';
     private readonly STATUS_FULFILLED = 'fulfilled';
@@ -42,7 +42,7 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
             failedImages,
         };
     }
-    
+
     private getUploadedImages(uploadResponse: PromiseSettledResult<UploadedImageModel>[]): UploadedImageModel[] {
         return uploadResponse
             .filter(response => response.status === this.STATUS_FULFILLED)
@@ -74,7 +74,7 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
             });
         }
     }
-    
+
     private getImageCreateParams(image: Image): Params$Resource$Files$Create {
         const bufferStream = new stream.PassThrough();
         bufferStream.end(image.buffer);

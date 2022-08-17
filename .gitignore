@@ -1,7 +1,7 @@
 # compiled output
 /dist
 /node_modules
-/creds.json
+/google-credentials.json
 
 npm-debug.log
 /*.env
