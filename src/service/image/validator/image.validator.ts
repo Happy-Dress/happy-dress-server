@@ -31,7 +31,7 @@ export class ImageValidator {
     private getOverLimitImages(images: Image[]): Map<number, FailedUploadResult> {
         const oddImagesMap: Map<number, FailedUploadResult> = new Map;
         if (images.length >= MAX_AMOUNT) {
-            const oddImages = images.slice(MAX_AMOUNT - 1, images.length - 1);
+            const oddImages = images.slice(MAX_AMOUNT, images.length);
             oddImages.forEach(image => {
                 oddImagesMap.set(image.id, this.getFailedResult(image, INVALID_IMAGES_AMOUNT));
             });
