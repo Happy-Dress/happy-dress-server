@@ -9,7 +9,6 @@ export class ImageController {
 
     constructor(private readonly imageService: IImageService) {}
 
-
     @Post('upload')
     @UseInterceptors(FilesInterceptor('files'))
     public async createDress(@UploadedFiles() files: Express.Multer.File[]): Promise<ImageUploadResult> {

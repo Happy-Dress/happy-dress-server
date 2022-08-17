@@ -8,7 +8,7 @@ import { ImageUploadError } from '../expection/image-upload.error';
 import Drive = drive_v3.Drive;
 import { ImageUploadResult } from '../../../service/image/model/ImageUploadResult';
 import { FailedUploadResult } from '../../../service/image/model/FailedUploadResult';
-import { FAILED_UPLOAD_GOOGLE_DRIVE } from '../../../../exceptions/constants/image.exception.constants';
+import { FAILED_UPLOAD_GOOGLE_DRIVE } from '../../../exceptions/constants/image.exception.constants';
 import { Image } from '../../../service/image/model/Image';
 
 @Injectable()
@@ -17,6 +17,7 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
     private readonly CREDENTIALS_FILE_NAME = 'creds.json';
     private readonly IMAGE_DEFAULT_URL = 'https://drive.google.com/open?id=';
     private readonly API_RESPONSE_FIELDS = 'id,name';
+    private readonly STATUS_SUCCESSFUL = 'fulfilled';
 
     private googleDriveApi: Drive;
 
@@ -34,7 +35,7 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
         const failedImages: FailedUploadResult[] = [];
         const uploadResponse =  await Promise.allSettled(images.map(image => this.uploadImage(image)));
         uploadResponse.forEach(response => {
-            if (response.status === 'fulfilled'){
+            if (response.status === this.STATUS_SUCCESSFUL){
                 uploadedImages.push(response.value);
             } else {
                 const error: ImageUploadError = response.reason;
@@ -75,6 +76,5 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
             });
         }
     }
-
 
 }
