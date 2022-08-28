@@ -8,7 +8,7 @@ import { ImageUploadError } from '../expection/image-upload.error';
 import Drive = drive_v3.Drive;
 import { ImageUploadResult } from '../../../service/image/model/ImageUploadResult';
 import { FailedUploadResult } from '../../../service/image/model/FailedUploadResult';
-import { FAILED_UPLOAD_GOOGLE_DRIVE } from '../../../messages/constants/messages.constants';
+import { FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE } from '../../../messages/constants/messages.constants';
 import { Image } from '../../../service/image/model/Image';
 import Params$Resource$Files$Create = drive_v3.Params$Resource$Files$Create;
 
@@ -70,7 +70,7 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
             throw new ImageUploadError({
                 id: image.id,
                 imageName: image.originalname,
-                reason: `${FAILED_UPLOAD_GOOGLE_DRIVE}`,
+                reason: `${FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE}`,
             });
         }
     }
