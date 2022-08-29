@@ -50,7 +50,7 @@ describe('ImageValidator', () => {
                 size: 1e6,
                 mimetype: 'image/jpeg',
             } as any;
-            const files: Image[] = [file, file, file, file, file, file, file, file, file, file, file];
+            const files: Image[] = new Array(11).fill(file);
             const images: Image[] = files.map((image, index) => ({ id: index, ...image }));
             const validationResult = imageValidator.getImageValidationResult(images);
             expect(validationResult.validImages.length).toBe(10);
