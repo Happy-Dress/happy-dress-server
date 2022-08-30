@@ -1,7 +1,7 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { config } from 'dotenv';
-import { AllExceptionsFilter } from './controller/exception/excpetion.filter';
+import { AllExceptionsFilter } from './app/controller/exception/excpetion.filter';
 
 const DEFAULT_PORT = 8080;
 

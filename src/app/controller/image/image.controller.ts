@@ -10,7 +10,7 @@ export class ImageController {
 
     @Post('upload')
     @UseInterceptors(FilesInterceptor('files'))
-    public async createDress(@UploadedFiles() files: Express.Multer.File[]): Promise<ImageUploadResult> {
+    public async uploadImages(@UploadedFiles() files: Express.Multer.File[]): Promise<ImageUploadResult> {
         return this.imageService.uploadImages(files);
     }
 }

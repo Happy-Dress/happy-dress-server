@@ -1,4 +1,5 @@
 import {
+    COEFFICIENT_BYTES_TO_MEGABYTES,
     IMAGE_EXTENSIONS, MAX_AMOUNT,
     MAX_IMAGE_SIZE,
     MIN_IMAGE_SIZE,
@@ -6,9 +7,10 @@ import {
 import { Injectable } from '@nestjs/common';
 import { FailedUploadResult } from '../model/FailedUploadResult';
 import {
-    INVALID_EXTENSION,
-    INVALID_IMAGES_AMOUNT,
-    INVALID_SIZE,
+    CURRENT_SIZE_MESSAGE,
+    INVALID_EXTENSION_MESSAGE,
+    INVALID_IMAGES_AMOUNT_MESSAGE,
+    INVALID_SIZE_MESSAGE, VALID_EXTENSION_MESSAGE, VALID_SIZE_MESSAGE,
 } from '../../../messages/constants/messages.constants';
 import { Image } from '../model/Image';
 import { ImageValidationResult } from '../model/ImageValidationResult';
@@ -33,7 +35,7 @@ export class ImageValidator {
         if (images.length >= MAX_AMOUNT) {
             const oddImages = images.slice(MAX_AMOUNT, images.length);
             oddImages.forEach(image => {
-                oddImagesMap.set(image.id, this.getFailedResult(image, INVALID_IMAGES_AMOUNT));
+                oddImagesMap.set(image.id, this.getFailedResult(image, INVALID_IMAGES_AMOUNT_MESSAGE));
             });
         }
         return oddImagesMap;
@@ -63,10 +65,12 @@ export class ImageValidator {
     }
     
     private checkIsValidExtension(image: Express.Multer.File): string {
-        return IMAGE_EXTENSIONS.includes(image.mimetype) ? '' : `${INVALID_EXTENSION} ${image.mimetype}`;
+        return IMAGE_EXTENSIONS.includes(image.mimetype) ? '' :
+            `${INVALID_EXTENSION_MESSAGE} ${image.mimetype} ${VALID_EXTENSION_MESSAGE}`;
     }
     
     private checkIsValidSize(image: Express.Multer.File): string {
-        return image.size > MIN_IMAGE_SIZE && image.size < MAX_IMAGE_SIZE ? '' : INVALID_SIZE ;
+        return image.size > MIN_IMAGE_SIZE && image.size < MAX_IMAGE_SIZE ? '' :
+            `${INVALID_SIZE_MESSAGE} ${VALID_SIZE_MESSAGE}. ${CURRENT_SIZE_MESSAGE} ${image.size * COEFFICIENT_BYTES_TO_MEGABYTES} Мб.` ;
     }
 }
