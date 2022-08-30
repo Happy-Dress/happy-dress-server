@@ -1,8 +1,8 @@
 import { CredentialsModel } from '../../service/authentication/model/credentials.model';
-import { UserEntity } from './entity/user.entity';
+import { TestUser } from './entity/test-user';
 
 export abstract class IUserRepository {
 
-    public abstract getUserByCredentials(credentials: CredentialsModel): UserEntity;
+    public abstract getUserByCredentials(credentials: CredentialsModel): TestUser;
 
 }

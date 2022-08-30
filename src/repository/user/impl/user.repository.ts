@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CredentialsModel } from '../../../service/authentication/model/credentials.model';
-import { UserEntity } from '../entity/user.entity';
+import { TestUser } from '../entity/test-user';
 import { IUserRepository } from '../user.repository.abstraction';
 
-const MOCK_USER: UserEntity = {
+const MOCK_USER: TestUser = {
     id: 1,
     name: 'test name',
     login: 'test@gmail.com',
@@ -13,7 +13,7 @@ const MOCK_USER: UserEntity = {
 @Injectable()
 export class UserRepository implements IUserRepository {
 
-    public getUserByCredentials(credentials: CredentialsModel): UserEntity {
+    public getUserByCredentials(credentials: CredentialsModel): TestUser {
         const { login, password } = credentials;
         return { ...MOCK_USER, login, password };
     }
