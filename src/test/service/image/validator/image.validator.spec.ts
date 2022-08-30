@@ -5,7 +5,7 @@ import { isEmpty } from '@nestjs/common/utils/shared.utils';
 describe('ImageValidator', () => {
 
     let imageValidator: ImageValidator;
-    
+
     beforeEach( () => {
         imageValidator = new ImageValidator();
     });
@@ -50,11 +50,13 @@ describe('ImageValidator', () => {
                 size: 1e6,
                 mimetype: 'image/jpeg',
             } as any;
-            const files: Image[] = new Array(11).fill(file);
+            const initFilesLength = 11;
+            const validImagesLength = 10;
+            const files: Image[] = new Array(initFilesLength).fill(file);
             const images: Image[] = files.map((image, index) => ({ id: index, ...image }));
             const validationResult = imageValidator.getImageValidationResult(images);
-            expect(validationResult.validImages.length).toBe(10);
-            expect(validationResult.invalidImagesMap.has(images[10].id)).toBeTruthy();
+            expect(validationResult.validImages.length).toBe(validImagesLength);
+            expect(validationResult.invalidImagesMap.has(images[validImagesLength].id)).toBeTruthy();
         });
     });
 });
