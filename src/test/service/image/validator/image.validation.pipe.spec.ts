@@ -30,7 +30,7 @@ describe('NullFileValidationPipe', () => {
             }).toThrow(error);
         });
         it('should throw error 400, reason: file is null ', () => {
-            const files = null;
+            const files = null as Express.Multer.File;
             const error = new BadRequestException(NULL_IMAGES_DETECTED);
             expect(() => {
                 nullFileValidationPipe.transform(files);
