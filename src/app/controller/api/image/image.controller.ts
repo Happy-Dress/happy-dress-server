@@ -3,7 +3,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { IImageService } from '../../../service/image/image.service.abstraction';
 import { ImageUploadResult } from '../../../service/image/model/ImageUploadResult';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
-import { NullFileValidationPipe } from '../../service/image/validator/image.validation.pipe';
+import { NullFileValidationPipe } from '../../../service/image/validator/image.validation.pipe';
 
 @Controller('images')
 export class ImageController {
