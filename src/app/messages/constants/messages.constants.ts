@@ -13,3 +13,7 @@ export const VALID_SIZE_MESSAGE = `Файл должен быть более ${M
 export const CURRENT_SIZE_MESSAGE = 'Текущий размер файла:';
 export const FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE = 'Ошибка загрузки фото на google-drive';
 export const INVALID_IMAGES_AMOUNT_MESSAGE = `Можно загрузить не более ${MAX_AMOUNT} изображений`;
+
+
+// Authentication messages
+export const INVALID_LOGIN_OR_PASSWORD = 'Неверный логин или пароль';

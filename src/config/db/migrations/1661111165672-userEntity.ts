@@ -5,7 +5,7 @@ export class userEntity1661111165672 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.createTable(
           new Table({
-              name: 'article',
+              name: 'user',
               columns: [
                   {
                       name: 'id',
@@ -15,12 +15,18 @@ export class userEntity1661111165672 implements MigrationInterface {
                       generationStrategy: 'increment',
                   },
                   {
-                      name: 'title',
+                      name: 'login',
+                      type: 'varchar',
+                      isUnique: true,
+                      isNullable: false,
+                  },
+                  {
+                      name: 'password',
                       type: 'varchar',
                       isNullable: false,
                   },
                   {
-                      name: 'content',
+                      name: 'name',
                       type: 'varchar',
                       isNullable: false,
                   },
@@ -31,7 +37,7 @@ export class userEntity1661111165672 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query('DROP TABLE article');
+        await queryRunner.query('DROP TABLE user');
     }
 
 }

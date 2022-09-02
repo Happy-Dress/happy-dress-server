@@ -2,11 +2,18 @@ import { Module } from '@nestjs/common';
 import { ControllerModule } from './app/controller/controller.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { connectionSource } from './config/db/connectionSource';
+import { DatabaseConnectionService } from './config/db/connectionSource';
+import { ConfigModule } from '@nestjs/config';
+
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot(connectionSource),
+        ConfigModule.forRoot({
+            isGlobal: true,
+        }),
+        TypeOrmModule.forRootAsync({
+            useClass: DatabaseConnectionService,
+        }),
         ControllerModule,
     ],
 })
