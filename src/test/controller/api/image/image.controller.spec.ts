@@ -1,7 +1,7 @@
-import { ImageController } from '../../../app/controller/api/image/image.controller';
+import { ImageController } from '../../../../app/controller/api/image/image.controller';
 import { Test } from '@nestjs/testing';
-import { IImageService } from '../../../app/service/image/image.service.abstraction';
-import { ServiceModule } from '../../../app/service/service.module';
+import { IImageService } from '../../../../app/service/image/image.service.abstraction';
+import { ServiceModule } from '../../../../app/service/service.module';
 
 describe('ImageController', () => {
     let imageController: ImageController;
