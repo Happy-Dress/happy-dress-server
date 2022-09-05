@@ -4,35 +4,35 @@ import { IAuthenticationService } from '../../../../app/service/authentication/a
 import { UserCredentials } from '../../../../app/service/authentication/model/UserCredentials';
 
 describe('AuthenticationController', () => {
-    let authenticationController: AuthenticationController;
-    let authenticationService: IAuthenticationService;
+  let authenticationController: AuthenticationController;
+  let authenticationService: IAuthenticationService;
 
   beforeEach(async () => {
-      const moduleRef = await Test.createTestingModule({
-          providers: [
-              {
-                  provide: IAuthenticationService,
-                  useValue: {
-                      signIn: jest.fn(),
-                  },
-              },
-          ],
-          controllers: [AuthenticationController],
-      }).compile();
+    const moduleRef = await Test.createTestingModule({
+      providers: [
+        {
+          provide: IAuthenticationService,
+          useValue: {
+            signIn: jest.fn(),
+          },
+        },
+      ],
+      controllers: [AuthenticationController],
+    }).compile();
 
-      authenticationService = moduleRef.get<IAuthenticationService>(IAuthenticationService);
-      authenticationController = moduleRef.get<AuthenticationController>(AuthenticationController);
+    authenticationService = moduleRef.get<IAuthenticationService>(IAuthenticationService);
+    authenticationController = moduleRef.get<AuthenticationController>(AuthenticationController);
   });
 
   describe('sign in',  () => {
     it('should sign in user', async () => {
-        const creds = {
-            login: 'test',
-            password: 'test',
-        } as UserCredentials;
-        const token = {
-            accessToken: '121dsdsfw12fsf21',
-        };
+      const creds = {
+        login: 'test',
+        password: 'test',
+      } as UserCredentials;
+      const token = {
+        accessToken: '121dsdsfw12fsf21',
+      };
         jest.spyOn(authenticationService, 'signIn').mockImplementation(() => Promise.resolve(token));
         const actualResponse = await authenticationController.login(creds);
         expect(actualResponse).toBe(token);

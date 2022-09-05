@@ -11,7 +11,7 @@ export class AuthenticationController {
 
     @Post('login')
     async login(@Body() credentials: UserCredentials): Promise<JwtToken> {
-        return this.authenticationService.signIn(credentials);
+      return this.authenticationService.signIn(credentials);
     }
 
 }

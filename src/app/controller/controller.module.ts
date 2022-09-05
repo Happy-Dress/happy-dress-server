@@ -6,14 +6,14 @@ import { AuthenticationController } from './api/authentication/authentication.co
 import { JwtStrategy } from './security/strategy/jwt.strategy';
 
 @Module({
-    imports: [
-        ServiceModule,
+  imports: [
+    ServiceModule,
         NestjsFormDataModule.config({ storage: MemoryStoredFile }),
-    ],
-    controllers: [
-        ImageController,
-        AuthenticationController,
-    ],
-    providers: [JwtStrategy],
+  ],
+  controllers: [
+    ImageController,
+    AuthenticationController,
+  ],
+  providers: [JwtStrategy],
 })
 export class ControllerModule {}

@@ -7,16 +7,16 @@ import { ConfigModule } from '@nestjs/config';
 
 
 @Module({
-    imports: [
+  imports: [
         ConfigModule.forRoot({
-            isGlobal: true,
+          isGlobal: true,
         }),
         TypeOrmModule.forRootAsync({
-            useClass: DatabaseConnectionService,
+          useClass: DatabaseConnectionService,
         }),
         ControllerModule,
-    ],
+  ],
 })
 export class AppModule {
-    constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) {}
 }

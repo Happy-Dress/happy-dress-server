@@ -1,8 +1,8 @@
 import {
-    COEFFICIENT_BYTES_TO_MEGABYTES,
-    IMAGE_EXTENSIONS,
-    MAX_AMOUNT, MAX_IMAGE_SIZE,
-    MIN_IMAGE_SIZE,
+  COEFFICIENT_BYTES_TO_MEGABYTES,
+  IMAGE_EXTENSIONS,
+  MAX_AMOUNT, MAX_IMAGE_SIZE,
+  MIN_IMAGE_SIZE,
 } from '../../service/image/constants/validate-image/validate-image.constants';
 
 // Image upload messages
@@ -18,3 +18,4 @@ export const NULL_IMAGES_DETECTED = 'При отправке запроса на
 
 // Authentication messages
 export const INVALID_LOGIN_OR_PASSWORD = 'Неверный логин или пароль';
+export const INVALID_LOGIN_PASSWORD_FORMAT = 'Невыерный формат логина или пароля';

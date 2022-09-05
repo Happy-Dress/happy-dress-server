@@ -8,12 +8,12 @@ import { NullFileValidationPipe } from '../../../service/image/validator/image.v
 @Controller('images')
 export class ImageController {
 
-    constructor(private readonly imageService: IImageService) {}
+  constructor(private readonly imageService: IImageService) {}
 
-    @UseGuards(JwtAuthGuard)
-    @Post('upload')
-    @UseInterceptors(FilesInterceptor('files'))
-    public async uploadImages(@UploadedFiles(NullFileValidationPipe) files: Express.Multer.File[]): Promise<ImageUploadResult> {
-        return this.imageService.uploadImages(files);
-    }
+  @UseGuards(JwtAuthGuard)
+  @Post('upload')
+  @UseInterceptors(FilesInterceptor('files'))
+  public async uploadImages(@UploadedFiles(NullFileValidationPipe) files: Express.Multer.File[]): Promise<ImageUploadResult> {
+    return this.imageService.uploadImages(files);
+  }
 }

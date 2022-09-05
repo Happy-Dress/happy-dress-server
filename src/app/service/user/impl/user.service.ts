@@ -4,6 +4,10 @@ import { UserEntity } from '../../../repository/user/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+jest.mock('bcrypt', () => {
+  return { compare: jest.fn(() => true) };
+});
+
 @Injectable()
 export class UserService implements IUserService {
 
@@ -11,11 +15,11 @@ export class UserService implements IUserService {
     private usersRepository: Repository<UserEntity>;
 
     public findByLogin(login: string): Promise<UserEntity> {
-        return this.usersRepository.findOneBy({ login });
+      return this.usersRepository.findOneBy({ login });
     }
 
     findById(id: number): Promise<UserEntity> {
-        return this.usersRepository.findOneBy({ id });
+      return this.usersRepository.findOneBy({ id });
     }
 
 

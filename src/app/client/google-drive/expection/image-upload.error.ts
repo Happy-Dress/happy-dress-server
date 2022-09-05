@@ -9,6 +9,6 @@ export class ImageUploadError extends Error {
     }
 
     public getFailedImage(): FailedUploadResult {
-        return this.failedImage;
+      return this.failedImage;
     }
 }

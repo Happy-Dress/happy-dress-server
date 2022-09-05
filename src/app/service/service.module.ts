@@ -13,29 +13,29 @@ import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
-    providers: [
-        {
-            provide: IImageService,
-            useClass: ImageService,
-        },
-        {
-            provide: IAuthenticationService,
-            useClass: AuthenticationService,
-        },
-        {
-            provide: IUserService,
-            useClass: UserService,
-        },
-        ImageValidator,
-    ],
-    imports: [
-        ClientModule,
+  providers: [
+    {
+      provide: IImageService,
+      useClass: ImageService,
+    },
+    {
+      provide: IAuthenticationService,
+      useClass: AuthenticationService,
+    },
+    {
+      provide: IUserService,
+      useClass: UserService,
+    },
+    ImageValidator,
+  ],
+  imports: [
+    ClientModule,
         TypeOrmModule.forFeature([UserEntity]),
         JwtModule.register({
-            secret: '' + process.env.JWT_SECRET_KEY,
-            signOptions: { expiresIn: '4h' },
+          secret: '' + process.env.JWT_SECRET_KEY,
+          signOptions: { expiresIn: '4h' },
         }),
-    ],
-    exports: [IImageService, IUserService, IAuthenticationService],
+  ],
+  exports: [IImageService, IUserService, IAuthenticationService],
 })
 export class ServiceModule {}

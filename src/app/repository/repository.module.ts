@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 
 @Module({
-    providers: [],
-    imports: [],
+  providers: [],
+  imports: [],
 })
 export class RepositoryModule {}
