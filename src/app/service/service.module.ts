@@ -9,7 +9,6 @@ import { IUserService } from './user/user.service.abstraction';
 import { UserService } from './user/impl/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../repository/user/entity/user.entity';
-import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
@@ -31,10 +30,6 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [
     ClientModule,
         TypeOrmModule.forFeature([UserEntity]),
-        JwtModule.register({
-          secret: '' + process.env.JWT_SECRET_KEY,
-          signOptions: { expiresIn: '4h' },
-        }),
   ],
   exports: [IImageService, IUserService, IAuthenticationService],
 })

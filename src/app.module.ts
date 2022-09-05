@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { DatabaseConnectionService } from './config/db/connectionSource';
 import { ConfigModule } from '@nestjs/config';
-
+import { CustomConfigModule } from './config/custom-config.module';
 
 @Module({
   imports: [
@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
         TypeOrmModule.forRootAsync({
           useClass: DatabaseConnectionService,
         }),
+        CustomConfigModule,
         ControllerModule,
   ],
 })
