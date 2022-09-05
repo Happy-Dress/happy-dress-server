@@ -4,10 +4,6 @@ import { UserEntity } from '../../../repository/user/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-jest.mock('bcrypt', () => {
-  return { compare: jest.fn(() => true) };
-});
-
 @Injectable()
 export class UserService implements IUserService {
 

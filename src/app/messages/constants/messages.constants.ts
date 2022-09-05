@@ -18,4 +18,6 @@ export const NULL_IMAGES_DETECTED = 'При отправке запроса на
 
 // Authentication messages
 export const INVALID_LOGIN_OR_PASSWORD = 'Неверный логин или пароль';
-export const INVALID_PASSWORD_FORMAT = 'Невыерный формат пароля';
+export const INVALID_LOGIN_FORMAT = 'Имя должно содержать латинские буквы и цифры';
+export const INVALID_PASSWORD_FORMAT = 'Пароль должен содержать латинские буквы, цифры и символы ? ! & / . , ” \\\'\'';
+
