@@ -1,7 +1,8 @@
 import {
   COEFFICIENT_BYTES_TO_MEGABYTES,
   IMAGE_EXTENSIONS,
-  MAX_AMOUNT, MAX_IMAGE_SIZE,
+  MAX_AMOUNT,
+  MAX_IMAGE_SIZE,
   MIN_IMAGE_SIZE,
 } from '../../service/image/constants/validate-image/validate-image.constants';
 
@@ -20,4 +21,8 @@ export const NULL_IMAGES_DETECTED = 'При отправке запроса на
 export const INVALID_LOGIN_OR_PASSWORD = 'Неверный логин или пароль';
 export const INVALID_LOGIN_FORMAT = 'Имя должно содержать латинские буквы и цифры';
 export const INVALID_PASSWORD_FORMAT = 'Пароль должен содержать латинские буквы, цифры и символы ? ! & / . , ” \\\'\'';
+export const LOGIN_TOO_SHORT = 'Имя должно содержать не менее 4 имволов';
+export const LOGIN_TOO_LONG = 'Имя должно содержать не более 35 имволов';
+export const PASSWORD_TOO_SHORT = 'Пароль должен содержать не менее 4 имволов';
+export const PASSWORD_TOO_LONG = 'Пароль должен содержать не более 15 имволов';
 

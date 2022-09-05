@@ -45,8 +45,11 @@ export class AuthenticationService implements IAuthenticationService {
     }
 
     private async areCredentialsInvalid(credentials: UserCredentials, user: UserEntity): Promise<boolean> {
-      const isPasswordMatching = await bcrypt.compare(credentials.password, user.password);
-      return !user || user.login !== credentials.login || !isPasswordMatching;
+      return !user || user.login !== credentials.login || ! await this.isPasswordMatching(credentials, user);
+    }
+
+    private async isPasswordMatching(credentials: UserCredentials, user: UserEntity): Promise<boolean> {
+      return bcrypt.compare(credentials.password, user.password);
     }
 
 }

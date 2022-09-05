@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, ValidationPipe } from '@nestjs/common';
 import { UserCredentials } from '../../../service/authentication/model/UserCredentials';
 import { JwtToken } from '../../../service/authentication/model/JwtToken';
 import { IAuthenticationService } from '../../../service/authentication/authentication.service.abstraction';
@@ -10,7 +10,7 @@ export class AuthenticationController {
     private authenticationService: IAuthenticationService;
 
     @Post('login')
-    async login(@Body() credentials: UserCredentials): Promise<JwtToken> {
+    async login(@Body(new ValidationPipe()) credentials: UserCredentials): Promise<JwtToken> {
       return this.authenticationService.signIn(credentials);
     }
 
