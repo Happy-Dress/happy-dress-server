@@ -8,6 +8,7 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "eslintIgnore": ["*.spec.ts"],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

@@ -1,10 +1,18 @@
 import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DatabaseConnectionService } from './db/connectionSource';
 
 @Global()
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      useClass: DatabaseConnectionService,
+    }),
     JwtModule.register({
       secret: 'secret_key',
       signOptions: { expiresIn: '4h' },

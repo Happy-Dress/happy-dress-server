@@ -1,7 +1,6 @@
 import { ImageController } from '../../../../app/controller/api/image/image.controller';
 import { Test } from '@nestjs/testing';
 import { IImageService } from '../../../../app/service/image/image.service.abstraction';
-import { ServiceModule } from '../../../../app/service/service.module';
 
 describe('ImageController', () => {
   let imageController: ImageController;
@@ -9,8 +8,13 @@ describe('ImageController', () => {
 
     beforeEach(async () => {
       const moduleRef = await Test.createTestingModule({
-        imports: [
-          ServiceModule,
+        providers: [
+          {
+            provide: IImageService,
+            useValue: {
+              uploadImages: jest.fn(),
+            },
+          },
         ],
         controllers: [ImageController],
       }).compile();

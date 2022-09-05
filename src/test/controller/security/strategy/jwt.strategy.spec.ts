@@ -1,6 +1,7 @@
 import { IAuthenticationService } from '../../../../app/service/authentication/authentication.service.abstraction';
 import { Test } from '@nestjs/testing';
 import { JwtStrategy } from '../../../../app/controller/security/strategy/jwt.strategy';
+import { ConfigService } from '@nestjs/config';
 
 jest.mock('passport-jwt', () => {
   const mJWTStrategy = jest.fn();
@@ -25,6 +26,12 @@ describe('JwtStrategy', () => {
             provide: IAuthenticationService,
             useValue: {
               getUserById: jest.fn(),
+            },
+          },
+          {
+            provide: ConfigService,
+            useValue: {
+              get: jest.fn(),
             },
           },
           JwtStrategy,

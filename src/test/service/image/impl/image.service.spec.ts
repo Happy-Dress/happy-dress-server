@@ -1,30 +1,36 @@
-import { IImageService } from '../../../../app/service/image/image.service.abstraction';
 import { Test } from '@nestjs/testing';
-import { ServiceModule } from '../../../../app/service/service.module';
 import { ImageValidator } from '../../../../app/service/image/validator/image.validator';
 import { IGoogleDriveClient } from '../../../../app/client/google-drive/google-drive.client.abstraction';
+import { ImageService } from '../../../../app/service/image/impl/image.service';
 
 describe('ImageService', () => {
-  let imageService: IImageService;
+  let imageService: ImageService;
   let imageValidator: ImageValidator;
   let googleDriveClient: IGoogleDriveClient;
 
     beforeEach(async () => {
       const moduleRef = await Test.createTestingModule({
-        imports: [
-          ServiceModule,
-        ],
         providers: [
-          ImageValidator,
+          ImageService,
+          {
+            provide: ImageValidator,
+            useValue: {
+              getImageValidationResult: jest.fn(),
+            },
+          },
+          {
+            provide: IGoogleDriveClient,
+            useValue: {
+              uploadImages: jest.fn(),
+            },
+          },
         ],
       }).compile();
 
-      imageService = moduleRef.get<IImageService>(IImageService);
+      imageService = moduleRef.get<ImageService>(ImageService);
       imageValidator = moduleRef.get<ImageValidator>(ImageValidator);
       googleDriveClient = moduleRef.get<IGoogleDriveClient>(IGoogleDriveClient);
     });
-
-
 
     describe('upload',  () => {
         it('should return upload result',  async () => {
