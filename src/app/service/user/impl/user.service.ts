@@ -17,6 +17,4 @@ export class UserService implements IUserService {
     findById(id: number): Promise<UserEntity> {
       return this.usersRepository.findOneBy({ id });
     }
-
-
 }

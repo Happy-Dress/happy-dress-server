@@ -11,7 +11,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     @Inject()
     private authenticationService: IAuthenticationService;
 
-
     constructor(private configService: ConfigService) {
         super({
           jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
