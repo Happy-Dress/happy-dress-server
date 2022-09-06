@@ -25,69 +25,69 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
     private googleDriveApi: Drive;
 
     public onApplicationBootstrap(): void {
-        const pathToCredentials = path.resolve(this.CREDENTIALS_FILE_NAME);
-        const auth = new google.auth.GoogleAuth({
-            keyFile: pathToCredentials,
-            scopes: process.env.SCOPES,
-        });
-        this.googleDriveApi = google.drive({ version: this.DRIVE_VERSION, auth });
+      const pathToCredentials = path.resolve(this.CREDENTIALS_FILE_NAME);
+      const auth = new google.auth.GoogleAuth({
+        keyFile: pathToCredentials,
+        scopes: process.env.SCOPES,
+      });
+      this.googleDriveApi = google.drive({ version: this.DRIVE_VERSION, auth });
     }
 
     public async uploadImages(images: Image[]): Promise<ImageUploadResult> {
-        const uploadResponse = await Promise.allSettled(images.map(image => this.uploadImage(image)));
-        const uploadedImages = this.getUploadedImages(uploadResponse);
-        const failedImages = this.getFailedImages(uploadResponse);
-        return {
-            uploadedImages,
-            failedImages,
-        };
+      const uploadResponse = await Promise.allSettled(images.map(image => this.uploadImage(image)));
+      const uploadedImages = this.getUploadedImages(uploadResponse);
+      const failedImages = this.getFailedImages(uploadResponse);
+      return {
+        uploadedImages,
+        failedImages,
+      };
     }
 
     private getUploadedImages(uploadResponse: PromiseSettledResult<UploadedImageModel>[]): UploadedImageModel[] {
-        return uploadResponse
-            .filter(response => response.status === this.STATUS_FULFILLED)
-            .map(response => response as PromiseFulfilledResult<UploadedImageModel>)
-            .map(response => response.value);
+      return uploadResponse
+        .filter(response => response.status === this.STATUS_FULFILLED)
+        .map(response => response as PromiseFulfilledResult<UploadedImageModel>)
+        .map(response => response.value);
     }
 
     private getFailedImages(uploadResponse: PromiseSettledResult<UploadedImageModel>[]): FailedUploadResult[] {
-        return uploadResponse
-            .filter(response => response.status === this.STATUS_REJECTED)
-            .map(response => response as PromiseRejectedResult)
-            .map(response => (response.reason as ImageUploadError).getFailedImage());
+      return uploadResponse
+        .filter(response => response.status === this.STATUS_REJECTED)
+        .map(response => response as PromiseRejectedResult)
+        .map(response => (response.reason as ImageUploadError).getFailedImage());
     }
 
     private async uploadImage(image: Image): Promise<UploadedImageModel> {
-        const params = this.getImageCreateParams(image);
-        try {
-            const { data: { id, name } = {} } = await this.googleDriveApi.files.create(params);
-            return {
-                id: image.id,
-                imageUrl: `${this.IMAGE_DEFAULT_URL}${id}`,
-                imageName: name,
-            };
-        } catch (e) {
-            throw new ImageUploadError({
-                id: image.id,
-                imageName: image.originalname,
-                reason: `${FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE}`,
-            });
-        }
+      const params = this.getImageCreateParams(image);
+      try {
+        const { data: { id, name } = {} } = await this.googleDriveApi.files.create(params);
+        return {
+          id: image.id,
+          imageUrl: `${this.IMAGE_DEFAULT_URL}${id}`,
+          imageName: name,
+        };
+      } catch (e) {
+        throw new ImageUploadError({
+          id: image.id,
+          imageName: image.originalname,
+          reason: `${FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE}`,
+        });
+      }
     }
 
     private getImageCreateParams(image: Image): Params$Resource$Files$Create {
-        const bufferStream = new stream.PassThrough();
+      const bufferStream = new stream.PassThrough();
         bufferStream.end(image.buffer);
         return {
-            media: {
-                mimeType: image.mimetype,
-                body: bufferStream,
-            },
-            requestBody: {
-                name: image.originalname,
-                parents: [process.env.PARENT_FOLDER],
-            },
-            fields: this.API_RESPONSE_FIELDS,
+          media: {
+            mimeType: image.mimetype,
+            body: bufferStream,
+          },
+          requestBody: {
+            name: image.originalname,
+            parents: [process.env.PARENT_FOLDER],
+          },
+          fields: this.API_RESPONSE_FIELDS,
         };
     }
 

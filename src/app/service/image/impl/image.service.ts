@@ -15,9 +15,9 @@ export class ImageService implements IImageService {
     private readonly imageValidator: ImageValidator;
 
     public async uploadImages(files: Express.Multer.File[]): Promise<ImageUploadResult> {
-        const images: Image[] = files.map((file, index) => ({ id : index, ...file }));
-        const { validImages, invalidImagesMap } = this.imageValidator.getImageValidationResult(images);
-        const uploadResult = await this.googleDriveClient.uploadImages(validImages);
+      const images: Image[] = files.map((file, index) => ({ id : index, ...file }));
+      const { validImages, invalidImagesMap } = this.imageValidator.getImageValidationResult(images);
+      const uploadResult = await this.googleDriveClient.uploadImages(validImages);
         uploadResult.failedImages.push(...invalidImagesMap.values());
         return uploadResult;
     }

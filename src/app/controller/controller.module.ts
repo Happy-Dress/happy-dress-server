@@ -1,18 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AuthenticationController } from './authentication/authentication.controller';
 import { ServiceModule } from '../service/service.module';
-import { ImageController } from './image/image.controller';
+import { ImageController } from './api/image/image.controller';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
+import { AuthenticationController } from './api/authentication/authentication.controller';
+import { JwtStrategy } from './security/strategy/jwt.strategy';
 
 @Module({
-    imports: [
-        ServiceModule,
+  imports: [
+    ServiceModule,
         NestjsFormDataModule.config({ storage: MemoryStoredFile }),
-    ],
-    controllers: [
-        AuthenticationController,
-        ImageController,
-    ],
-    providers: [],
+  ],
+  controllers: [
+    ImageController,
+    AuthenticationController,
+  ],
+  providers: [JwtStrategy],
 })
 export class ControllerModule {}

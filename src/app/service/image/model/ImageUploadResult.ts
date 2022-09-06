@@ -2,6 +2,6 @@ import { UploadedImageModel } from '../../../client/google-drive/models/uploaded
 import { FailedUploadResult } from './FailedUploadResult';
 
 export interface ImageUploadResult {
-    uploadedImages: UploadedImageModel[],
-    failedImages: FailedUploadResult[],
+  uploadedImages: UploadedImageModel[],
+  failedImages: FailedUploadResult[],
 }

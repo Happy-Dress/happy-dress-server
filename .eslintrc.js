@@ -60,15 +60,6 @@ module.exports = {
     "@typescript-eslint/prefer-namespace-keyword": "off",
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-empty-interface": "error",
-    "@typescript-eslint/explicit-member-accessibility": [
-      "error",
-      {
-        "accessibility": "explicit",
-        "overrides": {
-          "constructors": "no-public"
-        }
-      }
-    ],
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
@@ -106,12 +97,13 @@ module.exports = {
     "indent": "off",
     "@typescript-eslint/indent": [
       "error",
-      4,
+      2,
       {
         "SwitchCase": 1,
         "ignoredNodes": [
           "TSTypeParameterInstantiation",
-          "CallExpression"
+          "CallExpression",
+          "PropertyDefinition"
         ]
       }
     ],

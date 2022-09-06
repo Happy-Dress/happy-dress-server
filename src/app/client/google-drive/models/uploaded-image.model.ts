@@ -1,5 +1,5 @@
 export interface UploadedImageModel {
-    id: number,
-    imageName: string,
-    imageUrl: string,
+  id: number,
+  imageName: string,
+  imageUrl: string,
 }
