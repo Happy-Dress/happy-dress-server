@@ -71,6 +71,6 @@ export class ImageValidator {
     
   private checkIsValidSize(image: Express.Multer.File): string {
     return image.size > MIN_IMAGE_SIZE && image.size < MAX_IMAGE_SIZE ? '' :
-      `${INVALID_SIZE_MESSAGE} ${VALID_SIZE_MESSAGE}. ${CURRENT_SIZE_MESSAGE} ${image.size * COEFFICIENT_BYTES_TO_MEGABYTES} Мб.` ;
+      `${INVALID_SIZE_MESSAGE} ${VALID_SIZE_MESSAGE}. ${CURRENT_SIZE_MESSAGE} ${(image.size * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2)} Мб.` ;
   }
 }

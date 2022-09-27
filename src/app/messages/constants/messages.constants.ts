@@ -10,7 +10,7 @@ import {
 export const INVALID_EXTENSION_MESSAGE = 'Неверное расширение файла:';
 export const VALID_EXTENSION_MESSAGE = `Доступные расширения: ${IMAGE_EXTENSIONS}`;
 export const INVALID_SIZE_MESSAGE = 'Неверный размер файла';
-export const VALID_SIZE_MESSAGE = `Файл должен быть более ${MIN_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES} Мб и не более ${MAX_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES} Мб`;
+export const VALID_SIZE_MESSAGE = `Файл должен быть более ${(MIN_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2)} Мб и не более ${(MAX_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2)} Мб`;
 export const CURRENT_SIZE_MESSAGE = 'Текущий размер файла:';
 export const FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE = 'Ошибка загрузки фото на google-drive';
 export const INVALID_IMAGES_AMOUNT_MESSAGE = `Можно загрузить не более ${MAX_AMOUNT} изображений`;
