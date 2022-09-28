@@ -9,6 +9,11 @@ import { IUserService } from './user/user.service.abstraction';
 import { UserService } from './user/impl/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../repository/user/entity/user.entity';
+import { ISettingsService } from './settings/settings.service.abstraction';
+import { SettingsService } from './settings/impl/settings.service';
+import { CategoryEntity } from '../repository/category/entity/category.entity';
+import { CategoryConverter } from './settings/util/category.converter';
+import { GlobalDressOptionsConverter } from './settings/util/globalDressOptions.converter';
 
 
 @Module({
@@ -25,12 +30,18 @@ import { UserEntity } from '../repository/user/entity/user.entity';
       provide: IUserService,
       useClass: UserService,
     },
+    {
+      provide: ISettingsService,
+      useClass: SettingsService,
+    },
     ImageValidator,
+    CategoryConverter,
+    GlobalDressOptionsConverter,  
   ],
   imports: [
     ClientModule,
-        TypeOrmModule.forFeature([UserEntity]),
+        TypeOrmModule.forFeature([UserEntity, CategoryEntity]),
   ],
-  exports: [IImageService, IUserService, IAuthenticationService],
+  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService],
 })
 export class ServiceModule {}
