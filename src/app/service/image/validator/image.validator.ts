@@ -83,7 +83,7 @@ export class ImageValidator {
 
   private getInvalidExtensionMessage(imageType: string): string{
     return INVALID_EXTENSION_MESSAGE
-      .replace('$current', imageType.toString())
+      .replace('$current', imageType)
       .replace('$valid', IMAGE_EXTENSIONS.toString());
   }
 
