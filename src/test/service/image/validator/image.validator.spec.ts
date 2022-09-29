@@ -58,7 +58,7 @@ describe('ImageValidator', () => {
             expect(validationResult.validImages.length).toBe(validImagesLength);
             expect(validationResult.invalidImagesMap.has(images[validImagesLength].id)).toBeTruthy();
         });
-        it("should return invalid size message", () => {
+        it('should return invalid size message', () => {
           const images: Image[] = [
             {
               id:1,
@@ -69,7 +69,7 @@ describe('ImageValidator', () => {
           const validationResult = imageValidator.getImageValidationResult(images);
           expect(validationResult.invalidImagesMap.get(1).reason).toBe('Файл должен быть более 0.10 Мб и не более 10.00 Мб. Текущий размер файла: 100.00 Мб.')
         })
-      it('should return invalid extension message', function () {
+      it('should return invalid extension message',  () => {
         const images: Image[] = [
           {
             id:1,
