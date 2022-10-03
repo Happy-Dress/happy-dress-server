@@ -12,9 +12,7 @@ import { UserEntity } from '../repository/user/entity/user.entity';
 import { ISettingsService } from './settings/settings.service.abstraction';
 import { SettingsService } from './settings/impl/settings.service';
 import { CategoryEntity } from '../repository/category/entity/category.entity';
-import { CategoryConverter } from './settings/util/category.converter';
-import { GlobalDressOptionsConverter } from './settings/util/globalDressOptions.converter';
-
+import { SimpleListSettingConverter } from './settings/util/simpleListSetting.converter';
 
 @Module({
   providers: [
@@ -35,8 +33,7 @@ import { GlobalDressOptionsConverter } from './settings/util/globalDressOptions.
       useClass: SettingsService,
     },
     ImageValidator,
-    CategoryConverter,
-    GlobalDressOptionsConverter,  
+    SimpleListSettingConverter,
   ],
   imports: [
     ClientModule,

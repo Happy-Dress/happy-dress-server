@@ -4,8 +4,8 @@ import { CATEGORY_TOO_LONG, CATEGORY_TOO_SHORT } from '../../../messages/constan
 export const MIN_LENGTH_CATEGORY = 3;
 export const MAX_LENGTH_CATEGORY = 20;
 
-export class CategoryDTO{
-    id: number;
+export class SimpleListSetting{
+    id?: number;
 
     @IsString()
     @MinLength(MAX_LENGTH_CATEGORY, { message: CATEGORY_TOO_SHORT })

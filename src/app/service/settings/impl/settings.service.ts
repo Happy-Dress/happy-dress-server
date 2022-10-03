@@ -4,8 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {  Repository } from 'typeorm';
 import { GlobalDressOptionsDTO } from '../model/GlobalDressOptionsDTO';
 import { CategoryEntity } from '../../../repository/category/entity/category.entity';
-import { CategoryConverter } from '../util/category.converter';
-import { GlobalDressOptionsConverter } from '../util/globalDressOptions.converter';
+import { SimpleListSettingConverter } from '../util/simpleListSetting.converter';
 
 @Injectable()
 export class SettingsService implements ISettingsService {
@@ -13,22 +12,20 @@ export class SettingsService implements ISettingsService {
   private categoryEntityRepository: Repository<CategoryEntity>;
 
   @Inject()
-  private readonly categoryConverter: CategoryConverter;
-
-  @Inject()
-  private readonly globalDressOptionsConverter: GlobalDressOptionsConverter;
+  private readonly categoryConverter: SimpleListSettingConverter;
+  
 
   public async getGlobalDressOptions(): Promise<GlobalDressOptionsDTO> {
     const categoryEntities = await this.categoryEntityRepository.find();
     const categoryDTOs = this.categoryConverter.convertToDTO(categoryEntities);
-    return this.globalDressOptionsConverter.convertToDTO(categoryDTOs);
+    return { categories: categoryDTOs };
   }
 
   public async setGlobalDressOptions(globalDressOptionsDTO: GlobalDressOptionsDTO): Promise<GlobalDressOptionsDTO> {
     const categoryEntities = this.categoryConverter.convertToEntity(globalDressOptionsDTO.categories);
     await this.categoryEntityRepository.clear();
-    await this.categoryEntityRepository.insert(categoryEntities);
+    await this.categoryEntityRepository.save(categoryEntities);
     return this.getGlobalDressOptions();
   }
-  
+
 }

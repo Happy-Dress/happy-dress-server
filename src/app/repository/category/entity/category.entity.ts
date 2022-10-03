@@ -1,11 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity } from 'typeorm';
+import { SimpleListSettingEntity } from './simpleListSetting.entity';
 
 @Entity({ name: 'category' })
-export class CategoryEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column()
-    description: string;
-
+export class CategoryEntity extends SimpleListSettingEntity{
 }

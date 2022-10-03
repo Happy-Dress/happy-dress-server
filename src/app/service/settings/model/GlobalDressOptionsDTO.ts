@@ -1,17 +1,9 @@
-import { CategoryDTO } from './CategoryDTO';
-// import {ModelDTO} from "./ModelDTO";
-// import {ColorDTO} from "./ColorDTO";
-// import {MaterialDTO} from "./MaterialDTO";
+import { SimpleListSetting } from './SimpleListSetting';
 
 export class GlobalDressOptionsDTO {
-    categories: CategoryDTO[];
+    categories: SimpleListSetting[];
     // models: ModelDTO[];
     // materials: MaterialDTO[];
     // colors: ColorDTO[];
     
-
-
-
-
-
 }
