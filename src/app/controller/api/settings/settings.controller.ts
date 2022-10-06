@@ -2,10 +2,10 @@ import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { GlobalDressOptionsDTO } from '../../../service/settings/model/GlobalDressOptionsDTO';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
 import { ISettingsService } from '../../../service/settings/settings.service.abstraction';
-import { NullSettingsValidationPipe } from '../../../service/settings/validator/settings.validation.pipe';
 
 @Controller('settings')
 export class SettingsController {
+
 
     @Inject()
     private settingsService: ISettingsService;
@@ -17,7 +17,7 @@ export class SettingsController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    async save(@Body(NullSettingsValidationPipe) globalDressOptionsDTO: GlobalDressOptionsDTO): Promise<GlobalDressOptionsDTO> {
+    async save(@Body() globalDressOptionsDTO: GlobalDressOptionsDTO): Promise<GlobalDressOptionsDTO> {
       return this.settingsService.setGlobalDressOptions(globalDressOptionsDTO);
     }
 

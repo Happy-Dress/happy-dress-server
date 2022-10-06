@@ -11,8 +11,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../repository/user/entity/user.entity';
 import { ISettingsService } from './settings/settings.service.abstraction';
 import { SettingsService } from './settings/impl/settings.service';
-import { CategoryEntity } from '../repository/category/entity/category.entity';
+import { CategoryEntity } from '../repository/settings/category/entity/category.entity';
 import { SimpleListSettingConverter } from './settings/util/simpleListSetting.converter';
+import { ModelEntity } from '../repository/settings/model/entity/model.entity';
 
 @Module({
   providers: [
@@ -37,7 +38,7 @@ import { SimpleListSettingConverter } from './settings/util/simpleListSetting.co
   ],
   imports: [
     ClientModule,
-        TypeOrmModule.forFeature([UserEntity, CategoryEntity]),
+        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity]),
   ],
   exports: [IImageService, IUserService, IAuthenticationService, ISettingsService],
 })

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SimpleListSetting } from '../model/SimpleListSetting';
-import { SimpleListSettingEntity } from '../../../repository/category/entity/simpleListSetting.entity';
+import { SimpleListSettingEntity } from '../../../repository/settings/simpleListSetting.entity';
 
 @Injectable()
 export class SimpleListSettingConverter {
