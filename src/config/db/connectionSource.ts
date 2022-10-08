@@ -19,6 +19,7 @@ export class DatabaseConnectionService implements TypeOrmOptionsFactory {
       synchronize: false,
       migrationsTableName: 'migrations_typeorm',
       migrationsRun: true,
+      logging: true,
     };
   }
 }

@@ -9,8 +9,8 @@ const DEFAULT_PORT = 8080;
 
 async function bootstrap(): Promise<void> {
   config();
-  const app = await NestFactory.create(AppModule);
   initializeTransactionalContext();
+  const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api/v1');
   const httpAdapter  = app.get(HttpAdapterHost);

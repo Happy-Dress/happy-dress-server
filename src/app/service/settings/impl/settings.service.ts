@@ -35,10 +35,18 @@ export class SettingsService implements ISettingsService {
   public async setGlobalDressOptions(globalDressOptionsDTO: GlobalDressOptionsDTO): Promise<GlobalDressOptionsDTO> {
     const categoryEntities = this.simpleListSettingConverter.convertToEntity(globalDressOptionsDTO.categories);
     const modelsEntities = this.simpleListSettingConverter.convertToEntity(globalDressOptionsDTO.models);
-    await this.categoryEntityRepository.clear();
-    await this.categoryEntityRepository.insert(categoryEntities);
-    await this.modelEntityRepository.clear();
-    await this.modelEntityRepository.insert(modelsEntities);
+    const currentCategories = await this.categoryEntityRepository.find();
+    const currentModels = await this.modelEntityRepository.find();
+    if (currentCategories.length) {
+      await this.categoryEntityRepository.delete(currentCategories.map((c) => c.id ));
+    }
+    if (currentModels.length) {
+      await this.modelEntityRepository.delete( currentModels.map((c) => c.id ));
+    }
+
+    await this.categoryEntityRepository.save(categoryEntities);
+    await this.modelEntityRepository.save(modelsEntities);
+    throw new Error();
     return this.getGlobalDressOptions();
   }
 
