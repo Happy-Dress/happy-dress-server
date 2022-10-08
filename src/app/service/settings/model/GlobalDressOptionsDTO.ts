@@ -1,12 +1,13 @@
 import { SimpleListSetting } from './SimpleListSetting';
 import { IsNotEmpty, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { CategoryDTO } from './CategoryDTO';
 
 export class GlobalDressOptionsDTO {
     @ValidateNested({ each: true })
-    @Type(() => SimpleListSetting)
+    @Type(() => CategoryDTO)
     @IsNotEmpty({ message: 'Категории являются обязательным полем' })
-    categories: SimpleListSetting[];
+    categories: CategoryDTO[];
 
     @ValidateNested({ each: true })
     @Type(() => SimpleListSetting)

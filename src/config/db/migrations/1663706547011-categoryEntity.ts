@@ -21,6 +21,12 @@ export class categories1663706547011 implements MigrationInterface {
                   isUnique: true,
                   isNullable: false,
                 },
+                {
+                  name: 'imageUrl',
+                  type: 'varchar',
+                  isUnique: true,
+                  isNullable: false,
+                },   
               ],
             }),
             false,

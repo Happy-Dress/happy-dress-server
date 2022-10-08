@@ -14,6 +14,7 @@ import { SettingsService } from './settings/impl/settings.service';
 import { CategoryEntity } from '../repository/settings/category/entity/category.entity';
 import { SimpleListSettingConverter } from './settings/util/simpleListSetting.converter';
 import { ModelEntity } from '../repository/settings/model/entity/model.entity';
+import { CategoryConverter } from './settings/util/category.converter';
 
 @Module({
   providers: [
@@ -35,6 +36,7 @@ import { ModelEntity } from '../repository/settings/model/entity/model.entity';
     },
     ImageValidator,
     SimpleListSettingConverter,
+    CategoryConverter,
   ],
   imports: [
     ClientModule,

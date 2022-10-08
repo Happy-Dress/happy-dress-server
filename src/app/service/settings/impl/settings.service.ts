@@ -7,6 +7,7 @@ import { CategoryEntity } from '../../../repository/settings/category/entity/cat
 import { SimpleListSettingConverter } from '../util/simpleListSetting.converter';
 import { ModelEntity } from '../../../repository/settings/model/entity/model.entity';
 import { Transactional } from 'typeorm-transactional';
+import { CategoryConverter } from '../util/category.converter';
 
 @Injectable()
 export class SettingsService implements ISettingsService {
@@ -18,11 +19,14 @@ export class SettingsService implements ISettingsService {
 
   @Inject()
   private readonly simpleListSettingConverter: SimpleListSettingConverter;
+  
+  @Inject()
+  private readonly categoryConverter: CategoryConverter;
 
 
   public async getGlobalDressOptions(): Promise<GlobalDressOptionsDTO> {
     const categoryEntities = await this.categoryEntityRepository.find();
-    const categoryDTOs = this.simpleListSettingConverter.convertToDTO(categoryEntities);
+    const categoryDTOs = this.categoryConverter.convertToDTO(categoryEntities);
     const modelEntities = await this.modelEntityRepository.find();
     const modelDTOs = this.simpleListSettingConverter.convertToDTO(modelEntities);
     return {
@@ -33,7 +37,7 @@ export class SettingsService implements ISettingsService {
 
   @Transactional()
   public async setGlobalDressOptions(globalDressOptionsDTO: GlobalDressOptionsDTO): Promise<GlobalDressOptionsDTO> {
-    const categoryEntities = this.simpleListSettingConverter.convertToEntity(globalDressOptionsDTO.categories);
+    const categoryEntities = this.categoryConverter.convertToEntity(globalDressOptionsDTO.categories);
     const modelsEntities = this.simpleListSettingConverter.convertToEntity(globalDressOptionsDTO.models);
     const currentCategories = await this.categoryEntityRepository.find();
     const currentModels = await this.modelEntityRepository.find();
@@ -43,10 +47,8 @@ export class SettingsService implements ISettingsService {
     if (currentModels.length) {
       await this.modelEntityRepository.delete( currentModels.map((c) => c.id ));
     }
-
     await this.categoryEntityRepository.save(categoryEntities);
     await this.modelEntityRepository.save(modelsEntities);
-    throw new Error();
     return this.getGlobalDressOptions();
   }
 
