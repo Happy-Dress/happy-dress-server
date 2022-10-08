@@ -6,6 +6,7 @@ import { GlobalDressOptionsDTO } from '../model/GlobalDressOptionsDTO';
 import { CategoryEntity } from '../../../repository/settings/category/entity/category.entity';
 import { SimpleListSettingConverter } from '../util/simpleListSetting.converter';
 import { ModelEntity } from '../../../repository/settings/model/entity/model.entity';
+import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class SettingsService implements ISettingsService {
@@ -14,22 +15,23 @@ export class SettingsService implements ISettingsService {
 
   @InjectRepository(ModelEntity)
   private modelEntityRepository: Repository<ModelEntity>;
-  
+
   @Inject()
   private readonly simpleListSettingConverter: SimpleListSettingConverter;
-  
+
 
   public async getGlobalDressOptions(): Promise<GlobalDressOptionsDTO> {
     const categoryEntities = await this.categoryEntityRepository.find();
     const categoryDTOs = this.simpleListSettingConverter.convertToDTO(categoryEntities);
     const modelEntities = await this.modelEntityRepository.find();
     const modelDTOs = this.simpleListSettingConverter.convertToDTO(modelEntities);
-    return { 
+    return {
       categories: categoryDTOs,
       models: modelDTOs,
     };
   }
 
+  @Transactional()
   public async setGlobalDressOptions(globalDressOptionsDTO: GlobalDressOptionsDTO): Promise<GlobalDressOptionsDTO> {
     const categoryEntities = this.simpleListSettingConverter.convertToEntity(globalDressOptionsDTO.categories);
     const modelsEntities = this.simpleListSettingConverter.convertToEntity(globalDressOptionsDTO.models);

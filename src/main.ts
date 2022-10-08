@@ -3,12 +3,14 @@ import { AppModule } from './app.module';
 import { config } from 'dotenv';
 import { AllExceptionsFilter } from './app/controller/exception/excpetion.filter';
 import { ValidationPipe } from '@nestjs/common';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 
 const DEFAULT_PORT = 8080;
 
 async function bootstrap(): Promise<void> {
   config();
   const app = await NestFactory.create(AppModule);
+  initializeTransactionalContext();
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api/v1');
   const httpAdapter  = app.get(HttpAdapterHost);

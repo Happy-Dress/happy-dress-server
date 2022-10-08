@@ -8,7 +8,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "eslintIgnore": ["*.spec.ts"],
+  "eslintIgnore": [
+    "*.spec.ts"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -51,7 +53,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.3.7"
+    "typeorm": "^0.3.10",
+    "typeorm-transactional": "^0.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
