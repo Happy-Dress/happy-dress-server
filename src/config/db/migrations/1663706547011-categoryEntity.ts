@@ -24,7 +24,7 @@ export class categories1663706547011 implements MigrationInterface {
                 {
                   name: 'imageUrl',
                   type: 'varchar',
-                  isUnique: true,
+                  isUnique: false,
                   isNullable: false,
                 },   
               ],
