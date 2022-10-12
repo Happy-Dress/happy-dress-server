@@ -20,9 +20,9 @@ export const PASSWORD_TOO_SHORT = 'Пароль должен содержать 
 export const PASSWORD_TOO_LONG = 'Пароль должен содержать не более 15 имволов';
 
 // Global dress options messages
-export const CATEGORY_TOO_SHORT = 'Название категории должно содержать более 3 символов';
-export const CATEGORY_TOO_LONG = 'Название категории должно содержать не более 20 символов';
-export const INVALID_EXTENSION_DETECTED = 'Данное расширение не поддерживается';
+export const DESCRIPTION_TOO_SHORT = 'Описание должно содержать более 3 символов';
+export const DESCRIPTION_TOO_LONG = 'Описание должно содержать не более 20 символов';
+export const INVALID_EXTENSION_OR_NOT_EXISTS_FILE_DETECTED = 'Данное расширение не поддерживается или отсутсвует файл';
 export const INVALID_DESCRIPTION_DETECTED = 'Содержаться неразрешенные символы';
-
+export const INVALID_ID_TO_UPDATE = 'Содержит неверный id для обновления данных';
 
