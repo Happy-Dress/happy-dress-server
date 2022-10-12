@@ -8,6 +8,7 @@ import { SimpleListSettingConverter } from '../util/simpleListSetting.converter'
 import { ModelEntity } from '../../../repository/settings/model/entity/model.entity';
 import { Transactional } from 'typeorm-transactional';
 import { CategoryConverter } from '../util/category.converter';
+import { CategoryDTO } from '../model/CategoryDTO';
 
 @Injectable()
 export class SettingsService implements ISettingsService {
@@ -19,7 +20,7 @@ export class SettingsService implements ISettingsService {
 
   @Inject()
   private readonly simpleListSettingConverter: SimpleListSettingConverter;
-  
+
   @Inject()
   private readonly categoryConverter: CategoryConverter;
 
@@ -37,19 +38,20 @@ export class SettingsService implements ISettingsService {
 
   @Transactional()
   public async setGlobalDressOptions(globalDressOptionsDTO: GlobalDressOptionsDTO): Promise<GlobalDressOptionsDTO> {
-    const categoryEntities = this.categoryConverter.convertToEntity(globalDressOptionsDTO.categories);
-    const modelsEntities = this.simpleListSettingConverter.convertToEntity(globalDressOptionsDTO.models);
-    const currentCategories = await this.categoryEntityRepository.find();
-    const currentModels = await this.modelEntityRepository.find();
-    if (currentCategories.length) {
-      await this.categoryEntityRepository.delete(currentCategories.map((c) => c.id ));
-    }
-    if (currentModels.length) {
-      await this.modelEntityRepository.delete( currentModels.map((c) => c.id ));
-    }
-    await this.categoryEntityRepository.save(categoryEntities);
-    await this.modelEntityRepository.save(modelsEntities);
+    const { categories: categoriesToUpdate } = globalDressOptionsDTO;
+    const { categories: currentCategories } = await this.getGlobalDressOptions();
+    await this.updateCategories(currentCategories, categoriesToUpdate);
     return this.getGlobalDressOptions();
+  }
+
+  private async updateCategories(currentCategories: CategoryDTO[], categoriesToSave: CategoryDTO[]): Promise<void> {
+    const entities = this.categoryConverter.convertToEntity(categoriesToSave);
+    const entitiesIds = entities.map((entity)=> entity.id ).filter(id => !!id);
+    const idsToDelete = currentCategories.filter((category)=> !entitiesIds.includes(category.id)).map(category => category.id);
+    await this.categoryEntityRepository.save(entities);
+    if (idsToDelete.length) {
+      await this.categoryEntityRepository.delete(idsToDelete);
+    }
   }
 
 }
