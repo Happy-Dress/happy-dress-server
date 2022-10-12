@@ -5,10 +5,10 @@ import {
   INVALID_DESCRIPTION_DETECTED,
 } from '../../../messages/constants/messages.constants';
 
-export const MIN_LENGTH_CATEGORY = 3;
-export const MAX_LENGTH_CATEGORY = 20;
+const MIN_LENGTH_CATEGORY = 3;
+const MAX_LENGTH_CATEGORY = 20;
 
-export class SimpleListSetting{
+export class SimpleListSetting {
     id?: number;
 
     @IsString()

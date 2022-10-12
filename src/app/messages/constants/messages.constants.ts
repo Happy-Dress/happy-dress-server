@@ -1,8 +1,6 @@
 import {
   MAX_AMOUNT,
 } from '../../service/image/constants/validate-image/validate-image.constants';
-import { MAX_LENGTH_CATEGORY, MIN_LENGTH_CATEGORY } from '../../service/settings/model/SimpleListSetting';
-
 
 // Image upload messages
 export const INVALID_EXTENSION_MESSAGE = 'Неверное расширение файла: $current. Доступные расширения: $valid.';
@@ -22,8 +20,8 @@ export const PASSWORD_TOO_SHORT = 'Пароль должен содержать 
 export const PASSWORD_TOO_LONG = 'Пароль должен содержать не более 15 имволов';
 
 // Global dress options messages
-export const CATEGORY_TOO_SHORT = `Название категории должно содержать более ${MIN_LENGTH_CATEGORY - 1} символов`;
-export const CATEGORY_TOO_LONG = `Название категории должно содержать не более ${MAX_LENGTH_CATEGORY} символов`;
+export const CATEGORY_TOO_SHORT = 'Название категории должно содержать более 3 символов';
+export const CATEGORY_TOO_LONG = 'Название категории должно содержать не более 20 символов';
 export const INVALID_EXTENSION_DETECTED = 'Данное расширение не поддерживается';
 export const INVALID_DESCRIPTION_DETECTED = 'Содержаться неразрешенные символы';
 
