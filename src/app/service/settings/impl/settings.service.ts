@@ -1,4 +1,4 @@
-import { BadRequestException,  Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ISettingsService } from '../settings.service.abstraction';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -10,7 +10,7 @@ import { Transactional } from 'typeorm-transactional';
 import { CategoryConverter } from '../util/category.converter';
 import { CategoryDTO } from '../model/CategoryDTO';
 import { SimpleListSetting } from '../model/SimpleListSetting';
-import { INVALID_ID_TO_UPDATE } from '../../../messages/constants/messages.constants';
+import { EntitiesNotFoundByIds } from '../exception/entities-not-found-by.ids';
 
 @Injectable()
 export class SettingsService implements ISettingsService {
@@ -25,6 +25,9 @@ export class SettingsService implements ISettingsService {
 
   @Inject()
   private readonly categoryConverter: CategoryConverter;
+
+  private readonly NAME_CATEGORY = 'Категории';
+  private readonly NAME_MODEL = 'Модели';
 
 
   public async getGlobalDressOptions(): Promise<GlobalDressOptionsDTO> {
@@ -51,7 +54,7 @@ export class SettingsService implements ISettingsService {
     const entities = this.categoryConverter.convertToEntity(categoriesToSave);
     const entitiesIds = entities.map((entity)=> entity.id ).filter(id => !!id);
     const currentIds = currentCategories.map(category => category.id);
-    this.checkIds(currentIds, entitiesIds);
+    this.checkIds(currentIds, entitiesIds, this.NAME_CATEGORY);
     const idsToDelete = currentCategories.filter((category)=> !entitiesIds.includes(category.id)).map(category => category.id);
     await this.categoryEntityRepository.save(entities);
     if (idsToDelete.length) {
@@ -63,19 +66,20 @@ export class SettingsService implements ISettingsService {
     const entities = this.simpleListSettingConverter.convertToEntity(modelsToSave);
     const entitiesIds = entities.map(entity => entity.id).filter(id => !!id);
     const currentIds = currentModels.map(model => model.id);
-    this.checkIds(currentIds, entitiesIds);
+    this.checkIds(currentIds, entitiesIds, this.NAME_MODEL);
     const idsToDelete = currentModels.filter(model => !entitiesIds.includes(model.id)).map(model => model.id);
-    if (idsToDelete.length){
+    await this.modelEntityRepository.save(entities);
+    if (idsToDelete.length) {
       await this.modelEntityRepository.delete(idsToDelete);
     }
-    await this.modelEntityRepository.save(entities);
   }
 
-  private checkIds(currentIds: number[], newEntitiesIds: number[]): void{
-    if (currentIds.length && newEntitiesIds.length &&
-        newEntitiesIds.filter(id => currentIds.includes(id)).length !== newEntitiesIds.length){
-      throw new BadRequestException(INVALID_ID_TO_UPDATE);
+  private checkIds(currentIds: number[], newEntitiesIds: number[], name: string): void {
+    if (currentIds.length && newEntitiesIds.length) {
+      const invalidIds = newEntitiesIds.filter(id => !currentIds.includes(id));
+      if (invalidIds.length) {
+        throw new EntitiesNotFoundByIds(name, invalidIds);
+      }
     }
   }
-
 }

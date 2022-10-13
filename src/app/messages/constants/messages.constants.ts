@@ -24,5 +24,5 @@ export const DESCRIPTION_TOO_SHORT = 'Описание должно содерж
 export const DESCRIPTION_TOO_LONG = 'Описание должно содержать не более 20 символов';
 export const INVALID_EXTENSION_OR_NOT_EXISTS_FILE_DETECTED = 'Данное расширение не поддерживается или отсутсвует файл';
 export const INVALID_DESCRIPTION_DETECTED = 'Содержаться неразрешенные символы';
-export const INVALID_ID_TO_UPDATE = 'Содержит неверный id для обновления данных';
+export const INVALID_ID_TO_UPDATE = '$name не найдены по id: $ID';
 

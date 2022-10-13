@@ -9,8 +9,7 @@ import {SimpleListSettingConverter} from "../../../../app/service/settings/util/
 import {SimpleListSetting} from "../../../../app/service/settings/model/SimpleListSetting";
 import {CategoryDTO} from "../../../../app/service/settings/model/CategoryDTO";
 import {CategoryConverter} from "../../../../app/service/settings/util/category.converter";
-import {BadRequestException} from "@nestjs/common";
-import {INVALID_ID_TO_UPDATE} from "../../../../app/messages/constants/messages.constants";
+import {EntitiesNotFoundByIds} from "../../../../app/service/settings/exception/entities-not-found-by.ids";
 
 jest.mock('typeorm-transactional', () => ({
     Transactional: () => () => ({}),
@@ -18,7 +17,7 @@ jest.mock('typeorm-transactional', () => ({
 
 describe('SettingsService', () => {
 
-    const error = new BadRequestException(INVALID_ID_TO_UPDATE);
+    const error = new EntitiesNotFoundByIds('Категории', [2]);
 
     let categoryRepository: Repository<CategoryEntity>;
     let modelRepository: Repository<ModelEntity>;
