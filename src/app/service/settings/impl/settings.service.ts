@@ -62,7 +62,7 @@ export class SettingsService implements ISettingsService {
     }
   }
 
-  private async updateModels(currentModels: SimpleListSetting[], modelsToSave: SimpleListSetting[]): Promise<void>{
+  private async updateModels(currentModels: SimpleListSetting[], modelsToSave: SimpleListSetting[]): Promise<void> {
     const entities = this.simpleListSettingConverter.convertToEntity(modelsToSave);
     const entitiesIds = entities.map(entity => entity.id).filter(id => !!id);
     const currentIds = currentModels.map(model => model.id);

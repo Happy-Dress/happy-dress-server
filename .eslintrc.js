@@ -185,6 +185,7 @@ module.exports = {
     "semi": "off",
     "@typescript-eslint/semi": "error",
     "space-before-function-paren": "off",
+    "space-before-blocks": "error",
     "@typescript-eslint/space-before-function-paren": [
       "error",
       {

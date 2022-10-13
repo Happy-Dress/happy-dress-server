@@ -4,7 +4,7 @@ import { CategoryDTO } from '../model/CategoryDTO';
 
 @Injectable()
 export class CategoryConverter {
-  public convertToDTO(categoryEntities: CategoryEntity[]): CategoryDTO[]{
+  public convertToDTO(categoryEntities: CategoryEntity[]): CategoryDTO[] {
     return categoryEntities.map(value => ({
       id: value.id,
       description: value.description,
@@ -12,7 +12,7 @@ export class CategoryConverter {
     }));
   }
 
-  public convertToEntity(categoryDTOs: CategoryDTO[]): CategoryEntity[]{
+  public convertToEntity(categoryDTOs: CategoryDTO[]): CategoryEntity[] {
     return categoryDTOs.map(value => ({
       id: value.id,
       description: value.description,

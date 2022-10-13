@@ -71,7 +71,7 @@ export class ImageValidator {
     return image.size > MIN_IMAGE_SIZE && image.size < MAX_IMAGE_SIZE ? '' : this.getInvalidSizeMessage(image.size);
   }
 
-  private getInvalidSizeMessage(imageSize: number): string{
+  private getInvalidSizeMessage(imageSize: number): string {
     const minSizeMB = (MIN_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2);
     const maxSizeMB = (MAX_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2);
     const currSizeMB = (imageSize * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2);
@@ -81,7 +81,7 @@ export class ImageValidator {
       .replace('$current', currSizeMB);
   }
 
-  private getInvalidExtensionMessage(imageType: string): string{
+  private getInvalidExtensionMessage(imageType: string): string {
     return INVALID_EXTENSION_MESSAGE
       .replace('$current', imageType)
       .replace('$valid', IMAGE_EXTENSIONS.toString());

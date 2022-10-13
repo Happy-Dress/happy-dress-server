@@ -4,14 +4,14 @@ import { SimpleListSettingEntity } from '../../../repository/settings/simpleList
 
 @Injectable()
 export class SimpleListSettingConverter {
-  public convertToDTO(simpleListSettingEntities: SimpleListSettingEntity[]): SimpleListSetting[]{
+  public convertToDTO(simpleListSettingEntities: SimpleListSettingEntity[]): SimpleListSetting[] {
     return simpleListSettingEntities.map(value => ({
       id: value.id,
       description: value.description,
     }));
   }
   
-  public convertToEntity(simpleListSettings: SimpleListSetting[]): SimpleListSettingEntity[]{
+  public convertToEntity(simpleListSettings: SimpleListSetting[]): SimpleListSettingEntity[] {
     return simpleListSettings.map(value => ({
       id: value.id,
       description: value.description,
