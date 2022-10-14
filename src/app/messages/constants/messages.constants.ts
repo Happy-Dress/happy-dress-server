@@ -9,7 +9,6 @@ export const FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE = 'Ошибка загрузки
 export const INVALID_IMAGES_AMOUNT_MESSAGE = `Можно загрузить не более ${MAX_AMOUNT} изображений`;
 export const NULL_IMAGES_DETECTED = 'При отправке запроса на сервер файлы не могут быть пустым значением';
 
-
 // Authentication messages
 export const INVALID_LOGIN_OR_PASSWORD = 'Неверный логин или пароль';
 export const INVALID_LOGIN_FORMAT = 'Имя должно содержать латинские буквы и цифры';
