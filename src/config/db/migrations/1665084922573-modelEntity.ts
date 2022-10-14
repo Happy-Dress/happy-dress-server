@@ -15,7 +15,7 @@ export class modelEntity1665084922573 implements MigrationInterface {
                   generationStrategy: 'increment',
                 },
                 {
-                  name: 'description',
+                  name: 'name',
                   type: 'varchar',
                   isUnique: true,
                   isNullable: false,

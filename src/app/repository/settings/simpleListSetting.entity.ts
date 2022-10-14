@@ -5,6 +5,6 @@ export class SimpleListSettingEntity {
     id: number;
 
     @Column()
-    description: string;
+    name: string;
 
 }
