@@ -4,6 +4,7 @@ import { ImageController } from './api/image/image.controller';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 import { AuthenticationController } from './api/authentication/authentication.controller';
 import { JwtStrategy } from './security/strategy/jwt.strategy';
+import { SettingsController } from './api/settings/settings.controller';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { JwtStrategy } from './security/strategy/jwt.strategy';
   controllers: [
     ImageController,
     AuthenticationController,
+    SettingsController,
   ],
   providers: [JwtStrategy],
 })
