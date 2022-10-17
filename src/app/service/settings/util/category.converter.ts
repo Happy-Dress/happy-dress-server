@@ -7,6 +7,7 @@ export class CategoryConverter {
   public convertToDTO(categoryEntities: CategoryEntity[]): CategoryDTO[] {
     return categoryEntities.map(value => ({
       id: value.id,
+      name: value.name,
       description: value.description,
       imageUrl: value.imageUrl,  
     }));
@@ -15,6 +16,7 @@ export class CategoryConverter {
   public convertToEntity(categoryDTOs: CategoryDTO[]): CategoryEntity[] {
     return categoryDTOs.map(value => ({
       id: value.id,
+      name: value.name,
       description: value.description,
       imageUrl: value.imageUrl,
     }));
