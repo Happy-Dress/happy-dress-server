@@ -12,14 +12,14 @@ describe('CategoryConverter', () => {
 
     describe('convert',  () => {
         it('should convert to DTO', () => {
-            const categoryEntities: CategoryEntity[] = [{id: 1, description: 'plain text', imageUrl: 'example.png'}];
-            const categoryDTOs: CategoryDTO[] = [{id: 1, description: 'plain text', imageUrl: 'example.png'}];
+            const categoryEntities: CategoryEntity[] = [{id: 1, name: 'plain text', description: 'plain text', imageUrl: 'example.png'}];
+            const categoryDTOs: CategoryDTO[] = [{id: 1, name: 'plain text', description: 'plain text', imageUrl: 'example.png'}];
             const convertResult = categoryConverter.convertToDTO(categoryEntities);
             expect(convertResult).toStrictEqual(categoryDTOs);
         });
         it('should convert to Entity', () => {
-            const categoryEntities: CategoryEntity[] = [{id: 1, description: 'plain text', imageUrl: 'example.png'}];
-            const categoryDTOs: CategoryDTO[] = [{id: 1, description: 'plain text', imageUrl: 'example.png'}];
+            const categoryEntities: CategoryEntity[] = [{id: 1, name: 'plain text', description: 'plain text', imageUrl: 'example.png'}];
+            const categoryDTOs: CategoryDTO[] = [{id: 1, name: 'plain text', description: 'plain text', imageUrl: 'example.png'}];
             const convertResult = categoryConverter.convertToEntity(categoryDTOs);
             expect(convertResult).toStrictEqual(categoryEntities);
         });
