@@ -16,9 +16,15 @@ export class categories1663706547011 implements MigrationInterface {
                   generationStrategy: 'increment',
                 },
                 {
-                  name: 'description',
+                  name: 'name',
                   type: 'varchar',
                   isUnique: true,
+                  isNullable: false,
+                },
+                {
+                  name: 'description',
+                  type: 'varchar',
+                  isUnique: false,
                   isNullable: false,
                 },
                 {
