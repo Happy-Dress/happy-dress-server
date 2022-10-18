@@ -14,6 +14,6 @@ export class SimpleListSetting {
     @IsString()
     @MinLength(MIN_LENGTH_NAME, { message: NAME_TOO_SHORT })
     @MaxLength(MAX_LENGTH_NAME, { message: NAME_TOO_LONG })
-    @Matches(/^[а-яА-Яa-zA-Z0-9_.\-]+$/, { message: INVALID_NAME_DETECTED })
+    @Matches(/^[а-яА-Яa-zA-Z0-9_.,\s\-]+$/, { message: INVALID_NAME_DETECTED })
     name: string;
 }

@@ -15,6 +15,9 @@ import { CategoryEntity } from '../repository/settings/category/entity/category.
 import { SimpleListSettingConverter } from './settings/util/simpleListSetting.converter';
 import { ModelEntity } from '../repository/settings/model/entity/model.entity';
 import { CategoryConverter } from './settings/util/category.converter';
+import { ColorConverter } from './settings/util/color.converter';
+import { MaterialEntity } from '../repository/settings/material/entity/material.entity';
+import { ColorEntity } from '../repository/settings/color/entity/color.entity';
 
 @Module({
   providers: [
@@ -37,10 +40,11 @@ import { CategoryConverter } from './settings/util/category.converter';
     ImageValidator,
     SimpleListSettingConverter,
     CategoryConverter,
+    ColorConverter,
   ],
   imports: [
     ClientModule,
-        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity]),
+        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity]),
   ],
   exports: [IImageService, IUserService, IAuthenticationService, ISettingsService],
 })
