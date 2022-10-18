@@ -12,14 +12,14 @@ describe('ColorConverter', () => {
 
     describe('convert',  () => {
         it('should convert to DTO', () => {
-          const colorEntities: ColorEntity[] = [{ id: 1, firstColor: '#ffffff', secondColor: '#000000' }];
-          const colorDTOs: ColorDTO[] = [{ id: 1, firstColor: '#ffffff', secondColor: '#000000' }];
+          const colorEntities: ColorEntity[] = [{ id: 1, name: 'plain text', firstColor: '#ffffff', secondColor: '#000000' }];
+          const colorDTOs: ColorDTO[] = [{ id: 1, name: 'plain text', firstColor: '#ffffff', secondColor: '#000000' }];
           const convertResult = colorConverter.convertToDTO(colorEntities);
             expect(convertResult).toStrictEqual(colorDTOs);
         });
         it('should convert to Entity', () => {
-          const colorEntities: ColorEntity[] = [{ id: 1, firstColor: '#ffffff', secondColor: '#000000' }];
-          const colorDTOs: ColorDTO[] = [{ id: 1, firstColor: '#ffffff', secondColor: '#000000' }];
+          const colorEntities: ColorEntity[] = [{ id: 1, name: 'plain text', firstColor: '#ffffff', secondColor: '#000000' }];
+          const colorDTOs: ColorDTO[] = [{ id: 1, name: 'plain text', firstColor: '#ffffff', secondColor: '#000000' }];
           const convertResult = colorConverter.convertToEntity(colorDTOs);
             expect(convertResult).toStrictEqual(colorEntities);
         });
