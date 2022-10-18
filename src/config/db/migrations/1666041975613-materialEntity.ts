@@ -15,7 +15,7 @@ export class materialEntity1666041975613 implements MigrationInterface {
                   generationStrategy: 'increment',
                 },
                 {
-                  name: 'description',
+                  name: 'name',
                   type: 'varchar',
                   isUnique: true,
                   isNullable: false,
