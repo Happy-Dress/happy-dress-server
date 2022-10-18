@@ -7,6 +7,7 @@ export class ColorConverter {
   public convertToDTO(colorEntities: ColorEntity[]): ColorDTO[] {
     return colorEntities.map(value => ({
       id: value.id,
+      name: value.name,
       firstColor: value.firstColor,
       secondColor: value.secondColor,
     }));
@@ -15,6 +16,7 @@ export class ColorConverter {
   public convertToEntity(colorDTOs: ColorDTO[]): ColorEntity[] {
     return colorDTOs.map(value => ({
       id: value.id,
+      name: value.name,
       firstColor: value.firstColor,
       secondColor: value.secondColor,
     }));

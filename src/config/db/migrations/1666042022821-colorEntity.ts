@@ -15,6 +15,12 @@ export class colorEntity1666042022821 implements MigrationInterface {
                   generationStrategy: 'increment',
                 },
                 {
+                  name: 'name',
+                  type: 'varchar',
+                  isUnique: false,
+                  isNullable: false,
+                },
+                {
                   name: 'firstColor',
                   type: 'varchar',
                   isUnique: false,

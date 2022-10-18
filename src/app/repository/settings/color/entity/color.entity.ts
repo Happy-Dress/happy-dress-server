@@ -1,10 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
+import { SimpleListSettingEntity } from '../../simpleListSetting.entity';
 
 @Entity({ name: 'color' })
-export class ColorEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class ColorEntity extends SimpleListSettingEntity {
     @Column()
     firstColor: string;
 
