@@ -6,14 +6,13 @@ import { ValidationPipe } from '@nestjs/common';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 
 const DEFAULT_PORT = 8080;
-const originPath = 'https://happy-dress-client.herokuapp.com/';
 
 async function bootstrap(): Promise<void> {
   config();
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: [originPath],
+    origin: [process.env.ORIGIN_PATH],
   });
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api/v1');
