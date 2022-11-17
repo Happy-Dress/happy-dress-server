@@ -11,6 +11,9 @@ async function bootstrap(): Promise<void> {
   config();
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: [process.env.ORIGIN_PATH],
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api/v1');
   const httpAdapter  = app.get(HttpAdapterHost);
