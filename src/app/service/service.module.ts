@@ -18,6 +18,7 @@ import { CategoryConverter } from './settings/util/category.converter';
 import { ColorConverter } from './settings/util/color.converter';
 import { MaterialEntity } from '../repository/settings/material/entity/material.entity';
 import { ColorEntity } from '../repository/settings/color/entity/color.entity';
+import { ImageUrlConverter } from './image/util/imageUrl.converter';
 
 @Module({
   providers: [
@@ -38,6 +39,7 @@ import { ColorEntity } from '../repository/settings/color/entity/color.entity';
       useClass: SettingsService,
     },
     ImageValidator,
+    ImageUrlConverter,
     SimpleListSettingConverter,
     CategoryConverter,
     ColorConverter,
