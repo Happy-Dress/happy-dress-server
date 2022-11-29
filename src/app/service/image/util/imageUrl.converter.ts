@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UploadedImageModel } from '../../../client/google-drive/models/uploaded-image.model';
+import { baseUrlImage } from '../constants/validate-image/validate-image.constants';
 
 const wrongUrl = 'https://drive.google.com/open?id=';
-const baseUrlImage = 'http://drive.google.com/uc?export=view&id=';
 
 @Injectable()
 export class ImageUrlConverter {

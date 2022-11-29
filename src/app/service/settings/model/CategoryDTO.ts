@@ -3,7 +3,7 @@ import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
 import {
   DESCRIPTION_TOO_LONG,
   DESCRIPTION_TOO_SHORT,
-  INVALID_DESCRIPTION_DETECTED,
+  INVALID_DESCRIPTION_DETECTED, INVALID_GOOGLE_DRIVE_LINK,
 } from '../../../messages/constants/messages.constants';
 
 const MIN_LENGTH_DESCRIPTION = 3;
@@ -17,5 +17,6 @@ export class CategoryDTO extends SimpleListSetting {
     description: string;
 
     @IsString()
+    @Matches(/http:\/\/drive.google.com\/uc\?export=view&id=/, { message: INVALID_GOOGLE_DRIVE_LINK })
     imageUrl: string;
 }
