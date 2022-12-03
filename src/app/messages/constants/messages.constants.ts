@@ -29,4 +29,4 @@ export const INVALID_LENGTH_COLOR = 'Кодировка цвета должна 
 export const INVALID_NAME_DETECTED = 'В названии содержатся неразрешенные символы';
 export const INVALID_DESCRIPTION_DETECTED = 'В описании содержатся неразрешенные символы';
 export const INVALID_ID_TO_UPDATE = '$name не найдены по id: $ID';
-
+export const INVALID_GOOGLE_DRIVE_LINK = 'Неверная ссылка на фотографию в google-drive';
