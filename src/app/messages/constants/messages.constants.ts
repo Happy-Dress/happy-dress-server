@@ -28,5 +28,7 @@ export const INVALID_COLOR_DETECTED = 'Неверная кодировка цв�
 export const INVALID_LENGTH_COLOR = 'Кодировка цвета должна содержать 7 символов';
 export const INVALID_NAME_DETECTED = 'В названии содержатся неразрешенные символы';
 export const INVALID_DESCRIPTION_DETECTED = 'В описании содержатся неразрешенные символы';
+export const UNABLE_TO_UPDATE_BY_IDS = 'невозможно обновить сущности с id: $ID';
+
 export const INVALID_ID_TO_UPDATE = '$name не найдены по id: $ID';
 export const INVALID_GOOGLE_DRIVE_LINK = 'Неверная ссылка на фотографию в google-drive';

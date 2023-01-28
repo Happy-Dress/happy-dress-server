@@ -1,4 +1,4 @@
-import { ColorConverter } from '../../../../app/service/settings/util/color.converter';
+import { ColorConverter } from '../../../../app/service/settings/util/converters/color.converter';
 import { ColorEntity } from '../../../../app/repository/settings/color/entity/color.entity';
 import { ColorDTO } from '../../../../app/service/settings/model/ColorDTO';
 

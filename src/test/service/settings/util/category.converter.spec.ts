@@ -1,4 +1,4 @@
-import {CategoryConverter} from "../../../../app/service/settings/util/category.converter";
+import {CategoryConverter} from "../../../../app/service/settings/util/converters/category.converter";
 import {CategoryEntity} from "../../../../app/repository/settings/category/entity/category.entity";
 import {CategoryDTO} from "../../../../app/service/settings/model/CategoryDTO";
 

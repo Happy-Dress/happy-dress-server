@@ -5,15 +5,15 @@ import { repositoryMockFactory } from '../../../test-utils/test-utils';
 import {CategoryEntity} from "../../../../app/repository/settings/category/entity/category.entity";
 import {SettingsService} from "../../../../app/service/settings/impl/settings.service";
 import {ModelEntity} from "../../../../app/repository/settings/model/entity/model.entity";
-import {SimpleListSettingConverter} from "../../../../app/service/settings/util/simpleListSetting.converter";
+import {SimpleListSettingConverter} from "../../../../app/service/settings/util/converters/simple.list.setting.converter";
 import {SimpleListSetting} from "../../../../app/service/settings/model/SimpleListSetting";
 import {CategoryDTO} from "../../../../app/service/settings/model/CategoryDTO";
-import {CategoryConverter} from "../../../../app/service/settings/util/category.converter";
+import {CategoryConverter} from "../../../../app/service/settings/util/converters/category.converter";
 import {EntitiesNotFoundByIds} from "../../../../app/service/settings/exception/entities-not-found-by.ids";
 import {ColorDTO} from "../../../../app/service/settings/model/ColorDTO";
 import {MaterialEntity} from "../../../../app/repository/settings/material/entity/material.entity";
 import {ColorEntity} from "../../../../app/repository/settings/color/entity/color.entity";
-import {ColorConverter} from "../../../../app/service/settings/util/color.converter";
+import {ColorConverter} from "../../../../app/service/settings/util/converters/color.converter";
 
 jest.mock('typeorm-transactional', () => ({
     Transactional: () => () => ({}),

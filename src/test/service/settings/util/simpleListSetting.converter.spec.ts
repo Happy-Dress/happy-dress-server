@@ -1,4 +1,4 @@
-import {SimpleListSettingConverter} from "../../../../app/service/settings/util/simpleListSetting.converter";
+import {SimpleListSettingConverter} from "../../../../app/service/settings/util/converters/simple.list.setting.converter";
 import {SimpleListSettingEntity} from "../../../../app/repository/settings/simpleListSetting.entity";
 import {SimpleListSetting} from "../../../../app/service/settings/model/SimpleListSetting";
 
