@@ -88,10 +88,10 @@ export class SettingsService implements ISettingsService {
     const currentIds = currentCategories.map(category => category.id);
     this.checkIds(currentIds, entitiesIds, this.NAME_CATEGORY);
     const idsToDelete = currentCategories.filter((category) => !entitiesIds.includes(category.id)).map(category => category.id);
-    await this.categoryEntityRepository.save(entities);
     if (idsToDelete.length) {
       await this.categoryEntityRepository.delete(idsToDelete);
     }
+    await this.categoryEntityRepository.save(entities);
   }
 
   private async updateModels(currentModels: SimpleListSetting[], modelsToSave: SimpleListSetting[]): Promise<void> {
@@ -100,10 +100,10 @@ export class SettingsService implements ISettingsService {
     const currentIds = currentModels.map(model => model.id);
     this.checkIds(currentIds, entitiesIds, this.NAME_MODEL);
     const idsToDelete = currentModels.filter(model => !entitiesIds.includes(model.id)).map(model => model.id);
-    await this.modelEntityRepository.save(entities);
     if (idsToDelete.length) {
       await this.modelEntityRepository.delete(idsToDelete);
     }
+    await this.modelEntityRepository.save(entities);
   }
 
   private async updateMaterials(currentMaterials: SimpleListSetting[], materialsToSave: SimpleListSetting[]): Promise<void> {
@@ -112,10 +112,10 @@ export class SettingsService implements ISettingsService {
     const currentIds = currentMaterials.map(material => material.id);
     this.checkIds(currentIds, entitiesIds, this.NAME_MATERIAL);
     const idsToDelete = currentMaterials.filter(material => !entitiesIds.includes(material.id)).map(material => material.id);
-    await this.materialEntityRepository.save(entities);
     if (idsToDelete.length) {
       await this.materialEntityRepository.delete(idsToDelete);
     }
+    await this.materialEntityRepository.save(entities);
   }
 
   private async updateColors(currentColors: ColorDTO[], colorsToSave: ColorDTO[]): Promise<void> {
@@ -124,10 +124,10 @@ export class SettingsService implements ISettingsService {
     const currentIds = currentColors.map(color => color.id);
     this.checkIds(currentIds, entitiesIds, this.NAME_COLOR);
     const idsToDelete = currentColors.filter(color => !entitiesIds.includes(color.id)).map(color => color.id);
-    await this.colorEntityRepository.save(entities);
     if (idsToDelete.length) {
       await this.colorEntityRepository.delete(idsToDelete);
     }
+    await this.colorEntityRepository.save(entities);
   }
 
   private checkIds(currentIds: number[], newEntitiesIds: number[], name: string): void {
