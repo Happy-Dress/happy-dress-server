@@ -1,28 +1,29 @@
-import { SimpleListSetting } from './SimpleListSetting';
 import { IsNotEmpty, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CategoryDTO } from './CategoryDTO';
-import { ColorDTO } from './ColorDTO';
+import { ColorDto } from './color.dto';
+import { ModelDto } from './model.dto';
+import { MaterialDto } from './material.dto';
+import { CategoryDto } from './category.dto';
 
-export class GlobalDressOptionsDTO {
+export class GlobalDressOptionsDto {
     @ValidateNested({ each: true })
-    @Type(() => CategoryDTO)
+    @Type(() => CategoryDto)
     @IsNotEmpty({ message: 'Категории являются обязательным полем' })
-    categories: CategoryDTO[];
+    categories: CategoryDto[];
 
     @ValidateNested({ each: true })
-    @Type(() => SimpleListSetting)
+    @Type(() => ModelDto)
     @IsNotEmpty({ message: 'Модели являются обязательным полем' })
-    models: SimpleListSetting[];
+    models: ModelDto[];
 
     @ValidateNested({ each: true })
-    @Type(() => SimpleListSetting)
+    @Type(() => MaterialDto)
     @IsNotEmpty({ message: 'Материалы являются обязательным полем' })
-    materials: SimpleListSetting[];
+    materials: MaterialDto[];
 
     @ValidateNested({ each: true })
-    @Type(() => ColorDTO)
+    @Type(() => ColorDto)
     @IsNotEmpty({ message: 'Цвета являются обязательным полем' })
-    colors: ColorDTO[];
-    
+    colors: ColorDto[];
+
 }

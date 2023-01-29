@@ -1,20 +1,21 @@
-import {Inject, Injectable, OnModuleInit} from '@nestjs/common';
-import {ISettingsService} from '../settings.service.abstraction';
-import {GlobalDressOptionsDTO} from '../model/GlobalDressOptionsDTO';
-import {Transactional} from 'typeorm-transactional';
-import {EntitiesNotFoundByIds} from '../exception/entities-not-found-by.ids';
-import {MaterialsCrudService} from "../crud/materials.crud.service";
-import {SettingsNotFoundByIds} from "../exception/settings-not-found-by-ids";
-import {SettingType} from "../util/constant/setting.type.enum";
-import {CrudService} from "../../util/crud/crud.service";
-import {IdentifiedEntity} from "../../util/identified.entity";
-import {IdentifiedModel} from "../../util/identified.model";
-import {ColorsCrudService} from "../crud/colors.crud.service";
-import {CategoriesCrudService} from "../crud/categories.crud.service";
-import {ModelsCrudService} from "../crud/models.crud.service";
-import {ColorDTO} from "../model/ColorDTO";
-import {SimpleListSetting} from "../model/SimpleListSetting";
-import {CategoryDTO} from "../model/CategoryDTO";
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { ISettingsService } from '../settings.service.abstraction';
+import { Transactional } from 'typeorm-transactional';
+import { MaterialsCrudService } from '../crud/materials.crud.service';
+import { SettingsNotFoundByIds } from '../exception/settings-not-found-by-ids';
+import { SettingType } from '../util/constant/setting.type.enum';
+import { CrudService } from '../../util/crud/crud.service';
+import { IdentifiedEntity } from '../../util/model/entity/identified.entity';
+import { IdentifiedModel } from '../../util/model/dto/identified.model';
+import { ColorsCrudService } from '../crud/colors.crud.service';
+import { CategoriesCrudService } from '../crud/categories.crud.service';
+import { ModelsCrudService } from '../crud/models.crud.service';
+import { EntitiesNotFoundByIdsException } from '../exception/entities-not-found-by-ids.exception';
+import { GlobalDressOptionsDto } from '../model/global-dress-options.dto';
+import { ColorDto } from '../model/color.dto';
+import { ModelDto } from '../model/model.dto';
+import { MaterialDto } from '../model/material.dto';
+import { CategoryDto } from '../model/category.dto';
 
 @Injectable()
 export class SettingsService implements ISettingsService, OnModuleInit {
@@ -34,55 +35,52 @@ export class SettingsService implements ISettingsService, OnModuleInit {
     private colorsCrudService: ColorsCrudService;
 
 
-    onModuleInit() {
-        this.crudServiceMap = new Map<SettingType, CrudService<IdentifiedEntity, IdentifiedModel>>([
-            [SettingType.MATERIALS, this.materialsCrudService],
-            [SettingType.COLORS, this.materialsCrudService],
-            [SettingType.MODELS, this.modelsCrudService],
-            [SettingType.CATEGORIES, this.categoriesCrudService]
+    onModuleInit(): void {
+      this.crudServiceMap = new Map<SettingType, CrudService<IdentifiedEntity, IdentifiedModel>>([
+        [SettingType.MATERIALS, this.materialsCrudService],
+        [SettingType.COLORS, this.colorsCrudService],
+        [SettingType.MODELS, this.modelsCrudService],
+        [SettingType.CATEGORIES, this.categoriesCrudService],
 
-        ])
+      ]);
     }
 
-    public async getGlobalDressOptions(): Promise<GlobalDressOptionsDTO> {
-        const categoryDTOs = await this.categoriesCrudService.getAll();
-        const modelDTOs = await this.modelsCrudService.getAll();
-        const materialDTOs = await this.materialsCrudService.getAll();
-        const colorDTOs = await this.colorsCrudService.getAll();
-        return {
-            categories: categoryDTOs,
-            models: modelDTOs,
-            materials: materialDTOs,
-            colors: colorDTOs,
-        };
+    public async getGlobalDressOptions(): Promise<GlobalDressOptionsDto> {
+      const categoryDTOs = await this.categoriesCrudService.getAll();
+      const modelDTOs = await this.modelsCrudService.getAll();
+      const materialDTOs = await this.materialsCrudService.getAll();
+      const colorDTOs = await this.colorsCrudService.getAll();
+      return {
+        categories: categoryDTOs,
+        models: modelDTOs,
+        materials: materialDTOs,
+        colors: colorDTOs,
+      };
     }
 
     @Transactional()
-    public async setGlobalDressOptions(globalDressOptionsDTO: GlobalDressOptionsDTO): Promise<GlobalDressOptionsDTO> {
-        const {
-            categories: categoriesToUpdate,
-            models: modelsToUpdate,
-            materials: materialsToUpdate,
-            colors: colorsToUpdate,
-        } = globalDressOptionsDTO;
-        await this.updateSetting<ColorDTO>(SettingType.COLORS, colorsToUpdate);
-        await this.updateSetting<SimpleListSetting>(SettingType.MODELS, modelsToUpdate);
-        await this.updateSetting<SimpleListSetting>(SettingType.MATERIALS, materialsToUpdate);
-        await this.updateSetting<CategoryDTO>(SettingType.CATEGORIES, categoriesToUpdate);
-        return this.getGlobalDressOptions();
+    public async setGlobalDressOptions(globalDressOptionsDTO: GlobalDressOptionsDto): Promise<GlobalDressOptionsDto> {
+      const {
+        categories: categoriesToUpdate,
+        models: modelsToUpdate,
+        materials: materialsToUpdate,
+        colors: colorsToUpdate,
+      } = globalDressOptionsDTO;
+      await this.updateSetting<ColorDto>(SettingType.COLORS, colorsToUpdate);
+      await this.updateSetting<ModelDto>(SettingType.MODELS, modelsToUpdate);
+      await this.updateSetting<MaterialDto>(SettingType.MATERIALS, materialsToUpdate);
+      await this.updateSetting<CategoryDto>(SettingType.CATEGORIES, categoriesToUpdate);
+      return this.getGlobalDressOptions();
     }
 
-    private async updateSetting<DTO>(settingType: SettingType, dtos: DTO[]): Promise<void> {
-        try {
-            await this.crudServiceMap.get(settingType).update(dtos);
-        } catch (error) {
-            if (error instanceof EntitiesNotFoundByIds) {
-                throw new SettingsNotFoundByIds(error.invalidIds, SettingType.MATERIALS);
-            }
-            throw error;
+    private async updateSetting<DTO>(settingType: SettingType, DTOs: DTO[]): Promise<void> {
+      try {
+        await this.crudServiceMap.get(settingType).update(DTOs);
+      } catch (error) {
+        if (error instanceof EntitiesNotFoundByIdsException) {
+          throw new SettingsNotFoundByIds(error.invalidIds, SettingType.MATERIALS);
         }
-
+        throw error;
+      }
     }
-
-
 }

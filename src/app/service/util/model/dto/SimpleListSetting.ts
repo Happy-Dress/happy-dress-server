@@ -3,8 +3,8 @@ import {
   NAME_TOO_LONG,
   NAME_TOO_SHORT,
   INVALID_NAME_DETECTED,
-} from '../../../messages/constants/messages.constants';
-import {IdentifiedModel} from "../../util/identified.model";
+} from '../../../../messages/constants/messages.constants';
+import { IdentifiedModel } from './identified.model';
 
 const MIN_LENGTH_NAME = 3;
 const MAX_LENGTH_NAME = 20;

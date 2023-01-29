@@ -1,3 +1,3 @@
 export interface IdentifiedModel {
-    id?: number;
+  id?: number;
 }

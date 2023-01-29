@@ -1,4 +1,4 @@
-import { SimpleListSetting } from './SimpleListSetting';
+import { SimpleListSetting } from '../../util/model/dto/SimpleListSetting';
 import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
 import {
   DESCRIPTION_TOO_LONG,
@@ -9,7 +9,7 @@ import {
 const MIN_LENGTH_DESCRIPTION = 3;
 const MAX_LENGTH_DESCRIPTION = 100;
 
-export class CategoryDTO extends SimpleListSetting {
+export class CategoryDto extends SimpleListSetting {
     @IsString()
     @MinLength(MIN_LENGTH_DESCRIPTION, { message: DESCRIPTION_TOO_SHORT })
     @MaxLength(MAX_LENGTH_DESCRIPTION, { message: DESCRIPTION_TOO_LONG })

@@ -1,16 +1,15 @@
-import {CrudService} from "../../util/crud/crud.service";
-import {MaterialEntity} from "../../../repository/settings/material/entity/material.entity";
-import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
-import {ColorEntity} from "../../../repository/settings/color/entity/color.entity";
-import {ColorDTO} from "../model/ColorDTO";
-import {ColorConverter} from "../util/converters/color.converter";
+import { CrudService } from '../../util/crud/crud.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ColorEntity } from '../../../repository/settings/color/entity/color.entity';
+import { ColorConverter } from '../util/converters/color.converter';
+import { ColorDto } from '../model/color.dto';
 
-export class ColorsCrudService extends CrudService<ColorEntity, ColorDTO> {
+export class ColorsCrudService extends CrudService<ColorEntity, ColorDto> {
 
-    constructor(
-        @InjectRepository(MaterialEntity) readonly colorsRepository: Repository<ColorEntity>,
-    ) {
+  constructor(
+    @InjectRepository(ColorEntity) readonly colorsRepository: Repository<ColorEntity>,
+  ) {
         super(colorsRepository, new ColorConverter());
-    }
+  }
 }
