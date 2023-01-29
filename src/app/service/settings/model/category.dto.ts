@@ -1,10 +1,10 @@
-import { SimpleListSetting } from '../../util/model/dto/SimpleListSetting';
 import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
 import {
   DESCRIPTION_TOO_LONG,
   DESCRIPTION_TOO_SHORT,
   INVALID_DESCRIPTION_DETECTED, INVALID_GOOGLE_DRIVE_LINK,
 } from '../../../messages/constants/messages.constants';
+import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 
 const MIN_LENGTH_DESCRIPTION = 3;
 const MAX_LENGTH_DESCRIPTION = 100;

@@ -67,8 +67,8 @@ describe('ImageValidator', () => {
             } as any,
           ];
           const validationResult = imageValidator.getImageValidationResult(images);
-          expect(validationResult.invalidImagesMap.get(1).reason).toBe('Файл должен быть более 0.10 Мб и не более 10.00 Мб. Текущий размер файла: 100.00 Мб.')
-        })
+          expect(validationResult.invalidImagesMap.get(1).reason).toBe('Файл должен быть более 0.10 Мб и не более 10.00 Мб. Текущий размер файла: 100.00 Мб.');
+        });
       it('should return invalid extension message',  () => {
         const images: Image[] = [
           {

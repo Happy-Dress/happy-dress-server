@@ -1,6 +1,6 @@
 import { IsOptional, IsString, Matches } from 'class-validator';
 import { INVALID_COLOR_DETECTED } from '../../../messages/constants/messages.constants';
-import { SimpleListSetting } from '../../util/model/dto/SimpleListSetting';
+import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 
 export class ColorDto extends SimpleListSetting {
 

@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { ImageValidator } from '../../../../app/service/image/validator/image.validator';
 import { IGoogleDriveClient } from '../../../../app/client/google-drive/google-drive.client.abstraction';
 import { ImageService } from '../../../../app/service/image/impl/image.service';
-import { ImageUrlConverter } from "../../../../app/service/image/util/imageUrl.converter";
+import { ImageUrlConverter } from '../../../../app/service/image/util/imageUrl.converter';
 
 describe('ImageService', () => {
   let imageService: ImageService;
@@ -24,7 +24,7 @@ describe('ImageService', () => {
             provide: ImageUrlConverter,
             useValue: {
               convertToBaseUrl: jest.fn(),
-            }
+            },
           },
           {
             provide: IGoogleDriveClient,

@@ -1,6 +1,6 @@
-import { SimpleListSetting } from '../model/dto/SimpleListSetting';
 import { SimpleListSettingEntity } from '../../../repository/settings/simpleListSetting.entity';
 import { MultiConverter } from './multi.converter';
+import { SimpleListSetting } from '../model/dto/simple.list.setting';
 
 export class SimpleListSettingConverter extends MultiConverter<SimpleListSettingEntity, SimpleListSetting> {
 

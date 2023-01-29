@@ -41,7 +41,6 @@ export class SettingsService implements ISettingsService, OnModuleInit {
         [SettingType.COLORS, this.colorsCrudService],
         [SettingType.MODELS, this.modelsCrudService],
         [SettingType.CATEGORIES, this.categoriesCrudService],
-
       ]);
     }
 

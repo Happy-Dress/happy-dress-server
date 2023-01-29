@@ -3,7 +3,7 @@ import { ModelDto } from '../../app/service/settings/model/model.dto';
 import { MaterialDto } from '../../app/service/settings/model/material.dto';
 import { ColorDto } from '../../app/service/settings/model/color.dto';
 import { GlobalDressOptionsDto } from '../../app/service/settings/model/global-dress-options.dto';
-import { SimpleListSetting } from '../../app/service/util/model/dto/SimpleListSetting';
+import { SimpleListSetting } from '../../app/service/util/model/dto/simple.list.setting';
 
 export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
   return {
