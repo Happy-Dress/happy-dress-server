@@ -12,15 +12,20 @@ import { UserEntity } from '../repository/user/entity/user.entity';
 import { ISettingsService } from './settings/settings.service.abstraction';
 import { SettingsService } from './settings/impl/settings.service';
 import { CategoryEntity } from '../repository/settings/category/entity/category.entity';
-import { SimpleListSettingConverter } from './settings/util/simpleListSetting.converter';
+import { SimpleListSettingConverter } from './util/converter/simple.list.setting.converter';
 import { ModelEntity } from '../repository/settings/model/entity/model.entity';
-import { CategoryConverter } from './settings/util/category.converter';
-import { ColorConverter } from './settings/util/color.converter';
+import { CategoryConverter } from './settings/util/converters/category.converter';
+import { ColorConverter } from './settings/util/converters/color.converter';
 import { MaterialEntity } from '../repository/settings/material/entity/material.entity';
 import { ColorEntity } from '../repository/settings/color/entity/color.entity';
 import { ImageUrlConverter } from './image/util/imageUrl.converter';
+import { MaterialsCrudService } from './settings/crud/materials.crud.service';
+import { ColorsCrudService } from './settings/crud/colors.crud.service';
+import { ModelsCrudService } from './settings/crud/models.crud.service';
+import { CategoriesCrudService } from './settings/crud/categories.crud.service';
 
 @Module({
+  // Delegates
   providers: [
     {
       provide: IImageService,
@@ -38,11 +43,22 @@ import { ImageUrlConverter } from './image/util/imageUrl.converter';
       provide: ISettingsService,
       useClass: SettingsService,
     },
+
+    // Validators
     ImageValidator,
+
+
+    // Converters
     ImageUrlConverter,
     SimpleListSettingConverter,
     CategoryConverter,
     ColorConverter,
+
+    // Crud services
+    MaterialsCrudService,
+    ColorsCrudService,
+    ModelsCrudService,
+    CategoriesCrudService,
   ],
   imports: [
     ClientModule,
