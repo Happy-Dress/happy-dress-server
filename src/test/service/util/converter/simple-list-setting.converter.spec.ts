@@ -1,8 +1,8 @@
 import { SimpleListSettingConverter } from '../../../../app/service/util/converter/simple.list.setting.converter';
 import { SimpleListSettingEntity } from '../../../../app/repository/settings/simpleListSetting.entity';
-import { SimpleListSetting } from '../../../../app/service/util/model/dto/SimpleListSetting';
 import { generateSimpleListEntity } from '../../../test-utils/mock-entity-generators';
 import { generateSimpleListSetting } from '../../../test-utils/mock-dto-generators';
+import { SimpleListSetting } from '../../../../app/service/util/model/dto/simple.list.setting';
 
 describe('SimpleListSettingConverter', () => {
 
