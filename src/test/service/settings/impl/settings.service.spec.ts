@@ -5,12 +5,6 @@ import { CategoriesCrudService } from "../../../../app/service/settings/crud/cat
 import { ModelsCrudService } from "../../../../app/service/settings/crud/models.crud.service";
 import { ColorsCrudService } from "../../../../app/service/settings/crud/colors.crud.service";
 import { CategoryDto } from "../../../../app/service/settings/model/category.dto";
-import {
-    generateCategoryDto,
-    generateColorDto, generateGlobalDressOptionsDto,
-    generateMaterialDto,
-    generateModelDto
-} from "../../../test-utils/mock-generator";
 import { ModelDto } from "../../../../app/service/settings/model/model.dto";
 import { MaterialDto } from "../../../../app/service/settings/model/material.dto";
 import { ColorDto } from "../../../../app/service/settings/model/color.dto";
@@ -21,6 +15,12 @@ import { CategoryEntity } from "../../../../app/repository/settings/category/ent
 import { ModelEntity } from "../../../../app/repository/settings/model/entity/model.entity";
 import { MaterialEntity } from "../../../../app/repository/settings/material/entity/material.entity";
 import { ColorEntity } from "../../../../app/repository/settings/color/entity/color.entity";
+import {
+    generateCategoryDto,
+    generateColorDto, generateGlobalDressOptionsDto,
+    generateMaterialDto,
+    generateModelDto
+} from "../../../test-utils/mock-dto-generators";
 
 jest.mock('typeorm-transactional', () => ({
     Transactional: () => () => ({}),
