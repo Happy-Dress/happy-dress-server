@@ -23,6 +23,11 @@ import { MaterialsCrudService } from './settings/crud/materials.crud.service';
 import { ColorsCrudService } from './settings/crud/colors.crud.service';
 import { ModelsCrudService } from './settings/crud/models.crud.service';
 import { CategoriesCrudService } from './settings/crud/categories.crud.service';
+import { IGoodsService } from './goods/goods.service.abstraction';
+import { GoodsService } from './goods/impl/goods.service';
+import { GoodConverter } from './goods/util/converters/good.converter.service';
+import { GoodsCrudService } from './goods/crud/goods.crud.service';
+import { GoodEntity } from '../repository/goods/entity/good.entity';
 
 @Module({
   // Delegates
@@ -43,6 +48,10 @@ import { CategoriesCrudService } from './settings/crud/categories.crud.service';
       provide: ISettingsService,
       useClass: SettingsService,
     },
+    {
+      provide: IGoodsService,
+      useClass: GoodsService,
+    },
 
     // Validators
     ImageValidator,
@@ -53,17 +62,19 @@ import { CategoriesCrudService } from './settings/crud/categories.crud.service';
     SimpleListSettingConverter,
     CategoryConverter,
     ColorConverter,
+    GoodConverter,
 
     // Crud services
     MaterialsCrudService,
     ColorsCrudService,
     ModelsCrudService,
     CategoriesCrudService,
+    GoodsCrudService,
   ],
   imports: [
     ClientModule,
-        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity]),
+        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity, GoodEntity]),
   ],
-  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService],
+  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService, IGoodsService],
 })
 export class ServiceModule {}
