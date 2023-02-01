@@ -4,17 +4,18 @@ import { SimpleListSetting } from '../model/dto/simple.list.setting';
 
 export class SimpleListSettingConverter extends MultiConverter<SimpleListSettingEntity, SimpleListSetting> {
 
-  convertToDTOs(entities: SimpleListSettingEntity[]): SimpleListSetting[] {
-    return entities.map(value => ({
-      id: value.id,
-      name: value.name,
-    }));
+  public convertToDTO(entity: SimpleListSettingEntity): Promise<SimpleListSetting> {
+    return  Promise.resolve({
+      id: entity.id,
+      name: entity.name,
+    });
   }
 
-  convertToEntities(dtos: SimpleListSetting[]): SimpleListSettingEntity[] {
-    return dtos.map(value => ({
-      id: value.id,
-      name: value.name,
-    }));
+  public convertToEntity(dto: SimpleListSetting): SimpleListSettingEntity {
+    console.log('ee');
+    return {
+      id: dto.id,
+      name: dto.name,
+    };
   }
 }

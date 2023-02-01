@@ -23,11 +23,11 @@ import { MaterialsCrudService } from './settings/crud/materials.crud.service';
 import { ColorsCrudService } from './settings/crud/colors.crud.service';
 import { ModelsCrudService } from './settings/crud/models.crud.service';
 import { CategoriesCrudService } from './settings/crud/categories.crud.service';
-import { IGoodsService } from './goods/goods.service.abstraction';
-import { GoodsService } from './goods/impl/goods.service';
-import { GoodConverter } from './goods/util/converters/good.converter.service';
-import { GoodsCrudService } from './goods/crud/goods.crud.service';
-import { GoodEntity } from '../repository/goods/entity/good.entity';
+import { IProductsService } from './products/products.service.abstraction';
+import { ProductsService } from './products/impl/products.service';
+import { ProductConverter } from './products/util/converters/product.converter.service';
+import { ProductsCrudService } from './products/crud/products.crud.service';
+import { ProductEntity } from '../repository/product/entity/product.entity';
 
 @Module({
   // Delegates
@@ -49,8 +49,8 @@ import { GoodEntity } from '../repository/goods/entity/good.entity';
       useClass: SettingsService,
     },
     {
-      provide: IGoodsService,
-      useClass: GoodsService,
+      provide: IProductsService,
+      useClass: ProductsService,
     },
 
     // Validators
@@ -62,19 +62,19 @@ import { GoodEntity } from '../repository/goods/entity/good.entity';
     SimpleListSettingConverter,
     CategoryConverter,
     ColorConverter,
-    GoodConverter,
+    ProductConverter,
 
     // Crud services
     MaterialsCrudService,
     ColorsCrudService,
     ModelsCrudService,
     CategoriesCrudService,
-    GoodsCrudService,
+    ProductsCrudService,
   ],
   imports: [
     ClientModule,
-        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity, GoodEntity]),
+        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity, ProductEntity]),
   ],
-  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService, IGoodsService],
+  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService, IProductsService],
 })
 export class ServiceModule {}

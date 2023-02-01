@@ -1,6 +1,6 @@
 import { IdentifiedEntity } from '../model/entity/identified.entity';
 import { IdentifiedModel } from '../model/dto/identified.model';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { MultiConverter } from '../converter/multi.converter';
 import { Injectable } from '@nestjs/common';
 import { EntitiesNotFoundByIdsException } from '../../settings/exception/entities-not-found-by-ids.exception';
@@ -8,9 +8,9 @@ import { EntitiesNotFoundByIdsException } from '../../settings/exception/entitie
 @Injectable()
 export class CrudService<Entity extends IdentifiedEntity, DTO extends IdentifiedModel> {
 
-    private readonly converter: MultiConverter<Entity, DTO>;
+    protected readonly converter: MultiConverter<Entity, DTO>;
 
-    private readonly repository: Repository<Entity>;
+    protected readonly repository: Repository<Entity>;
 
     constructor(repository: Repository<Entity>, converter: MultiConverter<Entity, DTO>) {
       this.repository = repository;
@@ -26,7 +26,6 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
       const existingEntitiesIds = existingEntities.map((entity)=> entity.id );
       const entitiesToUpdateIds = entitiesToInsert.map((entity)=> entity.id ).filter(id => !!id);
         this.checkIfPossibleToUpdateByIds(existingEntitiesIds, entitiesToUpdateIds);
-
         const idsToDelete = existingEntitiesIds.filter(id => !entitiesToUpdateIds.includes(id));
         if (idsToDelete.length) {
           await this.repository.delete(idsToDelete);
@@ -37,6 +36,11 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
     public async getAll(): Promise<DTO[]> {
       const entities = await this.repository.find();
       return  this.converter.convertToDTOs(entities);
+    }
+
+    public async getById(id: number): Promise<DTO> {
+      const entity = await this.repository.findOne({ where: { id: id } as FindOptionsWhere<Entity> });
+      return this.converter.convertToDTO(entity);
     }
 
     private checkIfPossibleToUpdateByIds(existingEntitiesIds: number[], entitiesToUpdateIds: number[]): void {

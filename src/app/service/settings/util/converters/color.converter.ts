@@ -4,22 +4,22 @@ import { ColorDto } from '../../model/color.dto';
 
 export class ColorConverter extends MultiConverter<ColorEntity, ColorDto> {
 
-  public convertToDTOs(entities: ColorEntity[]): ColorDto[] {
-    return entities.map(value => ({
-      id: value.id,
-      name: value.name,
-      firstColor: value.firstColor,
-      secondColor: value.secondColor,
-    }));
+  convertToDTO(entity: ColorEntity): Promise<ColorDto> {
+    return Promise.resolve( {
+      id: entity.id,
+      name: entity.name,
+      firstColor: entity.firstColor,
+      secondColor: entity.secondColor,
+    });
   }
 
-  public convertToEntities(DTOs: ColorDto[]): ColorEntity[] {
-    return DTOs.map(value => ({
-      id: value.id,
-      name: value.name,
-      firstColor: value.firstColor,
-      secondColor: value.secondColor,
-    }));
+  convertToEntity(dto: ColorDto): ColorEntity {
+    return {
+      id: dto.id,
+      name: dto.name,
+      firstColor: dto.firstColor,
+      secondColor: dto.secondColor,
+    };
   }
 
 }
