@@ -27,17 +27,7 @@ export class ProductEntity extends IdentifiedEntity {
     @Column()
     modelId: number;
 
-    @ManyToMany(() => MaterialEntity, { cascade: true })
-    @JoinTable({
-      name: 'product_material',
-      joinColumn: {
-        name: 'productId',
-        referencedColumnName: 'id',
-      },
-      inverseJoinColumn: {
-        name: 'materialId',
-        referencedColumnName: 'id',
-      },
-    })
+    @ManyToMany(() => MaterialEntity, (material) => material.id, { cascade: true })
+    @JoinTable({ name: 'product_material' })
     materials: Promise<MaterialEntity[]>;
 }
