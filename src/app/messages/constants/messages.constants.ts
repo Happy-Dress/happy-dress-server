@@ -32,3 +32,8 @@ export const UNABLE_TO_UPDATE_BY_IDS = 'невозможно обновить с
 
 export const INVALID_ID_TO_UPDATE = '$name не найдены по id: $ID';
 export const INVALID_GOOGLE_DRIVE_LINK = 'Неверная ссылка на фотографию в google-drive';
+
+//Products constants
+export const PRODUCT_NAME_TOO_SHORT = 'Имя товара должно содержать более 3 символов';
+export const PRODUCT_NAME_TOO_LONG = 'Имя товара должно содержать не более 30 символов';
+export const INVALID_TYPE_ID = 'ID должно быть числом';

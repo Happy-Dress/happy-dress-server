@@ -11,11 +11,10 @@ export class SimpleListSettingConverter extends MultiConverter<SimpleListSetting
     });
   }
 
-  public convertToEntity(dto: SimpleListSetting): SimpleListSettingEntity {
-    console.log('ee');
-    return {
+  public convertToEntity(dto: SimpleListSetting): Promise<SimpleListSettingEntity> {
+    return Promise.resolve({
       id: dto.id,
       name: dto.name,
-    };
+    });
   }
 }

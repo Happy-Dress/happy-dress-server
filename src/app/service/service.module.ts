@@ -62,7 +62,10 @@ import { ProductEntity } from '../repository/product/entity/product.entity';
     SimpleListSettingConverter,
     CategoryConverter,
     ColorConverter,
-    ProductConverter,
+    {
+      provide: ProductConverter,
+      useClass: ProductsService,
+    },
 
     // Crud services
     MaterialsCrudService,

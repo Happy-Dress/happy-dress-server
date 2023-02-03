@@ -8,13 +8,15 @@ export class ProductsService implements IProductsService {
   
   @Inject()
   private productsCrudService: ProductsCrudService;
+
+
   
   public async getProduct(id: number): Promise<ProductDto> {
     return await this.productsCrudService.getById(id);
   }
 
-  public async addProduct(product: ProductDto): Promise<void> {
-    await this.productsCrudService.updateProduct(product);
+  public async addProduct(product: ProductDto): Promise<ProductDto> {
+    return await this.productsCrudService.updateProduct(product);
   }
 
 }

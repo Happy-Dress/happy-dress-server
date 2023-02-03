@@ -16,7 +16,7 @@ export class ProductsController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    async addProduct(@Body() productDto: ProductDto): Promise<void> {
-      await this.goodsService.addProduct(productDto);
+    async addProduct(@Body() productDto: ProductDto): Promise<ProductDto> {
+      return await this.goodsService.addProduct(productDto);
     }
 }

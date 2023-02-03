@@ -13,13 +13,13 @@ export class ColorConverter extends MultiConverter<ColorEntity, ColorDto> {
     });
   }
 
-  convertToEntity(dto: ColorDto): ColorEntity {
-    return {
+  convertToEntity(dto: ColorDto): Promise<ColorEntity> {
+    return Promise.resolve({
       id: dto.id,
       name: dto.name,
       firstColor: dto.firstColor,
       secondColor: dto.secondColor,
-    };
+    });
   }
 
 }

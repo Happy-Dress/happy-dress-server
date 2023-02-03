@@ -4,6 +4,7 @@ import { ProductEntity } from '../../../../repository/product/entity/product.ent
 import { ProductDto } from '../../model/productDto';
 import { SimpleListSettingConverter } from '../../../util/converter/simple.list.setting.converter';
 import { CategoryConverter } from '../../../settings/util/converters/category.converter';
+import { MaterialEntity } from '../../../../repository/settings/material/entity/material.entity';
 
 @Injectable()
 export class ProductConverter extends MultiConverter<ProductEntity, ProductDto> {
@@ -12,10 +13,15 @@ export class ProductConverter extends MultiConverter<ProductEntity, ProductDto> 
 
   private categoryConverter: CategoryConverter;
 
-  constructor() {
+  private materialConverter: SimpleListSettingConverter;
+  private readonly existingMaterialEntities: Promise<MaterialEntity[]>;
+
+  constructor(existingMaterialEntities: Promise<MaterialEntity[]>) {
     super();
     this.modelConverter = new SimpleListSettingConverter();
     this.categoryConverter = new CategoryConverter();
+    this.materialConverter = new SimpleListSettingConverter();
+    this.existingMaterialEntities = existingMaterialEntities;
   }
 
   public async convertToDTO(entity: ProductEntity): Promise<ProductDto> {
@@ -23,6 +29,8 @@ export class ProductConverter extends MultiConverter<ProductEntity, ProductDto> 
     const categoryDto = await this.categoryConverter.convertToDTO(categoryEntity);
     const modelEntity = await entity.model;
     const modelDto = await this.modelConverter.convertToDTO(modelEntity);
+    const materialEntities = await entity.materials;
+    const materialDtos = await this.materialConverter.convertToDTOs(materialEntities);
     return {
       id: entity.id,
       name: entity.name,
@@ -30,10 +38,13 @@ export class ProductConverter extends MultiConverter<ProductEntity, ProductDto> 
       categoryId: entity.categoryId,
       model: modelDto,
       modelId: entity.modelId,
+      materials: materialDtos,
     };
   }
 
-  public convertToEntity(dto: ProductDto): ProductEntity {
+  public async convertToEntity(dto: ProductDto): Promise<ProductEntity> {
+    const entities = await this.existingMaterialEntities;
+    const materialEntities = dto.materials.map(material => entities.find((entity) => entity.id === material.id));
     return {
       id: dto.id,
       name: dto.name,
@@ -41,6 +52,7 @@ export class ProductConverter extends MultiConverter<ProductEntity, ProductDto> 
       categoryId: dto.categoryId,
       model: null,
       modelId: dto.modelId,
+      materials: Promise.resolve(materialEntities),
     };
   }
 

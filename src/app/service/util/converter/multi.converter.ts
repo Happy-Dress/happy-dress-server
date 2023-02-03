@@ -7,15 +7,15 @@ export abstract class MultiConverter<Entity extends IdentifiedEntity, DTO extend
     return Promise.all(entities.map(entity => this.convertToDTO(entity)));
   }
   
-  convertToEntities(dtos: DTO[]): Entity[] {
-    return dtos.map(dto => this.convertToEntity(dto));
+  convertToEntities(dtos: DTO[]): Promise<Entity[]> {
+    return Promise.all(dtos.map(dto => this.convertToEntity(dto)));
   }
 
   convertToDTO(entity: Entity): Promise<DTO> {
     throw new MethodNotAllowedException(entity);
   }
 
-  convertToEntity(dto: DTO): Entity {
+  convertToEntity(dto: DTO): Promise<Entity> {
     throw new MethodNotAllowedException(dto);
   }
 

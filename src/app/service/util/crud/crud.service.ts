@@ -21,7 +21,7 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
      * @throws {EntitiesNotFoundByIdsException}
      */
     public async update(dtos: DTO[]): Promise<void> {
-      const entitiesToInsert = this.converter.convertToEntities(dtos);
+      const entitiesToInsert = await this.converter.convertToEntities(dtos);
       const existingEntities = await this.repository.find();
       const existingEntitiesIds = existingEntities.map((entity)=> entity.id );
       const entitiesToUpdateIds = entitiesToInsert.map((entity)=> entity.id ).filter(id => !!id);

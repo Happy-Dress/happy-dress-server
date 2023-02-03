@@ -7,13 +7,13 @@ import { CategoryDto } from '../../model/category.dto';
 @Injectable()
 export class CategoryConverter extends MultiConverter<CategoryEntity, CategoryDto> {
 
-  public convertToEntity(dto: CategoryDto): CategoryEntity {
-    return {
+  public convertToEntity(dto: CategoryDto): Promise<CategoryEntity> {
+    return Promise.resolve({
       id: dto.id,
       name: dto.name,
       description: dto.description,
       imageUrl: dto.imageUrl,
-    };
+    });
   }
 
   public convertToDTO(entity: CategoryEntity): Promise<CategoryDto> {
