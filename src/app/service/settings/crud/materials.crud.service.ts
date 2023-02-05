@@ -3,13 +3,13 @@ import { MaterialEntity } from '../../../repository/settings/material/entity/mat
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
-import { MaterialConverter } from '../util/converters/material.converter';
+import { SimpleListSettingConverter } from '../../util/converter/simple.list.setting.converter';
 
 export class MaterialsCrudService extends CrudService<MaterialEntity, SimpleListSetting> {
 
   constructor(
     @InjectRepository(MaterialEntity) readonly materialsRepository: Repository<MaterialEntity>,
   ) {
-        super( materialsRepository, new MaterialConverter());
+        super( materialsRepository, new SimpleListSettingConverter());
   }
 }

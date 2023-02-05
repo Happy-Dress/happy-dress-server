@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { IdentifiedEntity } from '../../../service/util/model/entity/identified.entity';
 import { CategoryEntity } from '../../settings/category/entity/category.entity';
 import { ModelEntity } from '../../settings/model/entity/model.entity';
@@ -14,20 +14,18 @@ export class ProductEntity extends IdentifiedEntity {
     name: string;
 
     @ManyToOne(() => CategoryEntity)
-    @JoinColumn()
     category: Promise<CategoryEntity>;
 
     @Column()
     categoryId: number;
 
     @ManyToOne(() => ModelEntity)
-    @JoinColumn()
     model: Promise<ModelEntity>;
 
     @Column()
     modelId: number;
 
-    @ManyToMany(() => MaterialEntity, (material) => material.id, { cascade: true })
+    @ManyToMany(() => MaterialEntity, { eager: true })
     @JoinTable({ name: 'product_material' })
-    materials: Promise<MaterialEntity[]>;
+    materials: MaterialEntity[];
 }

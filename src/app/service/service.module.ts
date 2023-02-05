@@ -28,7 +28,6 @@ import { ProductsService } from './products/impl/products.service';
 import { ProductConverter } from './products/util/converters/product.converter.service';
 import { ProductsCrudService } from './products/crud/products.crud.service';
 import { ProductEntity } from '../repository/product/entity/product.entity';
-import { MaterialConverter } from './settings/util/converters/material.converter';
 
 @Module({
   // Delegates
@@ -63,7 +62,6 @@ import { MaterialConverter } from './settings/util/converters/material.converter
     SimpleListSettingConverter,
     CategoryConverter,
     ColorConverter,
-    MaterialConverter,
     {
       provide: ProductConverter,
       useClass: ProductsService,

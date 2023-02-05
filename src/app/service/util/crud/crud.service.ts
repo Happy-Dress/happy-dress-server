@@ -43,6 +43,16 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
       return this.converter.convertToDTO(entity);
     }
 
+    public async findAllByIds(ids: number[]): Promise<DTO[]> {
+      const entities = await this.repository.find();
+      const dtos = ids.map(id => entities.find(entity => entity.id === id));
+      return this.converter.convertToDTOs(dtos);
+    }
+    
+    public async deleteById(id: number): Promise<void> {
+      await this.repository.delete({ id: id } as FindOptionsWhere<Entity>);
+    }
+
     private checkIfPossibleToUpdateByIds(existingEntitiesIds: number[], entitiesToUpdateIds: number[]): void {
       if (existingEntitiesIds.length && entitiesToUpdateIds.length) {
         const invalidIds = entitiesToUpdateIds.filter(id => !existingEntitiesIds.includes(id));
