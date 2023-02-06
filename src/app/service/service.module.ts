@@ -25,8 +25,7 @@ import { ModelsCrudService } from './settings/crud/models.crud.service';
 import { CategoriesCrudService } from './settings/crud/categories.crud.service';
 import { IProductsService } from './products/products.service.abstraction';
 import { ProductsService } from './products/impl/products.service';
-import { ProductConverter } from './products/util/converters/product.converter.service';
-import { ProductsCrudService } from './products/crud/products.crud.service';
+import { ProductConverter } from './products/util/converters/product.converter';
 import { ProductEntity } from '../repository/product/entity/product.entity';
 
 @Module({
@@ -62,17 +61,13 @@ import { ProductEntity } from '../repository/product/entity/product.entity';
     SimpleListSettingConverter,
     CategoryConverter,
     ColorConverter,
-    {
-      provide: ProductConverter,
-      useClass: ProductsService,
-    },
+    ProductConverter,
 
     // Crud services
     MaterialsCrudService,
     ColorsCrudService,
     ModelsCrudService,
     CategoriesCrudService,
-    ProductsCrudService,
   ],
   imports: [
     ClientModule,

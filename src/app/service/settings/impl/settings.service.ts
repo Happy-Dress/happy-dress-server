@@ -82,4 +82,14 @@ export class SettingsService implements ISettingsService, OnModuleInit {
         throw error;
       }
     }
+
+    // TODO handle if nor found by ids
+    async getSettingEntitiesByIds<Entity extends IdentifiedEntity>(ids: number[], type: SettingType): Promise<Entity[]> {
+        return await this.crudServiceMap.get(type).getEntitiesByIds(ids) as Entity[];
+    }
+
+    // TODO handle if nor found by id
+    async getSettingEntityById<Entity extends IdentifiedEntity>(id: number, type: SettingType): Promise<Entity> {
+        return await this.crudServiceMap.get(type).getEntityById(id) as Entity;
+    }
 }

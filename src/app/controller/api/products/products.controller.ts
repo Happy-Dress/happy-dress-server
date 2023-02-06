@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Put, UseGuards } from '@nestjs/common';
-import { ProductDto } from '../../../service/products/model/productDto';
+import {Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards} from '@nestjs/common';
+import { ProductDto } from '../../../service/products/model/product.dto';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
 import { IProductsService } from '../../../service/products/products.service.abstraction';
-import { UpdateProductDto } from '../../../service/products/model/updateProductDto';
+import {ProductViewDto} from "../../../service/products/model/product.view.dto";
 
 
 @Controller('products')
@@ -12,14 +12,22 @@ export class ProductsController {
     private productService: IProductsService;
 
     @Get(':id')
-    async getProduct(@Param('id', new ParseIntPipe()) id: number): Promise<ProductDto> {
+    async getProduct(@Param('id', new ParseIntPipe()) id: number): Promise<ProductViewDto> {
       return this.productService.getProduct(id);
     }
 
     @UseGuards(JwtAuthGuard)
-    @Put()
-    async addProduct(@Body() productDto: UpdateProductDto): Promise<ProductDto> {
-      return await this.productService.addProduct(productDto);
+    @Post('/create')
+    async addProduct(@Body() productDto: ProductDto): Promise<ProductViewDto> {
+      return await this.productService.createProduct(productDto);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put('/update/:id')
+    async updateProduct(
+        @Param('id', new ParseIntPipe()) id: number,
+        @Body() productDto: ProductDto): Promise<ProductViewDto> {
+        return await this.productService.updateProduct(id, productDto);
     }
 
     @UseGuards(JwtAuthGuard)

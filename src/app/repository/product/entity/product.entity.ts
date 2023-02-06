@@ -13,17 +13,14 @@ export class ProductEntity extends IdentifiedEntity {
     @Column()
     name: string;
 
-    @ManyToOne(() => CategoryEntity)
-    category: Promise<CategoryEntity>;
-
     @Column()
-    categoryId: number;
+    description: string;
 
-    @ManyToOne(() => ModelEntity)
-    model: Promise<ModelEntity>;
+    @ManyToOne(() => CategoryEntity, { eager: true })
+    category: CategoryEntity;
 
-    @Column()
-    modelId: number;
+    @ManyToOne(() => ModelEntity, { eager: true })
+    model: ModelEntity;
 
     @ManyToMany(() => MaterialEntity, { eager: true })
     @JoinTable({ name: 'product_material' })
