@@ -16,6 +16,8 @@ import { ColorDto } from '../model/color.dto';
 import { ModelDto } from '../model/model.dto';
 import { MaterialDto } from '../model/material.dto';
 import { CategoryDto } from '../model/category.dto';
+import { SizesCrudService } from '../crud/sizes.crud.service';
+import { SizeDto } from '../model/size.dto';
 
 @Injectable()
 export class SettingsService implements ISettingsService, OnModuleInit {
@@ -33,6 +35,9 @@ export class SettingsService implements ISettingsService, OnModuleInit {
 
     @Inject()
     private colorsCrudService: ColorsCrudService;
+    
+    @Inject()
+    private sizesCrudService: SizesCrudService;
 
 
     onModuleInit(): void {
@@ -49,11 +54,13 @@ export class SettingsService implements ISettingsService, OnModuleInit {
       const modelDTOs = await this.modelsCrudService.getAll();
       const materialDTOs = await this.materialsCrudService.getAll();
       const colorDTOs = await this.colorsCrudService.getAll();
+      const sizeDTOs = await this.sizesCrudService.getAll();
       return {
         categories: categoryDTOs,
         models: modelDTOs,
         materials: materialDTOs,
         colors: colorDTOs,
+        sizes: sizeDTOs,
       };
     }
 
@@ -63,12 +70,14 @@ export class SettingsService implements ISettingsService, OnModuleInit {
         categories: categoriesToUpdate,
         models: modelsToUpdate,
         materials: materialsToUpdate,
-        colors: colorsToUpdate,
+        colors: colorsToUpdate, 
+        sizes: sizesToUpdate,
       } = globalDressOptionsDTO;
       await this.updateSetting<ColorDto>(SettingType.COLORS, colorsToUpdate);
       await this.updateSetting<ModelDto>(SettingType.MODELS, modelsToUpdate);
       await this.updateSetting<MaterialDto>(SettingType.MATERIALS, materialsToUpdate);
       await this.updateSetting<CategoryDto>(SettingType.CATEGORIES, categoriesToUpdate);
+      await this.updateSetting<SizeDto>(SettingType.SIZES, sizesToUpdate);
       return this.getGlobalDressOptions();
     }
 
@@ -85,11 +94,11 @@ export class SettingsService implements ISettingsService, OnModuleInit {
 
     // TODO handle if nor found by ids
     async getSettingEntitiesByIds<Entity extends IdentifiedEntity>(ids: number[], type: SettingType): Promise<Entity[]> {
-        return await this.crudServiceMap.get(type).getEntitiesByIds(ids) as Entity[];
+      return await this.crudServiceMap.get(type).getEntitiesByIds(ids) as Entity[];
     }
 
     // TODO handle if nor found by id
     async getSettingEntityById<Entity extends IdentifiedEntity>(id: number, type: SettingType): Promise<Entity> {
-        return await this.crudServiceMap.get(type).getEntityById(id) as Entity;
+      return await this.crudServiceMap.get(type).getEntityById(id) as Entity;
     }
 }

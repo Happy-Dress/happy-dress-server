@@ -4,6 +4,7 @@ import { MaterialDto } from '../../app/service/settings/model/material.dto';
 import { ColorDto } from '../../app/service/settings/model/color.dto';
 import { GlobalDressOptionsDto } from '../../app/service/settings/model/global-dress-options.dto';
 import { SimpleListSetting } from '../../app/service/util/model/dto/simple.list.setting';
+import { SizeDto } from '../../app/service/settings/model/size.dto';
 
 export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
   return {
@@ -11,6 +12,7 @@ export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
     colors: [generateColorDto()],
     materials: [generateMaterialDto()],
     models: [generateModelDto()],
+    sizes: [generateSizeDto()],
   };
 }
 
@@ -45,6 +47,14 @@ export function generateColorDto(): ColorDto {
     secondColor: '#FFFFFF',
   };
 }
+
+export function generateSizeDto(): SizeDto {
+  return {
+    id: 0,
+    sizeValue: 42,
+  };
+}
+
 
 export function generateSimpleListSetting(): SimpleListSetting {
   return {

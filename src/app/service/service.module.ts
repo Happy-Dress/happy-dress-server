@@ -27,6 +27,9 @@ import { IProductsService } from './products/products.service.abstraction';
 import { ProductsService } from './products/impl/products.service';
 import { ProductConverter } from './products/util/converters/product.converter';
 import { ProductEntity } from '../repository/product/entity/product.entity';
+import { SizesCrudService } from './settings/crud/sizes.crud.service';
+import { SizeConverter } from './settings/util/converters/size.converter';
+import { SizeEntity } from '../repository/settings/size/enitity/size.entity';
 
 @Module({
   // Delegates
@@ -62,16 +65,19 @@ import { ProductEntity } from '../repository/product/entity/product.entity';
     CategoryConverter,
     ColorConverter,
     ProductConverter,
+    SizeConverter,
 
     // Crud services
     MaterialsCrudService,
     ColorsCrudService,
     ModelsCrudService,
     CategoriesCrudService,
+    SizesCrudService,
   ],
   imports: [
     ClientModule,
-        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity, ProductEntity]),
+        TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity,
+          SizeEntity, ProductEntity]),
   ],
   exports: [IImageService, IUserService, IAuthenticationService, ISettingsService, IProductsService],
 })

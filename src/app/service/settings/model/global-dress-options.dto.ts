@@ -4,6 +4,7 @@ import { ColorDto } from './color.dto';
 import { ModelDto } from './model.dto';
 import { MaterialDto } from './material.dto';
 import { CategoryDto } from './category.dto';
+import { SizeDto } from './size.dto';
 
 export class GlobalDressOptionsDto {
     @ValidateNested({ each: true })
@@ -26,4 +27,8 @@ export class GlobalDressOptionsDto {
     @IsNotEmpty({ message: 'Цвета являются обязательным полем' })
     colors: ColorDto[];
 
+    @ValidateNested({ each: true })
+    @Type(() => SizeDto)
+    @IsNotEmpty({ message: 'Размеры являются обязательным полем' })
+    sizes: SizeDto[];
 }

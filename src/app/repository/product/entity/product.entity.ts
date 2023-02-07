@@ -16,13 +16,13 @@ export class ProductEntity extends IdentifiedEntity {
     @Column()
     description: string;
 
-    @ManyToOne(() => CategoryEntity, { eager: true })
+    @ManyToOne(() => CategoryEntity, { eager: true, onDelete: 'SET NULL' })
     category: CategoryEntity;
 
-    @ManyToOne(() => ModelEntity, { eager: true })
+    @ManyToOne(() => ModelEntity, { eager: true, onDelete: 'SET NULL' })
     model: ModelEntity;
 
-    @ManyToMany(() => MaterialEntity, { eager: true })
+    @ManyToMany(() => MaterialEntity, { eager: true, onDelete: 'CASCADE' })
     @JoinTable({ name: 'product_material' })
     materials: MaterialEntity[];
 }
