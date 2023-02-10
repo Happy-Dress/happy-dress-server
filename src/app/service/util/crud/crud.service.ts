@@ -1,6 +1,6 @@
 import { IdentifiedEntity } from '../model/entity/identified.entity';
 import { IdentifiedModel } from '../model/dto/identified.model';
-import {FindOptionsWhere, In, Repository} from 'typeorm';
+import { FindOptionsWhere, In, Repository } from 'typeorm';
 import { MultiConverter } from '../converter/multi.converter';
 import { Injectable } from '@nestjs/common';
 import { EntitiesNotFoundByIdsException } from '../../settings/exception/entities-not-found-by-ids.exception';
@@ -45,11 +45,11 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
 
 
     public async getEntitiesByIds(ids: number[]): Promise<Entity[]> {
-        return await this.repository.findBy({id: In(ids)} as FindOptionsWhere<Entity>)
+      return await this.repository.findBy({ id: In(ids) } as FindOptionsWhere<Entity>);
     }
 
     public async getEntityById(id: number): Promise<Entity> {
-        return await this.repository.findOne({ where: { id: id } as FindOptionsWhere<Entity> });
+      return await this.repository.findOne({ where: { id: id } as FindOptionsWhere<Entity> });
     }
 
     private checkIfPossibleToUpdateByIds(existingEntitiesIds: number[], entitiesToUpdateIds: number[]): void {

@@ -4,6 +4,8 @@ import { CategoryConverter } from '../../../settings/util/converters/category.co
 import { SimpleListSettingConverter } from '../../../util/converter/simple.list.setting.converter';
 import { ProductDto } from '../../model/product.dto';
 import { ProductEntity } from '../../../../repository/product/entity/product.entity';
+import { ProductColorSizeEntity } from '../../../../repository/product-color-size/entity/product-color-size.entity';
+import { ProductColorSizeViewDto } from '../../model/product-color-size.view.dto';
 
 
 @Injectable()
@@ -23,6 +25,8 @@ export class ProductConverter  {
     const modelDto = modelEntity === null ? null : await this.simpleListSettingConverter.convertToDTO(modelEntity);
     const materialEntities = productEntity.materials;
     const materialDtos = materialEntities === null ? null : await this.simpleListSettingConverter.convertToDTOs(materialEntities);
+    const productColorSizeEntities = productEntity.productColorSize;
+    const productColoSizeDtos = productColorSizeEntities === null ? null : this.convertToProductColorSizeViewDtos(productColorSizeEntities);
     return {
       id: productEntity.id,
       name: productEntity.name,
@@ -30,7 +34,19 @@ export class ProductConverter  {
       category: categoryDto,
       model: modelDto,
       materials: materialDtos,
+      productColorSize: productColoSizeDtos,
     };
+  }
+
+  convertToProductColorSizeViewDtos(productColorSizes: ProductColorSizeEntity[]): ProductColorSizeViewDto[] {
+    return productColorSizes.map(productColorSize => {
+      return {
+        id: productColorSize.id,
+        color: productColorSize.color,
+        size: productColorSize.size,
+        isAvailable: productColorSize.isAvailable,
+      };
+    });
   }
 
   convertToPartialEntity(productDto: ProductDto): Partial<ProductEntity> {
