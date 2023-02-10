@@ -1,7 +1,5 @@
-import { IdentifiedModel } from '../../util/model/dto/identified.model';
 
-export class ProductColorSizeDto implements IdentifiedModel {
-    id?: number;
+export class ProductColorSizeDto {
     colorId: number;
 
     sizeId: number;

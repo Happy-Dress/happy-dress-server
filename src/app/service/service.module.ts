@@ -30,7 +30,7 @@ import { ProductEntity } from '../repository/product/entity/product.entity';
 import { SizesCrudService } from './settings/crud/sizes.crud.service';
 import { SizeConverter } from './settings/util/converters/size.converter';
 import { SizeEntity } from '../repository/settings/size/enitity/size.entity';
-import { ProductColorSizeEntity } from '../repository/product-color-size/entity/product-color-size.entity';
+import { ProductColorSizeEntity } from '../repository/product/product-color-size/entity/product-color-size.entity';
 
 @Module({
   // Delegates
