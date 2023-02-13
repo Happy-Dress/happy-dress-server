@@ -16,6 +16,10 @@ import { ColorEntity } from '../../../repository/settings/color/entity/color.ent
 import { ProductColorSizeDto } from '../model/product-color-size.dto';
 import { SizeEntity } from '../../../repository/settings/size/enitity/size.entity';
 import { EntityNotFoundByIdException } from '../exception/entity-not-found-by-id.exception';
+import {
+  ProductColorImageEntity,
+} from '../../../repository/product/product-color-image/entity/product-color-image.entity';
+import { ProductColorImageDto } from '../model/product-color-image.dto';
 
 
 @Injectable()
@@ -26,6 +30,9 @@ export class ProductsService implements IProductsService {
 
   @InjectRepository(ProductColorSizeEntity)
   readonly productColorSizesRepository: Repository<ProductColorSizeEntity>;
+  
+  @InjectRepository(ProductColorImageEntity)
+  readonly productColorImagesRepository: Repository<ProductColorImageEntity>;
 
   @Inject()
   readonly productConverter: ProductConverter;
@@ -35,13 +42,16 @@ export class ProductsService implements IProductsService {
 
 
   async createProduct(product: ProductDto): Promise<ProductViewDto> {
-    const partialProductEntity = await this.getPartialEntity(product);
-    const savedProductEntity = await this.productsRepository.save(partialProductEntity);
+    const productEntity = await this.getProductEntity(product);
+    const savedProductEntity = await this.productsRepository.save(productEntity);
 
     const productColorSizeEntities = await this.getProductColorSizes(product.productColorSizes, savedProductEntity);
     const savedProductColorSizeEntities = await this.productColorSizesRepository.save(productColorSizeEntities);
+    
+    const productColorImageEntities = await this.getProductColorImages(product.productColorImages, savedProductEntity);
+    const savedProductColorImageEntities = await this.productColorImagesRepository.save(productColorImageEntities);
 
-    return this.productConverter.convertToViewDto(savedProductEntity, savedProductColorSizeEntities);
+    return this.productConverter.convertToViewDto(savedProductEntity, savedProductColorSizeEntities, savedProductColorImageEntities);
   }
 
   async deleteProduct(id: number): Promise<void> {
@@ -59,14 +69,20 @@ export class ProductsService implements IProductsService {
     if (productEntity === null) {
       throw new EntityNotFoundByIdException(id);
     }
+
     const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
       id: id,
     } } as FindOptionsWhere<ProductColorSizeEntity>);
-    return this.productConverter.convertToViewDto(productEntity, productColorSizeEntities);
+    
+    const productColorImageEntities = await this.productColorImagesRepository.findBy({ product: {
+      id: id,
+    } } as FindOptionsWhere<ProductColorSizeEntity>);
+
+    return this.productConverter.convertToViewDto(productEntity, productColorSizeEntities, productColorImageEntities);
   }
 
   async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
-    const partialProductEntity = await this.getPartialEntity(product);
+    const partialProductEntity = await this.getProductEntity(product);
     if (await this.findProductById(id) === null) {
       throw new EntityNotFoundByIdException(id);
     }
@@ -79,10 +95,15 @@ export class ProductsService implements IProductsService {
     const productColorSizeEntities = await this.getProductColorSizes(product.productColorSizes, savedProductEntity);
     const savedProductColorSizeEntities = await this.productColorSizesRepository.save(productColorSizeEntities);
 
-    return this.productConverter.convertToViewDto(savedProductEntity, savedProductColorSizeEntities);
+    await this.productColorImagesRepository.delete({ product: savedProductEntity } as FindOptionsWhere<ProductColorImageEntity>);
+    const productColorImageEntities = await this.getProductColorImages(product.productColorImages, savedProductEntity);
+    const savedProductColorImageEntities = await this.productColorImagesRepository.save(productColorImageEntities);
+
+    return this.productConverter.convertToViewDto(savedProductEntity, savedProductColorSizeEntities, savedProductColorImageEntities);
   }
 
-  private async getProductColorSizes(productColorSizes: ProductColorSizeDto[], productEntity: ProductEntity): Promise<ProductColorSizeEntity[]> {
+  private async getProductColorSizes(productColorSizes: ProductColorSizeDto[],
+    productEntity: ProductEntity): Promise<ProductColorSizeEntity[]> {
     const colorIds = new Set(productColorSizes.map(productColorSize => productColorSize.colorId));
     const sizeIds = new Set(productColorSizes.map(productColorSize => productColorSize.sizeId));
 
@@ -100,18 +121,35 @@ export class ProductsService implements IProductsService {
       };
     });
   }
+  
+  private async getProductColorImages(productColorImages: ProductColorImageDto[],
+    productEntity: ProductEntity): Promise<ProductColorImageEntity[]> {
+    const colorIds = new Set(productColorImages.map(productColorImage => productColorImage.colorId));
+    const colorEntities = await this.settingsService.getSettingEntitiesByIds<ColorEntity>(Array.from(colorIds), SettingType.COLORS);
+    const colorsMap = new Map<number, ColorEntity>(colorEntities.map(colorEntity => [colorEntity.id, colorEntity]));
+    return productColorImages.map(productColorImage => {
+      return {
+        id: null,
+        product: productEntity,
+        color: colorsMap.get(productColorImage.colorId),
+        imageUrl: productColorImage.imageURLs,
+      };
+    });
+  }
 
-  private async getPartialEntity(product: ProductDto): Promise<ProductEntity> {
+  private async getProductEntity(product: ProductDto): Promise<ProductEntity> {
     const categoryEntity = await this.settingsService.getSettingEntityById<CategoryEntity>(product.categoryId, SettingType.CATEGORIES);
     const modelEntity = await this.settingsService.getSettingEntityById<ModelEntity>(product.modelId, SettingType.MODELS);
     const materialEntities = await this.settingsService.getSettingEntitiesByIds<MaterialEntity>(product.materialIds, SettingType.MATERIALS);
     const partialEntity = this.productConverter.convertToPartialEntity(product);
-
-    partialEntity.category = categoryEntity;
-    partialEntity.model = modelEntity;
-    partialEntity.materials = materialEntities;
-
-    return partialEntity as ProductEntity;
+    return {
+      id: product.id,
+      name: partialEntity.name,
+      description: partialEntity.description,
+      category: categoryEntity,
+      model: modelEntity,
+      materials: materialEntities,
+    };
   }
 
   private async findProductById(id: number): Promise<ProductEntity> {

@@ -6,6 +6,10 @@ import { ProductDto } from '../../model/product.dto';
 import { ProductEntity } from '../../../../repository/product/entity/product.entity';
 import { ProductColorSizeEntity } from '../../../../repository/product/product-color-size/entity/product-color-size.entity';
 import { ProductColorSizeViewDto } from '../../model/product-color-size.view.dto';
+import {
+  ProductColorImageEntity,
+} from '../../../../repository/product/product-color-image/entity/product-color-image.entity';
+import { ProductColorImageViewDto } from '../../model/product-color-image.view.dto';
 
 
 @Injectable()
@@ -18,14 +22,19 @@ export class ProductConverter  {
   readonly simpleListSettingConverter: SimpleListSettingConverter;
 
 
-  async convertToViewDto(productEntity: ProductEntity, productColorSizeEntities: ProductColorSizeEntity[]): Promise<ProductViewDto> {
+  async convertToViewDto(productEntity: ProductEntity, productColorSizeEntities: ProductColorSizeEntity[], 
+    productColorImageEntities: ProductColorImageEntity[]): Promise<ProductViewDto> {
     const categoryEntity = await productEntity.category;
     const categoryDto = categoryEntity === null ? null : await this.categoryConverter.convertToDTO(categoryEntity);
+
     const modelEntity = await productEntity.model;
     const modelDto = modelEntity === null ? null : await this.simpleListSettingConverter.convertToDTO(modelEntity);
+
     const materialEntities = productEntity.materials;
     const materialDtos = materialEntities === null ? null : await this.simpleListSettingConverter.convertToDTOs(materialEntities);
-    const productColoSizeDtos = productColorSizeEntities === null ? null : this.convertToProductColorSizeViewDtos(productColorSizeEntities);
+
+    const productColorSizeDtos = productColorSizeEntities === null ? null : this.convertToProductColorSizeViewDtos(productColorSizeEntities);
+    const productColorImageDtos = productColorImageEntities === null ? null : this.convertToProductColorImageViewDtos(productColorImageEntities);
     return {
       id: productEntity.id,
       name: productEntity.name,
@@ -33,7 +42,8 @@ export class ProductConverter  {
       category: categoryDto,
       model: modelDto,
       materials: materialDtos,
-      productColorSize: productColoSizeDtos,
+      productColorSizes: productColorSizeDtos,
+      productColorImages: productColorImageDtos,
     };
   }
 
@@ -42,6 +52,15 @@ export class ProductConverter  {
       return {
         color: productColorSize.color,
         size: productColorSize.size,
+      };
+    });
+  }
+
+  convertToProductColorImageViewDtos(productColorImages: ProductColorImageEntity[]): ProductColorImageViewDto[] {
+    return productColorImages.map(productColorImage => {
+      return {
+        color: productColorImage.color,
+        imageURLs: productColorImage.imageUrl,
       };
     });
   }

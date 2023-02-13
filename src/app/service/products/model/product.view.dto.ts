@@ -3,6 +3,7 @@ import { ModelDto } from '../../settings/model/model.dto';
 import { MaterialDto } from '../../settings/model/material.dto';
 import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 import { ProductColorSizeViewDto } from './product-color-size.view.dto';
+import { ProductColorImageViewDto } from './product-color-image.view.dto';
 
 export class ProductViewDto extends SimpleListSetting {
 
@@ -14,5 +15,7 @@ export class ProductViewDto extends SimpleListSetting {
 
     materials: MaterialDto[];
 
-    productColorSize: ProductColorSizeViewDto[];
+    productColorSizes: ProductColorSizeViewDto[];
+    
+    productColorImages: ProductColorImageViewDto[];
 }
