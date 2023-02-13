@@ -82,6 +82,16 @@ export class SettingsService implements ISettingsService, OnModuleInit {
       return this.getGlobalDressOptions();
     }
 
+    // TODO handle if nor found by ids
+    public async getSettingEntitiesByIds<Entity extends IdentifiedEntity>(ids: Set<number>, type: SettingType): Promise<Entity[]> {
+      return await this.crudServiceMap.get(type).getEntitiesByIds(ids) as Entity[];
+    }
+
+    // TODO handle if nor found by id
+    public async getSettingEntityById<Entity extends IdentifiedEntity>(id: number, type: SettingType): Promise<Entity> {
+      return await this.crudServiceMap.get(type).getEntityById(id) as Entity;
+    }
+
     private async updateSetting<DTO>(settingType: SettingType, DTOs: DTO[]): Promise<void> {
       try {
         await this.crudServiceMap.get(settingType).update(DTOs);
@@ -91,15 +101,5 @@ export class SettingsService implements ISettingsService, OnModuleInit {
         }
         throw error;
       }
-    }
-
-    // TODO handle if nor found by ids
-    async getSettingEntitiesByIds<Entity extends IdentifiedEntity>(ids: number[], type: SettingType): Promise<Entity[]> {
-      return await this.crudServiceMap.get(type).getEntitiesByIds(ids) as Entity[];
-    }
-
-    // TODO handle if nor found by id
-    async getSettingEntityById<Entity extends IdentifiedEntity>(id: number, type: SettingType): Promise<Entity> {
-      return await this.crudServiceMap.get(type).getEntityById(id) as Entity;
     }
 }

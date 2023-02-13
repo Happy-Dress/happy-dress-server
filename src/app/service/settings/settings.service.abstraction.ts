@@ -6,5 +6,5 @@ export abstract class ISettingsService {
   abstract getGlobalDressOptions(): Promise<GlobalDressOptionsDto>;
   abstract setGlobalDressOptions(categories: GlobalDressOptionsDto): Promise<GlobalDressOptionsDto>;
   abstract getSettingEntityById<Entity extends IdentifiedEntity>(id: number, type: SettingType): Promise<Entity>;
-  abstract getSettingEntitiesByIds<Entity extends IdentifiedEntity>(ids: number[], type: SettingType): Promise<Entity[]>;
+  abstract getSettingEntitiesByIds<Entity extends IdentifiedEntity>(ids: Set<number>, type: SettingType): Promise<Entity[]>;
 }

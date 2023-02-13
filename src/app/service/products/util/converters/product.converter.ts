@@ -24,6 +24,7 @@ export class ProductConverter  {
 
   async convertToViewDto(productEntity: ProductEntity, productColorSizeEntities: ProductColorSizeEntity[], 
     productColorImageEntities: ProductColorImageEntity[]): Promise<ProductViewDto> {
+
     const categoryEntity = await productEntity.category;
     const categoryDto = categoryEntity === null ? null : await this.categoryConverter.convertToDTO(categoryEntity);
 

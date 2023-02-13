@@ -36,6 +36,11 @@ export const INVALID_GOOGLE_DRIVE_LINK = 'Неверная ссылка на ф�
 //Products constants
 export const PRODUCT_NAME_TOO_SHORT = 'Имя товара должно содержать более 3 символов';
 export const PRODUCT_NAME_TOO_LONG = 'Имя товара должно содержать не более 30 символов';
-export const INVALID_TYPE_ID = 'ID должно быть числом';
+export const INVALID_TYPE_ID = 'ID должно быть числом в $TYPE';
+export const PRODUCT_DESCRIPTION_TOO_SHORT = 'Описание должно содержать более 3 символов';
+export const PRODUCT_DESCRIPTION_TOO_LONG = 'Описание должно содержать не более 200 символов';
+export const PRODUCT_FIELD_MUST_BE_STRING = 'Поле $FIELD должен быть строкой';
+
+export const EMPTY_FIELD = 'Поле $TYPE является обязательным';
 
 export const UNABLE_TO_FIND_BY_ID = 'Невозможно найти сущность по id: $ID';

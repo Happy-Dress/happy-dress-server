@@ -44,8 +44,9 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
     }
 
 
-    public async getEntitiesByIds(ids: number[]): Promise<Entity[]> {
-      return await this.repository.findBy({ id: In(ids) } as FindOptionsWhere<Entity>);
+    public async getEntitiesByIds(ids: Set<number>): Promise<Entity[]> {
+      const arrayIds = Array.from(ids);
+      return await this.repository.findBy({ id: In(arrayIds) } as FindOptionsWhere<Entity>);
     }
 
     public async getEntityById(id: number): Promise<Entity> {

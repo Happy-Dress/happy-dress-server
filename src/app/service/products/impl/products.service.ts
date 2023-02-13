@@ -20,6 +20,7 @@ import {
   ProductColorImageEntity,
 } from '../../../repository/product/product-color-image/entity/product-color-image.entity';
 import { ProductColorImageDto } from '../model/product-color-image.dto';
+import { Transactional } from 'typeorm-transactional';
 
 
 @Injectable()
@@ -40,8 +41,8 @@ export class ProductsService implements IProductsService {
   @Inject()
   readonly settingsService: ISettingsService;
 
-
-  async createProduct(product: ProductDto): Promise<ProductViewDto> {
+  @Transactional()
+  public async createProduct(product: ProductDto): Promise<ProductViewDto> {
     const productEntity = await this.getProductEntity(product);
     const savedProductEntity = await this.productsRepository.save(productEntity);
 
@@ -54,7 +55,8 @@ export class ProductsService implements IProductsService {
     return this.productConverter.convertToViewDto(savedProductEntity, savedProductColorSizeEntities, savedProductColorImageEntities);
   }
 
-  async deleteProduct(id: number): Promise<void> {
+  @Transactional()
+  public async deleteProduct(id: number): Promise<void> {
     const deleteResult = await this.productsRepository.delete({ id: id } as FindOptionsWhere<ProductEntity>);
     if (deleteResult.affected === 0) {
       throw new EntityNotFoundByIdException(id);
@@ -64,7 +66,8 @@ export class ProductsService implements IProductsService {
     } } as FindOptionsWhere<ProductColorSizeEntity>);
   }
 
-  async getProduct(id: number): Promise<ProductViewDto> {
+  @Transactional()
+  public async getProduct(id: number): Promise<ProductViewDto> {
     const productEntity = await this.findProductById(id);
     if (productEntity === null) {
       throw new EntityNotFoundByIdException(id);
@@ -81,7 +84,8 @@ export class ProductsService implements IProductsService {
     return this.productConverter.convertToViewDto(productEntity, productColorSizeEntities, productColorImageEntities);
   }
 
-  async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
+  @Transactional()
+  public async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
     const partialProductEntity = await this.getProductEntity(product);
     if (await this.findProductById(id) === null) {
       throw new EntityNotFoundByIdException(id);
@@ -107,8 +111,8 @@ export class ProductsService implements IProductsService {
     const colorIds = new Set(productColorSizes.map(productColorSize => productColorSize.colorId));
     const sizeIds = new Set(productColorSizes.map(productColorSize => productColorSize.sizeId));
 
-    const colorEntities = await this.settingsService.getSettingEntitiesByIds<ColorEntity>(Array.from(colorIds), SettingType.COLORS);
-    const sizeEntities = await this.settingsService.getSettingEntitiesByIds<SizeEntity>(Array.from(sizeIds), SettingType.SIZES);
+    const colorEntities = await this.settingsService.getSettingEntitiesByIds<ColorEntity>(colorIds, SettingType.COLORS);
+    const sizeEntities = await this.settingsService.getSettingEntitiesByIds<SizeEntity>(sizeIds, SettingType.SIZES);
 
     const colorsMap = new Map<number, ColorEntity>(colorEntities.map(colorEntity => [colorEntity.id, colorEntity]));
     const sizesMap = new Map<number, SizeEntity>(sizeEntities.map(sizeEntity => [sizeEntity.id, sizeEntity]));
@@ -125,7 +129,7 @@ export class ProductsService implements IProductsService {
   private async getProductColorImages(productColorImages: ProductColorImageDto[],
     productEntity: ProductEntity): Promise<ProductColorImageEntity[]> {
     const colorIds = new Set(productColorImages.map(productColorImage => productColorImage.colorId));
-    const colorEntities = await this.settingsService.getSettingEntitiesByIds<ColorEntity>(Array.from(colorIds), SettingType.COLORS);
+    const colorEntities = await this.settingsService.getSettingEntitiesByIds<ColorEntity>(colorIds, SettingType.COLORS);
     const colorsMap = new Map<number, ColorEntity>(colorEntities.map(colorEntity => [colorEntity.id, colorEntity]));
     return productColorImages.map(productColorImage => {
       return {
@@ -140,7 +144,8 @@ export class ProductsService implements IProductsService {
   private async getProductEntity(product: ProductDto): Promise<ProductEntity> {
     const categoryEntity = await this.settingsService.getSettingEntityById<CategoryEntity>(product.categoryId, SettingType.CATEGORIES);
     const modelEntity = await this.settingsService.getSettingEntityById<ModelEntity>(product.modelId, SettingType.MODELS);
-    const materialEntities = await this.settingsService.getSettingEntitiesByIds<MaterialEntity>(product.materialIds, SettingType.MATERIALS);
+    const materialIds = new Set<number>(product.materialIds.map(materialId => materialId));
+    const materialEntities = await this.settingsService.getSettingEntitiesByIds<MaterialEntity>(materialIds, SettingType.MATERIALS);
     const partialEntity = this.productConverter.convertToPartialEntity(product);
     return {
       id: product.id,
