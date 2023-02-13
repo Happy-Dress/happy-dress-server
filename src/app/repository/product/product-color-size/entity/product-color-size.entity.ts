@@ -1,10 +1,11 @@
-import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Entity, ManyToOne } from 'typeorm';
 import { ProductEntity } from '../../entity/product.entity';
 import { ColorEntity } from '../../../settings/color/entity/color.entity';
 import { SizeEntity } from '../../../settings/size/enitity/size.entity';
+import { IdentifiedEntity } from '../../../../service/util/model/entity/identified.entity';
 
 @Entity('product-color-size')
-export class ProductColorSizeEntity {
+export class ProductColorSizeEntity extends IdentifiedEntity {
 
     @ManyToOne(() => ProductEntity, product => product.id, { onDelete: 'CASCADE' })
     product: ProductEntity;
@@ -14,8 +15,5 @@ export class ProductColorSizeEntity {
 
     @ManyToOne(() => SizeEntity, size => size.id, { eager: true, onDelete: 'CASCADE' })
     size: SizeEntity;
-
-    @PrimaryColumn()
-    isAvailable: boolean;
     
 }

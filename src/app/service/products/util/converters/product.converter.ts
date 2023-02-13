@@ -42,7 +42,6 @@ export class ProductConverter  {
       return {
         color: productColorSize.color,
         size: productColorSize.size,
-        isAvailable: productColorSize.isAvailable,
       };
     });
   }

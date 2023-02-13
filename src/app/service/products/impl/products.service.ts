@@ -49,20 +49,27 @@ export class ProductsService implements IProductsService {
     if (deleteResult.affected === 0) {
       throw new EntityNotFoundByIdException(id);
     }
-    await this.productColorSizesRepository.delete({ productId: id } as FindOptionsWhere<ProductColorSizeEntity>);
+    await this.productColorSizesRepository.delete({ product: {
+      id: id,
+    } } as FindOptionsWhere<ProductColorSizeEntity>);
   }
 
   async getProduct(id: number): Promise<ProductViewDto> {
-    const productEntity = await this.productsRepository.findOne({ where: { id: id } as FindOptionsWhere<ProductEntity> });
+    const productEntity = await this.findProductById(id);
     if (productEntity === null) {
       throw new EntityNotFoundByIdException(id);
     }
-    const productColorSizeEntities = await this.productColorSizesRepository.findBy({ productId: id } as FindOptionsWhere<ProductColorSizeEntity>);
+    const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
+      id: id,
+    } } as FindOptionsWhere<ProductColorSizeEntity>);
     return this.productConverter.convertToViewDto(productEntity, productColorSizeEntities);
   }
 
   async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
     const partialProductEntity = await this.getPartialEntity(product);
+    if (await this.findProductById(id) === null) {
+      throw new EntityNotFoundByIdException(id);
+    }
 
     partialProductEntity.id = id;
 
@@ -76,18 +83,22 @@ export class ProductsService implements IProductsService {
   }
 
   private async getProductColorSizes(productColorSizes: ProductColorSizeDto[], productEntity: ProductEntity): Promise<ProductColorSizeEntity[]> {
-    return Promise.all(productColorSizes.map(productColorSize => this.getProductColorSize(productColorSize, productEntity)));
-  }
+    const colorIds = new Set(productColorSizes.map(productColorSize => productColorSize.colorId));
+    const sizeIds = new Set(productColorSizes.map(productColorSize => productColorSize.sizeId));
 
-  private async getProductColorSize(productColorSize: ProductColorSizeDto, productEntity: ProductEntity): Promise<ProductColorSizeEntity> {
-    const colorEntity = await this.settingsService.getSettingEntityById<ColorEntity>(productColorSize.colorId, SettingType.COLORS);
-    const sizeEntity = await this.settingsService.getSettingEntityById<SizeEntity>(productColorSize.sizeId, SettingType.SIZES);
-    return {
-      product: productEntity,
-      color: colorEntity,
-      size: sizeEntity,
-      isAvailable: productColorSize.isAvailable,
-    };
+    const colorEntities = await this.settingsService.getSettingEntitiesByIds<ColorEntity>(Array.from(colorIds), SettingType.COLORS);
+    const sizeEntities = await this.settingsService.getSettingEntitiesByIds<SizeEntity>(Array.from(sizeIds), SettingType.SIZES);
+
+    const colorsMap = new Map<number, ColorEntity>(colorEntities.map(colorEntity => [colorEntity.id, colorEntity]));
+    const sizesMap = new Map<number, SizeEntity>(sizeEntities.map(sizeEntity => [sizeEntity.id, sizeEntity]));
+    return productColorSizes.map(productColorSize => {
+      return {
+        id: null,
+        product: productEntity,
+        color: colorsMap.get(productColorSize.colorId),
+        size: sizesMap.get(productColorSize.sizeId),
+      };
+    });
   }
 
   private async getPartialEntity(product: ProductDto): Promise<ProductEntity> {
@@ -101,5 +112,9 @@ export class ProductsService implements IProductsService {
     partialEntity.materials = materialEntities;
 
     return partialEntity as ProductEntity;
+  }
+
+  private async findProductById(id: number): Promise<ProductEntity> {
+    return this.productsRepository.findOne({ where: { id: id } as FindOptionsWhere<ProductEntity> });
   }
 }
