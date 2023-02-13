@@ -10,6 +10,6 @@ export class MaterialsCrudService extends CrudService<MaterialEntity, SimpleList
   constructor(
     @InjectRepository(MaterialEntity) readonly materialsRepository: Repository<MaterialEntity>,
   ) {
-        super( materialsRepository, new SimpleListSettingConverter());
+        super( materialsRepository, new SimpleListSettingConverter(), 'Материалы');
   }
 }

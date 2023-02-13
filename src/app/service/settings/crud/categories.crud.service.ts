@@ -10,6 +10,6 @@ export class CategoriesCrudService extends CrudService<CategoryEntity, CategoryD
   constructor(
     @InjectRepository(CategoryEntity) readonly colorsRepository: Repository<CategoryEntity>,
   ) {
-        super(colorsRepository, new CategoryConverter());
+        super(colorsRepository, new CategoryConverter(), 'Категории');
   }
 }

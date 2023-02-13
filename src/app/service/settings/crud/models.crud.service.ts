@@ -10,6 +10,6 @@ export class ModelsCrudService extends CrudService<ModelEntity, SimpleListSettin
   constructor(
     @InjectRepository(ModelEntity) readonly modelsRepository: Repository<ModelEntity>,
   ) {
-        super(modelsRepository, new SimpleListSettingConverter());
+        super(modelsRepository, new SimpleListSettingConverter(), 'Модели');
   }
 }

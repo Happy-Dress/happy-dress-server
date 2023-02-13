@@ -1,5 +1,6 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
+@Unique(['name'])
 export class SimpleListSettingEntity {
     @PrimaryGeneratedColumn()
     id: number;

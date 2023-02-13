@@ -10,6 +10,6 @@ export class ColorsCrudService extends CrudService<ColorEntity, ColorDto> {
   constructor(
     @InjectRepository(ColorEntity) readonly colorsRepository: Repository<ColorEntity>,
   ) {
-        super(colorsRepository, new ColorConverter());
+        super(colorsRepository, new ColorConverter(), 'Цвета');
   }
 }
