@@ -16,7 +16,7 @@ export class DatabaseConnectionService implements TypeOrmOptionsFactory {
       database: this.configService.get<string>('DATABASE_NAME'),
       entities: ['dist/**/*.entity{.ts,.js}'],
       migrations: ['dist/config/db/migrations/**/*{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
       migrationsTableName: 'migrations_typeorm',
       migrationsRun: true,
       logging: true,
