@@ -5,11 +5,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SimpleListSettingConverter } from '../../util/converter/simple.list.setting.converter';
 import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 
+const MATERIALS = 'Материалы';
+
 export class MaterialsCrudService extends CrudService<MaterialEntity, SimpleListSetting> {
 
   constructor(
     @InjectRepository(MaterialEntity) readonly materialsRepository: Repository<MaterialEntity>,
   ) {
-        super( materialsRepository, new SimpleListSettingConverter(), 'Материалы');
+        super( materialsRepository, new SimpleListSettingConverter(), MATERIALS);
   }
 }

@@ -5,11 +5,13 @@ import { ModelEntity } from '../../../repository/settings/model/entity/model.ent
 import { SimpleListSettingConverter } from '../../util/converter/simple.list.setting.converter';
 import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 
+const MODELS = 'Модели';
+
 export class ModelsCrudService extends CrudService<ModelEntity, SimpleListSetting> {
 
   constructor(
     @InjectRepository(ModelEntity) readonly modelsRepository: Repository<ModelEntity>,
   ) {
-        super(modelsRepository, new SimpleListSettingConverter(), 'Модели');
+        super(modelsRepository, new SimpleListSettingConverter(), MODELS);
   }
 }
