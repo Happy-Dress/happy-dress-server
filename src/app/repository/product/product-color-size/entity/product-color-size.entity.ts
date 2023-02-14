@@ -10,10 +10,10 @@ export class ProductColorSizeEntity extends IdentifiedEntity {
     @ManyToOne(() => ProductEntity, product => product.id, { onDelete: 'CASCADE' })
     product: ProductEntity;
     
-    @ManyToOne(() => ColorEntity, color => color.id, { eager: true, onDelete: 'CASCADE' })
+    @ManyToOne(() => ColorEntity, color => color.id, { eager: true, onDelete: 'SET NULL' })
     color: ColorEntity;
 
-    @ManyToOne(() => SizeEntity, size => size.id, { eager: true, onDelete: 'CASCADE' })
+    @ManyToOne(() => SizeEntity, size => size.id, { eager: true, onDelete: 'SET NULL' })
     size: SizeEntity;
     
 }

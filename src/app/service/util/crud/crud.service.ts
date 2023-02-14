@@ -43,7 +43,6 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
       return this.converter.convertToDTO(entity);
     }
 
-
     public async getEntitiesByIds(ids: Set<number>): Promise<Entity[]> {
       const arrayIds = Array.from(ids);
       return await this.repository.findBy({ id: In(arrayIds) } as FindOptionsWhere<Entity>);

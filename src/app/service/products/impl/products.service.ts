@@ -61,9 +61,7 @@ export class ProductsService implements IProductsService {
     if (deleteResult.affected === 0) {
       throw new EntityNotFoundByIdException(id);
     }
-    await this.productColorSizesRepository.delete({ product: {
-      id: id,
-    } } as FindOptionsWhere<ProductColorSizeEntity>);
+
   }
 
   @Transactional()
