@@ -17,7 +17,7 @@ export class colorEntity1666042022821 implements MigrationInterface {
                 {
                   name: 'name',
                   type: 'varchar',
-                  isUnique: false,
+                  isUnique: true,
                   isNullable: false,
                 },
                 {
