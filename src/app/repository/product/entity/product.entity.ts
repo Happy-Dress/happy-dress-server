@@ -23,6 +23,6 @@ export class ProductEntity extends IdentifiedEntity {
     model: ModelEntity;
 
     @ManyToMany(() => MaterialEntity, { eager: true, onDelete: 'CASCADE' })
-    @JoinTable({ name: 'product_material' })
+    @JoinTable({ name: 'product-material' })
     materials: MaterialEntity[];
 }
