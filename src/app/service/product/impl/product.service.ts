@@ -68,9 +68,6 @@ export class ProductService implements IProductsService {
   @Transactional()
   public async getProduct(id: number): Promise<ProductViewDto> {
     const productEntity = await this.findProductById(id);
-    if (productEntity === null) {
-      throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
-    }
 
     const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
       id: id,
@@ -85,9 +82,7 @@ export class ProductService implements IProductsService {
 
   @Transactional()
   public async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
-    if (await this.findProductById(id) === null) {
-      throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
-    }
+    await this.findProductById(id);
 
     const partialProductEntity = await this.getProductEntity(product);
     partialProductEntity.id = id;
@@ -122,6 +117,10 @@ export class ProductService implements IProductsService {
   }
 
   private async findProductById(id: number): Promise<ProductEntity> {
-    return this.productsRepository.findOne({ where: { id: id } as FindOptionsWhere<ProductEntity> });
+    const productEntity = this.productsRepository.findOne({ where: { id: id } as FindOptionsWhere<ProductEntity> });
+    if (productEntity === null) {
+      throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
+    }
+    return productEntity;
   }
 }
