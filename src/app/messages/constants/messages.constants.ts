@@ -44,3 +44,6 @@ export const PRODUCT_FIELD_MUST_BE_STRING = 'Поле $FIELD должен быт
 export const EMPTY_FIELD = 'Поле $TYPE является обязательным';
 
 export const UNABLE_TO_FIND_BY_ID = 'Невозможно найти сущность по id: $ID';
+
+//Crud service
+export const DUPLICATE_ENTRY_ENTITY = 'Дублирующее значение в сущности $ENTITY';

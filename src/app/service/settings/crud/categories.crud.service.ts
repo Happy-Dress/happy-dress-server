@@ -5,11 +5,13 @@ import { CategoryEntity } from '../../../repository/settings/category/entity/cat
 import { CategoryConverter } from '../util/converters/category.converter';
 import { CategoryDto } from '../model/category.dto';
 
+const CATEGORIES = 'Категории';
+
 export class CategoriesCrudService extends CrudService<CategoryEntity, CategoryDto> {
 
   constructor(
     @InjectRepository(CategoryEntity) readonly colorsRepository: Repository<CategoryEntity>,
   ) {
-        super(colorsRepository, new CategoryConverter());
+        super(colorsRepository, new CategoryConverter(), CATEGORIES);
   }
 }

@@ -4,6 +4,7 @@ import { FindOptionsWhere, In, Repository } from 'typeorm';
 import { MultiConverter } from '../converter/multi.converter';
 import { Injectable } from '@nestjs/common';
 import { EntitiesNotFoundByIdsException } from '../../settings/exception/entities-not-found-by-ids.exception';
+import { EntityDuplicateFieldException } from '../../settings/exception/entity-duplicate-field.exception';
 
 @Injectable()
 export class CrudService<Entity extends IdentifiedEntity, DTO extends IdentifiedModel> {
@@ -12,9 +13,12 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
 
     protected readonly repository: Repository<Entity>;
 
-    constructor(repository: Repository<Entity>, converter: MultiConverter<Entity, DTO>) {
+    private readonly entityName: string;
+
+    constructor(repository: Repository<Entity>, converter: MultiConverter<Entity, DTO>, entityName: string) {
       this.repository = repository;
       this.converter = converter;
+      this.entityName = entityName;
     }
 
     /**
@@ -30,7 +34,14 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
         if (idsToDelete.length) {
           await this.repository.delete(idsToDelete);
         }
-        await this.repository.save(entitiesToInsert);
+
+        try {
+          await this.repository.save(entitiesToInsert);
+        } catch (error) {
+          if (error.code === 'ER_DUP_ENTRY') {
+            throw new EntityDuplicateFieldException(this.entityName);
+          }
+        }
     }
 
     public async getAll(): Promise<DTO[]> {

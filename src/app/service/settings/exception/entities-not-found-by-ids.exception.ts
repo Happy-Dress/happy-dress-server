@@ -8,6 +8,5 @@ export class EntitiesNotFoundByIdsException extends Error {
         super(UNABLE_TO_UPDATE_BY_IDS
           .replace('$ID', invalidIds.toString()));
         this.invalidIds = invalidIds;
-
     }
 }
