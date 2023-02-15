@@ -29,7 +29,7 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
       const existingEntities = await this.repository.find();
       const existingEntitiesIds = existingEntities.map((entity)=> entity.id );
       const entitiesToUpdateIds = entitiesToInsert.map((entity)=> entity.id ).filter(id => !!id);
-        this.checkEntitiesByIds(existingEntitiesIds, entitiesToUpdateIds);
+        this.checkIfPossibleToUpdateByIds(existingEntitiesIds, entitiesToUpdateIds);
         const idsToDelete = existingEntitiesIds.filter(id => !entitiesToUpdateIds.includes(id));
         if (idsToDelete.length) {
           await this.repository.delete(idsToDelete);
@@ -58,7 +58,7 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
       const arrayIds = Array.from(ids);
       const entities = await this.repository.findBy({ id: In(arrayIds) } as FindOptionsWhere<Entity>);
       const entityIds = entities.map(entity => entity.id);
-      this.checkEntitiesByIds(entityIds, arrayIds);
+      this.checkIfAllEntitiesFound(arrayIds, entityIds);
       return entities;
     }
 
@@ -70,12 +70,19 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
       return entity;
     }
 
-    private checkEntitiesByIds(existingEntitiesIds: number[], newEntities: number[]): void {
-      if (existingEntitiesIds.length && newEntities.length) {
-        const invalidIds = newEntities.filter(id => !existingEntitiesIds.includes(id));
+    private checkIfPossibleToUpdateByIds(existingEntitiesIds: number[], entitiesToUpdateIds: number[]): void {
+      if (existingEntitiesIds.length && entitiesToUpdateIds.length) {
+        const invalidIds = entitiesToUpdateIds.filter(id => !existingEntitiesIds.includes(id));
         if (invalidIds.length) {
           throw new EntitiesNotFoundByIdsException(invalidIds, this.entityName);
         }
+      }
+    }
+    
+    private checkIfAllEntitiesFound(ids: number[], entityIds: number[]): void {
+      const invalidIds = ids.filter(id => !entityIds.includes(id));
+      if (invalidIds.length) {
+        throw new EntitiesNotFoundByIdsException(invalidIds, this.entityName);
       }
     }
 }
