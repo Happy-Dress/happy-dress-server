@@ -1,5 +1,5 @@
 import { ProductDto } from './model/product.dto';
-import {ProductViewDto} from "./model/product.view.dto";
+import { ProductViewDto } from './model/product.view.dto';
 
 
 export abstract class IProductsService {
