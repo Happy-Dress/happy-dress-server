@@ -1,4 +1,4 @@
-import { UNABLE_TO_FIND_BY_IDS } from '../../../messages/constants/messages.constants';
+import { UNABLE_TO_FIND_BY_IDS } from '../messages/constants/messages.constants';
 
 export class EntitiesNotFoundByIdsException extends Error {
 

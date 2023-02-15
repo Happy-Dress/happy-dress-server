@@ -3,8 +3,8 @@ import { IdentifiedModel } from '../model/dto/identified.model';
 import { FindOptionsWhere, In, Repository } from 'typeorm';
 import { MultiConverter } from '../converter/multi.converter';
 import { Injectable } from '@nestjs/common';
-import { EntitiesNotFoundByIdsException } from '../../settings/exception/entities-not-found-by-ids.exception';
-import { EntityDuplicateFieldException } from '../../settings/exception/entity-duplicate-field.exception';
+import { EntitiesNotFoundByIdsException } from '../../../exception/entities-not-found-by-ids.exception';
+import { EntityDuplicateFieldException } from '../../../exception/entity-duplicate-field.exception';
 
 @Injectable()
 export class CrudService<Entity extends IdentifiedEntity, DTO extends IdentifiedModel> {

@@ -20,7 +20,7 @@ import {
 } from '../../../repository/product/product-color-image/entity/product-color-image.entity';
 import { ProductColorImageDto } from '../model/product-color-image.dto';
 import { Transactional } from 'typeorm-transactional';
-import {EntitiesNotFoundByIdsException} from "../../settings/exception/entities-not-found-by-ids.exception";
+import {EntitiesNotFoundByIdsException} from "../../../exception/entities-not-found-by-ids.exception";
 
 const PRODUCTS = "Продукты";
 

@@ -1,4 +1,4 @@
-import { DUPLICATE_ENTRY_ENTITY } from '../../../messages/constants/messages.constants';
+import { DUPLICATE_ENTRY_ENTITY } from '../messages/constants/messages.constants';
 
 export class EntityDuplicateFieldException extends Error {
   constructor(entityName: string) {
