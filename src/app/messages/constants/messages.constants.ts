@@ -32,3 +32,6 @@ export const UNABLE_TO_UPDATE_BY_IDS = 'невозможно обновить с
 
 export const INVALID_ID_TO_UPDATE = '$name не найдены по id: $ID';
 export const INVALID_GOOGLE_DRIVE_LINK = 'Неверная ссылка на фотографию в google-drive';
+
+//Crud service
+export const DUPLICATE_ENTRY_ENTITY = 'Дублирующее значение в сущности $ENTITY';
