@@ -24,7 +24,7 @@ import { ColorsCrudService } from './settings/crud/colors.crud.service';
 import { ModelsCrudService } from './settings/crud/models.crud.service';
 import { CategoriesCrudService } from './settings/crud/categories.crud.service';
 import { IProductsService } from './product/products.service.abstraction';
-import { ProductsService } from './product/impl/products.service';
+import { ProductService } from './product/impl/product.service';
 import { ProductConverter } from './product/util/converters/product.converter';
 import { ProductEntity } from '../repository/product/entity/product.entity';
 import { SizesCrudService } from './settings/crud/sizes.crud.service';
@@ -62,7 +62,7 @@ import { ProductColorSizeImagesService } from './product/productColorSizeImage/i
     },
     {
       provide: IProductsService,
-      useClass: ProductsService,
+      useClass: ProductService,
     },
 
     // Validators
