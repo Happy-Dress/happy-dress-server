@@ -15,12 +15,14 @@ import { ProductColorSizeEntity } from '../../../repository/product/product-colo
 import { ColorEntity } from '../../../repository/settings/color/entity/color.entity';
 import { ProductColorSizeDto } from '../model/product-color-size.dto';
 import { SizeEntity } from '../../../repository/settings/size/enitity/size.entity';
-import { EntityNotFoundByIdException } from '../exception/entity-not-found-by-id.exception';
 import {
   ProductColorImageEntity,
 } from '../../../repository/product/product-color-image/entity/product-color-image.entity';
 import { ProductColorImageDto } from '../model/product-color-image.dto';
 import { Transactional } from 'typeorm-transactional';
+import {EntitiesNotFoundByIdsException} from "../../settings/exception/entities-not-found-by-ids.exception";
+
+const PRODUCTS = "Продукты";
 
 
 @Injectable()
@@ -59,7 +61,7 @@ export class ProductsService implements IProductsService {
   public async deleteProduct(id: number): Promise<void> {
     const deleteResult = await this.productsRepository.delete({ id: id } as FindOptionsWhere<ProductEntity>);
     if (deleteResult.affected === 0) {
-      throw new EntityNotFoundByIdException(id);
+      throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
     }
 
   }
@@ -68,7 +70,7 @@ export class ProductsService implements IProductsService {
   public async getProduct(id: number): Promise<ProductViewDto> {
     const productEntity = await this.findProductById(id);
     if (productEntity === null) {
-      throw new EntityNotFoundByIdException(id);
+      throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
     }
 
     const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
@@ -84,11 +86,11 @@ export class ProductsService implements IProductsService {
 
   @Transactional()
   public async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
-    const partialProductEntity = await this.getProductEntity(product);
     if (await this.findProductById(id) === null) {
-      throw new EntityNotFoundByIdException(id);
+      throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
     }
 
+    const partialProductEntity = await this.getProductEntity(product);
     partialProductEntity.id = id;
 
     const savedProductEntity = await this.productsRepository.save(partialProductEntity);

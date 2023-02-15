@@ -28,7 +28,7 @@ export const INVALID_COLOR_DETECTED = 'Неверная кодировка цв�
 export const INVALID_LENGTH_COLOR = 'Кодировка цвета должна содержать 7 символов';
 export const INVALID_NAME_DETECTED = 'В названии содержатся неразрешенные символы';
 export const INVALID_DESCRIPTION_DETECTED = 'В описании содержатся неразрешенные символы';
-export const UNABLE_TO_UPDATE_BY_IDS = 'невозможно обновить сущности с id: $ID';
+export const UNABLE_TO_FIND_BY_IDS = 'Невозможно найти / обновить сущность(-и) в $ENTITY_NAME с id: $ID';
 
 export const INVALID_ID_TO_UPDATE = '$name не найдены по id: $ID';
 export const INVALID_GOOGLE_DRIVE_LINK = 'Неверная ссылка на фотографию в google-drive';
@@ -43,7 +43,5 @@ export const PRODUCT_FIELD_MUST_BE_STRING = 'Поле $FIELD должен быт
 
 export const EMPTY_FIELD = 'Поле $TYPE является обязательным';
 
-export const UNABLE_TO_FIND_BY_ID = 'Невозможно найти сущность по id: $ID';
-
 //Crud service
-export const DUPLICATE_ENTRY_ENTITY = 'Дублирующее значение в сущности $ENTITY';
+export const DUPLICATE_ENTRY_ENTITY = 'Дублирующее значение в сущности $ENTITY_NAME';

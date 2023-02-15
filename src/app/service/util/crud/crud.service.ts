@@ -29,7 +29,7 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
       const existingEntities = await this.repository.find();
       const existingEntitiesIds = existingEntities.map((entity)=> entity.id );
       const entitiesToUpdateIds = entitiesToInsert.map((entity)=> entity.id ).filter(id => !!id);
-        this.checkIfPossibleToUpdateByIds(existingEntitiesIds, entitiesToUpdateIds);
+        this.checkEntitiesByIds(existingEntitiesIds, entitiesToUpdateIds);
         const idsToDelete = existingEntitiesIds.filter(id => !entitiesToUpdateIds.includes(id));
         if (idsToDelete.length) {
           await this.repository.delete(idsToDelete);
@@ -56,18 +56,25 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
 
     public async getEntitiesByIds(ids: Set<number>): Promise<Entity[]> {
       const arrayIds = Array.from(ids);
-      return await this.repository.findBy({ id: In(arrayIds) } as FindOptionsWhere<Entity>);
+      const entities = await this.repository.findBy({ id: In(arrayIds) } as FindOptionsWhere<Entity>);
+      const entityIds = entities.map(entity => entity.id);
+      this.checkEntitiesByIds(entityIds, arrayIds);
+      return entities;
     }
 
     public async getEntityById(id: number): Promise<Entity> {
-      return await this.repository.findOne({ where: { id: id } as FindOptionsWhere<Entity> });
+      const entity = await this.repository.findOne({ where: { id: id } as FindOptionsWhere<Entity> });
+      if (entity === null) {
+        throw new EntitiesNotFoundByIdsException([id], this.entityName);
+      }
+      return entity;
     }
 
-    private checkIfPossibleToUpdateByIds(existingEntitiesIds: number[], entitiesToUpdateIds: number[]): void {
-      if (existingEntitiesIds.length && entitiesToUpdateIds.length) {
-        const invalidIds = entitiesToUpdateIds.filter(id => !existingEntitiesIds.includes(id));
+    private checkEntitiesByIds(existingEntitiesIds: number[], newEntities: number[]): void {
+      if (existingEntitiesIds.length && newEntities.length) {
+        const invalidIds = newEntities.filter(id => !existingEntitiesIds.includes(id));
         if (invalidIds.length) {
-          throw new EntitiesNotFoundByIdsException(invalidIds);
+          throw new EntitiesNotFoundByIdsException(invalidIds, this.entityName);
         }
       }
     }

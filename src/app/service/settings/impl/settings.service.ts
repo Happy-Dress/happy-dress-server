@@ -82,12 +82,10 @@ export class SettingsService implements ISettingsService, OnModuleInit {
       return this.getGlobalDressOptions();
     }
 
-    // TODO handle if nor found by ids
     public async getSettingEntitiesByIds<Entity extends IdentifiedEntity>(ids: Set<number>, type: SettingType): Promise<Entity[]> {
       return await this.crudServiceMap.get(type).getEntitiesByIds(ids) as Entity[];
     }
 
-    // TODO handle if nor found by id
     public async getSettingEntityById<Entity extends IdentifiedEntity>(id: number, type: SettingType): Promise<Entity> {
       return await this.crudServiceMap.get(type).getEntityById(id) as Entity;
     }
