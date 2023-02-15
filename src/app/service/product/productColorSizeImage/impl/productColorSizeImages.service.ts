@@ -50,7 +50,7 @@ export class ProductColorSizeImagesService implements IProductColorSizeImagesSer
         id: null,
         product: productEntity,
         color: colorsMap.get(productColorImage.colorId),
-        imageUrl: productColorImage.imageURLs,
+        imageUrls: productColorImage.imageURLs,
       };
     });
   }

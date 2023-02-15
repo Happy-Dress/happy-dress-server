@@ -5,6 +5,7 @@ import { ColorEntity } from '../../../settings/color/entity/color.entity';
 
 @Entity('product-color-image')
 export class ProductColorImageEntity extends IdentifiedEntity {
+
     @ManyToOne(() => ProductEntity, product => product.id, { eager: true, onDelete: 'CASCADE' })
     product: ProductEntity;
     
@@ -12,5 +13,5 @@ export class ProductColorImageEntity extends IdentifiedEntity {
     color: ColorEntity;
 
     @Column({ type: 'simple-array', nullable: true })
-    imageUrl: string[];
+    imageUrls: string[];
 }

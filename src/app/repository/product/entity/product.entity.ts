@@ -10,10 +10,10 @@ export class ProductEntity extends IdentifiedEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: false })
     name: string;
 
-    @Column()
+    @Column({ nullable: false })
     description: string;
 
     @ManyToOne(() => CategoryEntity, { eager: true, onDelete: 'SET NULL' })
