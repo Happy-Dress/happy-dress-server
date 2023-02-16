@@ -14,9 +14,9 @@ describe('ColorConverter', () => {
   });
 
   describe('convert', () => {
-    it('should convert to DTOs', () => {
+    it('should convert to DTOs', async () => {
       const colorEntities: ColorEntity[] = [generateColorEntity()];
-      const convertResult = colorConverter.convertToDTOs(colorEntities);
+      const convertResult = await colorConverter.convertToDTOs(colorEntities);
       expect(convertResult.length).toBe(colorEntities.length);
       expect(convertResult[0].id).toBe(colorEntities[0].id);
       expect(convertResult[0].name).toBe(colorEntities[0].name);
@@ -24,9 +24,9 @@ describe('ColorConverter', () => {
       expect(convertResult[0].secondColor).toBe(colorEntities[0].secondColor);
     });
 
-    it('should convert to Entities', () => {
+    it('should convert to Entities', async () => {
       const colorDTOs: ColorDto[] = [generateColorDto()];
-      const convertResult = colorConverter.convertToEntities(colorDTOs);
+      const convertResult = await colorConverter.convertToEntities(colorDTOs);
       expect(convertResult.length).toBe(colorDTOs.length);
       expect(convertResult[0].id).toBe(colorDTOs[0].id);
       expect(convertResult[0].name).toBe(colorDTOs[0].name);

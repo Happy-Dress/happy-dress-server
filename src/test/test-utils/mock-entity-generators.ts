@@ -1,6 +1,7 @@
 import { ColorEntity } from '../../app/repository/settings/color/entity/color.entity';
 import { SimpleListSettingEntity } from '../../app/repository/settings/simpleListSetting.entity';
 import { CategoryEntity } from '../../app/repository/settings/category/entity/category.entity';
+import { SizeEntity } from '../../app/repository/settings/size/enitity/size.entity';
 
 export function generateColorEntity(): ColorEntity {
   return {
@@ -24,5 +25,12 @@ export function generateCategoryEntity(): CategoryEntity {
     description: 'Для свадебных платьев',
     imageUrl: 'image.jpg',
     name: 'Свадебные',
+  };
+}
+
+export function generateSizeEntity(): SizeEntity {
+  return {
+    id: 1,
+    sizeValue: 1,     
   };
 }
