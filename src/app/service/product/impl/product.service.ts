@@ -18,6 +18,7 @@ import {
 import { Transactional } from 'typeorm-transactional';
 import { EntitiesNotFoundByIdsException } from '../../../exception/entities-not-found-by-ids.exception';
 import { IProductColorSizeImagesService } from '../productColorSizeImage/productColorSizeImages.service.abstraction';
+import { EntityDuplicateFieldException } from '../../../exception/entity-duplicate-field.exception';
 
 const PRODUCTS = 'Продукты';
 
@@ -46,8 +47,15 @@ export class ProductService implements IProductsService {
   @Transactional()
   public async createProduct(product: ProductDto): Promise<ProductViewDto> {
     const productEntity = await this.getProductEntity(product);
-    const savedProductEntity = await this.productsRepository.save(productEntity);
-
+    let savedProductEntity: ProductEntity;
+    try {
+      savedProductEntity = await this.productsRepository.save(productEntity);
+    } catch (error) {
+      if (error.code === 'ER_DUP_ENTRY') {
+        throw new EntityDuplicateFieldException(PRODUCTS);
+      }
+    }
+    
     const productColorSizeEntities = await this.productColorSizeImagesService.getProductColorSizes(product.productColorSizes, savedProductEntity);
     const savedProductColorSizeEntities = await this.productColorSizesRepository.save(productColorSizeEntities);
     
