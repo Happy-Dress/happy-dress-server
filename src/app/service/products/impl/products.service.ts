@@ -24,7 +24,7 @@ const PRODUCTS = 'Продукты';
 
 
 @Injectable()
-export class ProductService implements IProductsService {
+export class ProductsService implements IProductsService {
 
   @InjectRepository(ProductEntity)
   readonly productsRepository: Repository<ProductEntity>;

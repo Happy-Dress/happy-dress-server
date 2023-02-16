@@ -23,9 +23,9 @@ import { MaterialsCrudService } from './settings/crud/materials.crud.service';
 import { ColorsCrudService } from './settings/crud/colors.crud.service';
 import { ModelsCrudService } from './settings/crud/models.crud.service';
 import { CategoriesCrudService } from './settings/crud/categories.crud.service';
-import { IProductsService } from './product/products.service.abstraction';
-import { ProductService } from './product/impl/product.service';
-import { ProductConverter } from './product/util/converters/product.converter';
+import { IProductsService } from './products/products.service.abstraction';
+import { ProductsService } from './products/impl/products.service';
+import { ProductConverter } from './products/util/converters/product.converter';
 import { ProductEntity } from '../repository/product/entity/product.entity';
 import { SizesCrudService } from './settings/crud/sizes.crud.service';
 import { SizeConverter } from './settings/util/converters/size.converter';
@@ -34,8 +34,8 @@ import { ProductColorSizeEntity } from '../repository/product/product-color-size
 import { ProductColorImageEntity } from '../repository/product/product-color-image/entity/product-color-image.entity';
 import {
   IProductColorSizeImagesService,
-} from './product/productColorSizeImage/productColorSizeImages.service.abstraction';
-import { ProductColorSizeImagesService } from './product/productColorSizeImage/impl/productColorSizeImages.service';
+} from './products/productColorSizeImage/productColorSizeImages.service.abstraction';
+import { ProductColorSizeImagesService } from './products/productColorSizeImage/impl/productColorSizeImages.service';
 
 @Module({
   // Delegates
@@ -62,7 +62,7 @@ import { ProductColorSizeImagesService } from './product/productColorSizeImage/i
     },
     {
       provide: IProductsService,
-      useClass: ProductService,
+      useClass: ProductsService,
     },
 
     // Validators

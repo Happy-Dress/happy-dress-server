@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
-import { ProductDto } from '../../../service/product/model/product.dto';
+import { ProductDto } from '../../../service/products/model/product.dto';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
-import { IProductsService } from '../../../service/product/products.service.abstraction';
-import { ProductViewDto } from '../../../service/product/model/product.view.dto';
+import { IProductsService } from '../../../service/products/products.service.abstraction';
+import { ProductViewDto } from '../../../service/products/model/product.view.dto';
 
 
 @Controller('products')
@@ -18,7 +18,7 @@ export class ProductsController {
 
     @UseGuards(JwtAuthGuard)
     @Post('/create')
-    async addProduct(@Body() productDto: ProductDto): Promise<ProductViewDto> {
+    async createProduct(@Body() productDto: ProductDto): Promise<ProductViewDto> {
       return await this.productService.createProduct(productDto);
     }
 
