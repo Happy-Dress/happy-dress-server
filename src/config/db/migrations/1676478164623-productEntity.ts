@@ -17,7 +17,7 @@ export class productEntity1676478164623 implements MigrationInterface {
             {
               name: 'name',
               type: 'varchar',
-              isUnique: false,
+              isUnique: true,
               isNullable: false,
             },
             {
