@@ -61,9 +61,9 @@ describe('ProductsController', () => {
     describe('delete',  () => {
         it('should delete product', async () => {
             const id = 1;
-            jest.spyOn(productsService, 'deleteProduct').mockImplementation(() => Promise.resolve(null));
-            const actualResult = await productsService.deleteProduct(id);
-            expect(actualResult).toBeNull();
+            jest.spyOn(productsService, "deleteProduct").mockResolvedValue();
+            await productsService.deleteProduct(id);
+            expect(productsService.deleteProduct).toHaveBeenCalled();
         });
     });
 })
