@@ -111,15 +111,15 @@ describe('ProductsService', () => {
 
         jest.spyOn(productConverter, 'convertToViewDto').mockResolvedValue(productViewDto);
 
-        const productDto: ProductViewDto = await productsService.getProduct(id);
-        expect(productDto.id).toBe(id);
-        expect(productDto.name).toBe(productViewDto.name);
-        expect(productDto.description).toBe(productViewDto.description);
-        expect(productDto.category).toBe(productViewDto.category);
-        expect(productDto.model).toBe(productViewDto.model);
-        expect(productDto.materials).toStrictEqual(productViewDto.materials);
-        expect(productDto.productColorSizes).toStrictEqual(productColorSizeViewDto);
-        expect(productDto.productColorImages).toStrictEqual(productColorImageViewDto);
+        const actualProductViewDto: ProductViewDto = await productsService.getProduct(id);
+        expect(actualProductViewDto.id).toBe(id);
+        expect(actualProductViewDto.name).toBe(productViewDto.name);
+        expect(actualProductViewDto.description).toBe(productViewDto.description);
+        expect(actualProductViewDto.category).toBe(productViewDto.category);
+        expect(actualProductViewDto.model).toBe(productViewDto.model);
+        expect(actualProductViewDto.materials).toStrictEqual(productViewDto.materials);
+        expect(actualProductViewDto.productColorSizes).toStrictEqual(productColorSizeViewDto);
+        expect(actualProductViewDto.productColorImages).toStrictEqual(productColorImageViewDto);
     });
 
     it('should delete product', async () => {
@@ -152,11 +152,11 @@ describe('ProductsService', () => {
 
         const actualProductViewDto: ProductViewDto = await productsService.createProduct(productDto);
 
-        expect(actualProductViewDto.name).toBe(actualProductViewDto.name);
-        expect(actualProductViewDto.description).toBe(actualProductViewDto.description);
-        expect(actualProductViewDto.category).toBe(actualProductViewDto.category);
-        expect(actualProductViewDto.model).toBe(actualProductViewDto.model);
-        expect(actualProductViewDto.materials).toStrictEqual(actualProductViewDto.materials);
+        expect(actualProductViewDto.name).toBe(productViewDto.name);
+        expect(actualProductViewDto.description).toBe(productViewDto.description);
+        expect(actualProductViewDto.category).toBe(productViewDto.category);
+        expect(actualProductViewDto.model).toBe(productViewDto.model);
+        expect(actualProductViewDto.materials).toStrictEqual(productViewDto.materials);
         expect(actualProductViewDto.productColorSizes).toStrictEqual(productColorSizeViewDto);
         expect(actualProductViewDto.productColorImages).toStrictEqual(productColorImageViewDto);
     });
@@ -185,11 +185,11 @@ describe('ProductsService', () => {
 
         const actualProductViewDto: ProductViewDto = await productsService.updateProduct(id, productDto);
 
-        expect(actualProductViewDto.name).toBe(actualProductViewDto.name);
-        expect(actualProductViewDto.description).toBe(actualProductViewDto.description);
-        expect(actualProductViewDto.category).toBe(actualProductViewDto.category);
-        expect(actualProductViewDto.model).toBe(actualProductViewDto.model);
-        expect(actualProductViewDto.materials).toStrictEqual(actualProductViewDto.materials);
+        expect(actualProductViewDto.name).toBe(productViewDto.name);
+        expect(actualProductViewDto.description).toBe(productViewDto.description);
+        expect(actualProductViewDto.category).toBe(productViewDto.category);
+        expect(actualProductViewDto.model).toBe(productViewDto.model);
+        expect(actualProductViewDto.materials).toStrictEqual(productViewDto.materials);
         expect(actualProductViewDto.productColorSizes).toStrictEqual(productColorSizeViewDto);
         expect(actualProductViewDto.productColorImages).toStrictEqual(productColorImageViewDto);
     });

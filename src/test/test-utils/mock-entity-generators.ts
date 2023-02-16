@@ -10,7 +10,7 @@ import {
 
 export function generateColorEntity(): ColorEntity {
   return {
-    id: 0,
+    id: 1,
     firstColor: '#FF0000',
     name: 'красно-белый',
     secondColor: '#FFFFFF',
