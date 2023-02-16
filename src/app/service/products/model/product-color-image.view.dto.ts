@@ -1,7 +1,7 @@
-import { ColorEntity } from '../../../repository/settings/color/entity/color.entity';
+import { ColorDto } from '../../settings/model/color.dto';
 
 export class  ProductColorImageViewDto {
-    color: ColorEntity;
+    color: ColorDto;
     
     imageURLs: string[];
 }

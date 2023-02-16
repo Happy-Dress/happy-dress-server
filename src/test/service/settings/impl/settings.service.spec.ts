@@ -46,12 +46,12 @@ describe('SettingsService', () => {
           CategoriesCrudService,
           ModelsCrudService,
           ColorsCrudService,
-            SizesCrudService,
+          SizesCrudService,
           { provide: getRepositoryToken(CategoryEntity), useFactory: repositoryMockFactory },
           { provide: getRepositoryToken(ModelEntity), useFactory: repositoryMockFactory },
           { provide: getRepositoryToken(MaterialEntity), useFactory: repositoryMockFactory },
           { provide: getRepositoryToken(ColorEntity), useFactory: repositoryMockFactory },
-          {provide: getRepositoryToken(SizeEntity), useFactory: repositoryMockFactory}
+          { provide: getRepositoryToken(SizeEntity), useFactory: repositoryMockFactory }
         ],
 
       }).compile();
