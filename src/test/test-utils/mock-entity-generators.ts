@@ -27,9 +27,9 @@ export function generateSimpleListEntity(): SimpleListSettingEntity {
 export function generateCategoryEntity(): CategoryEntity {
   return {
     id: 1,
-    description: 'Для свадебных платьев',
-    imageUrl: 'image.jpg',
-    name: 'Свадебные',
+    description: 'plain text',
+    imageUrl: 'plain text',
+    name: 'plain text',
   };
 }
 
