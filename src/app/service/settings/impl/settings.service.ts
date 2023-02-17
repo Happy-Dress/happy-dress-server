@@ -2,7 +2,6 @@ import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ISettingsService } from '../settings.service.abstraction';
 import { Transactional } from 'typeorm-transactional';
 import { MaterialsCrudService } from '../crud/materials.crud.service';
-import { SettingsNotFoundByIds } from '../../../exception/settings-not-found-by-ids';
 import { SettingType } from '../util/constant/setting.type.enum';
 import { CrudService } from '../../util/crud/crud.service';
 import { IdentifiedEntity } from '../../util/model/entity/identified.entity';
@@ -10,7 +9,6 @@ import { IdentifiedModel } from '../../util/model/dto/identified.model';
 import { ColorsCrudService } from '../crud/colors.crud.service';
 import { CategoriesCrudService } from '../crud/categories.crud.service';
 import { ModelsCrudService } from '../crud/models.crud.service';
-import { EntitiesNotFoundByIdsException } from '../../../exception/entities-not-found-by-ids.exception';
 import { GlobalDressOptionsDto } from '../model/global-dress-options.dto';
 import { ColorDto } from '../model/color.dto';
 import { ModelDto } from '../model/model.dto';
@@ -91,13 +89,6 @@ export class SettingsService implements ISettingsService, OnModuleInit {
     }
 
     private async updateSetting<DTO>(settingType: SettingType, DTOs: DTO[]): Promise<void> {
-      try {
-        await this.crudServiceMap.get(settingType).update(DTOs);
-      } catch (error) {
-        if (error instanceof EntitiesNotFoundByIdsException) {
-          throw new SettingsNotFoundByIds(error.invalidIds, SettingType.MATERIALS);
-        }
-        throw error;
-      }
+      await this.crudServiceMap.get(settingType).update(DTOs);
     }
 }
