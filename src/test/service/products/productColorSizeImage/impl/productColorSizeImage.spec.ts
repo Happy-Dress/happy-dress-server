@@ -1,25 +1,25 @@
-import {ISettingsService} from "../../../../../../app/service/settings/settings.service.abstraction";
+import {ISettingsService} from "../../../../../app/service/settings/settings.service.abstraction";
 import {Test} from "@nestjs/testing";
-import {ProductEntity} from "../../../../../../app/repository/product/entity/product.entity";
+import {ProductEntity} from "../../../../../app/repository/product/entity/product.entity";
 import {
     ProductColorSizeEntity
-} from "../../../../../../app/repository/product/product-color-size/entity/product-color-size.entity";
+} from "../../../../../app/repository/product/product-color-size/entity/product-color-size.entity";
 import {
     ProductColorSizeImagesService
-} from "../../../../../../app/service/products/productColorSizeImage/impl/productColorSizeImages.service";
+} from "../../../../../app/service/products/productColorSizeImage/impl/productColorSizeImages.service";
 import {
     generateColorEntity, generateProductColorImageEntity,
     generateProductColorSizeEntity,
     generateProductEntity, generateSizeEntity
-} from "../../../../../test-utils/mock-entity-generators";
-import {ProductColorSizeDto} from "../../../../../../app/service/products/model/product-color-size.dto";
-import {generateProductColorImageDto, generateProductColorSizeDto} from "../../../../../test-utils/mock-dto-generators";
-import {ColorEntity} from "../../../../../../app/repository/settings/color/entity/color.entity";
-import {SizeEntity} from "../../../../../../app/repository/settings/size/enitity/size.entity";
-import {ProductColorImageDto} from "../../../../../../app/service/products/model/product-color-image.dto";
+} from "../../../../test-utils/mock-entity-generators";
+import {ProductColorSizeDto} from "../../../../../app/service/products/model/product-color-size.dto";
+import {generateProductColorImageDto, generateProductColorSizeDto} from "../../../../test-utils/mock-dto-generators";
+import {ColorEntity} from "../../../../../app/repository/settings/color/entity/color.entity";
+import {SizeEntity} from "../../../../../app/repository/settings/size/enitity/size.entity";
+import {ProductColorImageDto} from "../../../../../app/service/products/model/product-color-image.dto";
 import {
     ProductColorImageEntity
-} from "../../../../../../app/repository/product/product-color-image/entity/product-color-image.entity";
+} from "../../../../../app/repository/product/product-color-image/entity/product-color-image.entity";
 
 describe('ProductColorSizeImage', () => {
     let settingsService: ISettingsService;
