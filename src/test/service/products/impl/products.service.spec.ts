@@ -33,6 +33,8 @@ import {ProductDto} from "../../../../app/service/products/model/product.dto";
 import {CategoryEntity} from "../../../../app/repository/settings/category/entity/category.entity";
 import {ModelEntity} from "../../../../app/repository/settings/model/entity/model.entity";
 import {MaterialEntity} from "../../../../app/repository/settings/material/entity/material.entity";
+import {EntitiesNotFoundByIdsException} from "../../../../app/exception/entities-not-found-by-ids.exception";
+import {EntityDuplicateFieldException} from "../../../../app/exception/entity-duplicate-field.exception";
 
 jest.mock('typeorm-transactional', () => ({
     Transactional: () => () => ({}),
@@ -122,12 +124,35 @@ describe('ProductsService', () => {
         expect(actualProductViewDto.productColorImages).toStrictEqual(productColorImageViewDto);
     });
 
+    it('should throw EntitiesNotFoundByIdsException when getting the product', async () => {
+        const id = 1;
+        productsRepository.findOne.mockReturnValue(null);
+        try{
+            await productsService.getProduct(id);
+        } catch (error) {
+            expect(error).toBeInstanceOf(EntitiesNotFoundByIdsException);
+        }
+    });
+
     it('should delete product', async () => {
         const id = 1;
         const deleteResult = {} as never;
         productsRepository.delete.mockResolvedValue(deleteResult);
         await productsService.deleteProduct(id);
         expect(productsRepository.delete).toHaveBeenCalled();
+    });
+
+    it('should throw EntitiesNotFoundByIdsException when deleting the product', async () => {
+        const id = 1;
+        const deleteResult = {
+            affected: 0,
+        };
+        productsRepository.delete.mockReturnValue(deleteResult);
+        try{
+            await productsService.deleteProduct(id);
+        } catch (error) {
+            expect(error).toBeInstanceOf(EntitiesNotFoundByIdsException);
+        }
     });
 
     it('should create product', async () => {
@@ -161,6 +186,32 @@ describe('ProductsService', () => {
         expect(actualProductViewDto.productColorImages).toStrictEqual(productColorImageViewDto);
     });
 
+    it('should throw EntityDuplicateFieldException when adding the product', async () => {
+        const productDto: ProductDto = generateProductDto();
+        const duplicateError = {
+            code: 'ER_DUP_ENTRY',
+        } as never;
+        const productEntity: Partial<ProductEntity> = generateProductEntity();
+
+        const categoryEntity: CategoryEntity = generateCategoryEntity();
+        const modelEntity: ModelEntity = generateSimpleListEntity();
+        const materialEntities: MaterialEntity[] = [generateSimpleListEntity()];
+
+
+        jest.spyOn(productConverter, 'convertToPartialEntity').mockImplementation(() => productEntity);
+        jest.spyOn(settingsService, 'getSettingEntitiesByIds').mockResolvedValueOnce(materialEntities);
+        jest.spyOn(settingsService, 'getSettingEntityById').mockResolvedValueOnce(categoryEntity);
+        jest.spyOn(settingsService, 'getSettingEntityById').mockResolvedValueOnce(modelEntity);
+
+        productsRepository.save.mockRejectedValue(duplicateError);
+        try{
+         await productsService.createProduct(productDto);
+        } catch (error) {
+            expect(error).toBeInstanceOf(EntityDuplicateFieldException);
+        }
+
+    });
+
     it('should update product', async () => {
         const id = 1;
 
@@ -192,5 +243,16 @@ describe('ProductsService', () => {
         expect(actualProductViewDto.materials).toStrictEqual(productViewDto.materials);
         expect(actualProductViewDto.productColorSizes).toStrictEqual(productColorSizeViewDto);
         expect(actualProductViewDto.productColorImages).toStrictEqual(productColorImageViewDto);
+    });
+
+    it('should throw EntitiesNotFoundByIdsException when updating the product', async () => {
+        const id = 1;
+        const productDto: ProductDto = generateProductDto();
+        productsRepository.findOne.mockReturnValue(null);
+        try{
+            await productsService.updateProduct(id, productDto);
+        } catch (error) {
+            expect(error).toBeInstanceOf(EntitiesNotFoundByIdsException);
+        }
     });
 })
