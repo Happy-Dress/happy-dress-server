@@ -19,8 +19,11 @@ import {
   generateCategoryDto,
   generateColorDto, generateGlobalDressOptionsDto,
   generateMaterialDto,
-  generateModelDto,
+  generateModelDto, generateSizeDto,
 } from '../../../test-utils/mock-dto-generators';
+import {SizesCrudService} from "../../../../app/service/settings/crud/sizes.crud.service";
+import {SizeEntity} from "../../../../app/repository/settings/size/enitity/size.entity";
+import {SizeDto} from "../../../../app/service/settings/model/size.dto";
 
 jest.mock('typeorm-transactional', () => ({
   Transactional: () => () => ({}),
@@ -33,6 +36,7 @@ describe('SettingsService', () => {
   let categoriesCrudService: CategoriesCrudService;
   let modelsCrudService: ModelsCrudService;
   let colorsCrudService: ColorsCrudService;
+  let sizesCrudService: SizesCrudService;
 
     beforeEach(async () => {
       const moduleRef = await Test.createTestingModule({
@@ -42,10 +46,12 @@ describe('SettingsService', () => {
           CategoriesCrudService,
           ModelsCrudService,
           ColorsCrudService,
+          SizesCrudService,
           { provide: getRepositoryToken(CategoryEntity), useFactory: repositoryMockFactory },
           { provide: getRepositoryToken(ModelEntity), useFactory: repositoryMockFactory },
           { provide: getRepositoryToken(MaterialEntity), useFactory: repositoryMockFactory },
           { provide: getRepositoryToken(ColorEntity), useFactory: repositoryMockFactory },
+          { provide: getRepositoryToken(SizeEntity), useFactory: repositoryMockFactory }
         ],
 
       }).compile();
@@ -56,6 +62,7 @@ describe('SettingsService', () => {
       categoriesCrudService = moduleRef.get<CategoriesCrudService>(CategoriesCrudService);
       modelsCrudService = moduleRef.get<ModelsCrudService>(ModelsCrudService);
       colorsCrudService = moduleRef.get<ColorsCrudService>(ColorsCrudService);
+      sizesCrudService = moduleRef.get<SizesCrudService>(SizesCrudService);
 
 
         jest.mock('typeorm-transactional', () => ({
@@ -68,17 +75,20 @@ describe('SettingsService', () => {
       const modelDTOs: ModelDto[] = [generateModelDto()];
       const materialDTOs: MaterialDto[] = [generateMaterialDto()];
       const colorDTOs: ColorDto[] = [generateColorDto()];
+      const sizeDTOs: SizeDto[]= [generateSizeDto()];
 
         jest.spyOn(categoriesCrudService, 'getAll').mockResolvedValue(categoryDTOs);
         jest.spyOn(modelsCrudService, 'getAll').mockResolvedValue(modelDTOs);
         jest.spyOn(materialsCrudService, 'getAll').mockResolvedValue(materialDTOs);
         jest.spyOn(colorsCrudService, 'getAll').mockResolvedValue(colorDTOs);
+        jest.spyOn(sizesCrudService, 'getAll').mockResolvedValue(sizeDTOs);
 
         const dressOptions: GlobalDressOptionsDto = await settingsService.getGlobalDressOptions();
         expect(dressOptions.colors).toBe(colorDTOs);
         expect(dressOptions.categories).toBe(categoryDTOs);
         expect(dressOptions.models).toBe(modelDTOs);
         expect(dressOptions.materials).toBe(materialDTOs);
+        expect(dressOptions.sizes).toBe(sizeDTOs);
     });
 
     it('should update all dress options', async () => {
@@ -88,6 +98,7 @@ describe('SettingsService', () => {
         jest.spyOn(categoriesCrudService, 'update').mockResolvedValue();
         jest.spyOn(colorsCrudService, 'update').mockResolvedValue();
         jest.spyOn(modelsCrudService, 'update').mockResolvedValue();
+        jest.spyOn(sizesCrudService, 'update').mockResolvedValue();
 
         settingsService.onModuleInit();
         const dressOptions: GlobalDressOptionsDto = await settingsService.setGlobalDressOptions(globalDressOptionsDto);
@@ -96,6 +107,7 @@ describe('SettingsService', () => {
         expect(modelsCrudService.update).toHaveBeenCalled();
         expect(colorsCrudService.update).toHaveBeenCalled();
         expect(materialsCrudService.update).toHaveBeenCalled();
+        expect(sizesCrudService.update).toHaveBeenCalled();
         expect(dressOptions).toBe(globalDressOptionsDto);
     });
 });

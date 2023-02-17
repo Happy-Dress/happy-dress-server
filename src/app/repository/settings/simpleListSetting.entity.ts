@@ -2,7 +2,7 @@ import { Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Unique(['name'])
 export class SimpleListSettingEntity {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
     @Column()

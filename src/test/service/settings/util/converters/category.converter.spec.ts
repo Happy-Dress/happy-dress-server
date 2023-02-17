@@ -13,16 +13,16 @@ describe('CategoryConverter', () => {
   });
 
   describe('convert', () => {
-    it('should convert to DTOs', () => {
+    it('should convert to DTOs', async () => {
       const categoryEntities: CategoryEntity[] = [generateCategoryEntity()];
       const categoryDTOs: CategoryDto[] = [generateCategoryDto()];
-      const convertResult = categoryConverter.convertToDTOs(categoryEntities);
+      const convertResult = await categoryConverter.convertToDTOs(categoryEntities);
       expect(convertResult).toStrictEqual(categoryDTOs);
     });
-    it('should convert to Entities', () => {
+    it('should convert to Entities', async () => {
       const categoryEntities: CategoryEntity[] = [generateCategoryEntity()];
       const categoryDTOs: CategoryDto[] = [generateCategoryDto()];
-      const convertResult = categoryConverter.convertToEntities(categoryDTOs);
+      const convertResult = await categoryConverter.convertToEntities(categoryDTOs);
       expect(convertResult).toStrictEqual(categoryEntities);
     });
   });

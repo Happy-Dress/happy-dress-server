@@ -1,4 +1,4 @@
-import { INVALID_ID_TO_UPDATE } from '../../../messages/constants/messages.constants';
+import { INVALID_ID_TO_UPDATE } from '../messages/constants/messages.constants';
 
 export class SettingsNotFoundByIds extends Error {
 

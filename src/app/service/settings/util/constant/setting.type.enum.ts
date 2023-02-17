@@ -3,4 +3,5 @@ export enum SettingType {
   MODELS = 'Модели',
   MATERIALS = 'Материалы',
   COLORS = 'Цвета',
+  SIZES = 'Размеры',
 }
