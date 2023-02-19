@@ -105,8 +105,21 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./app/**/*.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 87,
+        "branch": 62,
+        "functions": 67,
+        "lines": 88
+      }
+    },
     "coverageReporters": [
-      "json"
+      "text",
+      "html"
     ],
     "coverageDirectory": "../coverage/unit",
     "coveragePathIgnorePatterns": [
