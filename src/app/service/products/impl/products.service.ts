@@ -125,7 +125,7 @@ export class ProductsService implements IProductsService {
   }
 
   private async findProductById(id: number): Promise<ProductEntity> {
-    const productEntity = this.productsRepository.findOne({ where: { id: id } as FindOptionsWhere<ProductEntity> });
+    const productEntity = await this.productsRepository.findOne({ where: { id: id } as FindOptionsWhere<ProductEntity> });
     if (productEntity === null) {
       throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
     }
