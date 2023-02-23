@@ -84,6 +84,7 @@ export function generateProductColorSizeDto(): ProductColorSizeDto {
 export function generateProductColorImageDto(): ProductColorImageDto {
   return {
     colorId: 1,
+    mainImageUrl: 'plain text',
     imageURLs: ['plain text'],
   };
 }
@@ -106,6 +107,7 @@ export function generateProductColorSizeViewDto(): ProductColorSizeViewDto {
 export function generateProductColorImageViewDto(): ProductColorImageViewDto {
   return {
     color: generateColorDto(),
+    mainImageUrl: 'plain text',
     imageURLs: ['plain text'],
   };
 }
