@@ -65,6 +65,7 @@ export function generateProductColorImageEntity(): ProductColorImageEntity {
     id: 1,
     product: generateProductEntity(),
     color: generateColorEntity(),
+    mainImageUrl: 'plain text',
     imageUrls: ['plain text'],
   };
 }

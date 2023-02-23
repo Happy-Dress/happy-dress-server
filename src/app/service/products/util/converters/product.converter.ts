@@ -61,6 +61,7 @@ export class ProductConverter  {
     return productColorImages.map(productColorImage => {
       return {
         color: productColorImage.color,
+        mainImageUrl: productColorImage.mainImageUrl,
         imageURLs: productColorImage.imageUrls,
       };
     });
