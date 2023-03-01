@@ -132,7 +132,11 @@ export class ProductsService implements IProductsService {
       page: productSearchDto.page,
       limit: productSearchDto.limit,
     }, {
-      where: { category : { id: productSearchDto.categoryId } } as FindOptionsWhere<ProductEntity>,
+      where: {
+        category : { id: productSearchDto.categoryId },
+        model : { id: In(productSearchDto.modelIds) },
+        materials : { id: In(productSearchDto.materialIds) },
+      } as FindOptionsWhere<ProductEntity>,
     });
     const productIds = paginationRes.items.map(item => item.id);
     const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
