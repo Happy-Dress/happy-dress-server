@@ -34,7 +34,7 @@ export class ProductsService implements IProductsService {
 
   @InjectRepository(ProductColorSizeEntity)
   readonly productColorSizesRepository: Repository<ProductColorSizeEntity>;
-  
+
   @InjectRepository(ProductColorImageEntity)
   readonly productColorImagesRepository: Repository<ProductColorImageEntity>;
 
@@ -43,7 +43,7 @@ export class ProductsService implements IProductsService {
 
   @Inject()
   readonly settingsService: ISettingsService;
-  
+
   @Inject()
   readonly productColorSizeImagesService: IProductColorSizeImagesService;
 
@@ -58,10 +58,10 @@ export class ProductsService implements IProductsService {
         throw new EntityDuplicateFieldException(PRODUCTS);
       }
     }
-    
+
     const productColorSizeEntities = await this.productColorSizeImagesService.getProductColorSizes(product.productColorSizes, savedProductEntity);
     const savedProductColorSizeEntities = await this.productColorSizesRepository.save(productColorSizeEntities);
-    
+
     const productColorImageEntities = await this.productColorSizeImagesService.getProductColorImages(product.productColorImages, savedProductEntity);
     const savedProductColorImageEntities = await this.productColorImagesRepository.save(productColorImageEntities);
 
@@ -83,7 +83,7 @@ export class ProductsService implements IProductsService {
     const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
       id: id,
     } } as FindOptionsWhere<ProductColorSizeEntity>);
-    
+
     const productColorImageEntities = await this.productColorImagesRepository.findBy({ product: {
       id: id,
     } } as FindOptionsWhere<ProductColorSizeEntity>);
@@ -147,13 +147,8 @@ export class ProductsService implements IProductsService {
       id: In(productIds),
     } } as FindOptionsWhere<ProductColorSizeEntity>);
 
-    const productColorSizesMap = new Map<number, ProductColorSizeEntity[]>(productIds
-      .map(id => [id, productColorSizeEntities
-        .filter(entity => entity.product.id === id)]));
-    const productColorImagesMap = new Map<number, ProductColorImageEntity[]>(productIds
-      .map(id => [id, productColorImageEntities
-        .filter(entity => entity.product.id === id)]));
-    
+    const productColorSizesMap = MapUtils.groupBy(productColorSizeEntities, (entity) => entity.product.id );
+    const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id );
 
     const productViewDtos = Promise.all(
         paginationRes.items.map(item =>
