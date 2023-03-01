@@ -5,7 +5,7 @@ import { ProductDto } from '../model/product.dto';
 import { ProductViewDto } from '../model/product.view.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../../../repository/product/entity/product.entity';
-import { FindOptionsWhere, In, Repository } from 'typeorm';
+import { FindOptionsWhere, In, Like, Repository } from 'typeorm';
 import { ProductConverter } from '../util/converters/product.converter';
 import { SettingType } from '../../settings/util/constant/setting.type.enum';
 import { CategoryEntity } from '../../../repository/settings/category/entity/category.entity';
@@ -129,16 +129,12 @@ export class ProductsService implements IProductsService {
   }
 
   public async searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
-    const paginationRes = await paginate(this.productsRepository, {
+    const findOptions = this.buildFindOptions(productSearchDto);
+    
+    const paginationRes = await paginate<ProductEntity>(this.productsRepository, {
       page: productSearchDto.page,
       limit: productSearchDto.limit,
-    }, {
-      where: {
-        category : { id: productSearchDto.categoryId },
-        model : { id: In(productSearchDto.modelIds) },
-        materials : { id: In(productSearchDto.materialIds) },
-      } as FindOptionsWhere<ProductEntity>,
-    });
+    }, findOptions);
     const productIds = paginationRes.items.map(item => item.id);
     const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
       id: In(productIds),
@@ -172,5 +168,22 @@ export class ProductsService implements IProductsService {
       throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
     }
     return productEntity;
+  }
+
+  private buildFindOptions(productSearchDto: ProductSearchDto): FindOptionsWhere<ProductEntity> {
+    const findOptions: Record<string, any> = { where: {} };
+    if (productSearchDto?.name) {
+      findOptions.where.name = Like('%' + productSearchDto.name + '%');
+    }
+    if (productSearchDto?.categoryId) {
+      findOptions.where.category = { id: productSearchDto.categoryId };
+    }
+    if (productSearchDto?.modelIds) {
+      findOptions.where.model = { id: In(productSearchDto.modelIds) };
+    }
+    if (productSearchDto?.materialIds) {
+      findOptions.where.materials = { id: In(productSearchDto.materialIds) };
+    }
+    return findOptions as FindOptionsWhere<ProductEntity>;
   }
 }
