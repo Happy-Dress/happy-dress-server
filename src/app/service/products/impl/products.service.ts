@@ -4,7 +4,7 @@ import { ProductDto } from '../model/product.dto';
 import { ProductViewDto } from '../model/product.view.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../../../repository/product/entity/product.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsWhere, In, Repository } from 'typeorm';
 import { ProductConverter } from '../util/converters/product.converter';
 import { SettingType } from '../../settings/util/constant/setting.type.enum';
 import { CategoryEntity } from '../../../repository/settings/category/entity/category.entity';
@@ -19,6 +19,9 @@ import { Transactional } from 'typeorm-transactional';
 import { EntitiesNotFoundByIdsException } from '../../../exception/entities-not-found-by-ids.exception';
 import { IProductColorSizeImagesService } from '../productColorSizeImage/productColorSizeImages.service.abstraction';
 import { EntityDuplicateFieldException } from '../../../exception/entity-duplicate-field.exception';
+import { ProductSearchDto } from '../model/product-search.dto';
+import { paginate } from 'nestjs-typeorm-paginate';
+import { ProductSearchViewDto } from '../model/product-search.view.dto';
 
 const PRODUCTS = 'Продукты';
 
@@ -121,6 +124,45 @@ export class ProductsService implements IProductsService {
       category: categoryEntity,
       model: modelEntity,
       materials: materialEntities,
+    };
+  }
+
+  public async searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
+    const paginationRes = await paginate(this.productsRepository, {
+      page: productSearchDto.page,
+      limit: productSearchDto.limit,
+    }, {
+      where: { category : { id: productSearchDto.categoryId } } as FindOptionsWhere<ProductEntity>,
+    });
+    const productIds = paginationRes.items.map(item => item.id);
+    const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
+      id: In(productIds),
+    } } as FindOptionsWhere<ProductColorSizeEntity>);
+
+    const productColorImageEntities = await this.productColorImagesRepository.findBy({ product: {
+      id: In(productIds),
+    } } as FindOptionsWhere<ProductColorSizeEntity>);
+
+    const productColorSizesMap = new Map<number, ProductColorSizeEntity[]>(productIds
+      .map(id => [id, productColorSizeEntities
+        .filter(entity => entity.product.id === id)]));
+    const productColorImagesMap = new Map<number, ProductColorImageEntity[]>(productIds
+      .map(id => [id, productColorImageEntities
+        .filter(entity => entity.product.id === id)]));
+    
+
+    const productViewDtos = Promise.all(
+        paginationRes.items.map(item =>
+            this.productConverter.convertToViewDto(item, productColorSizesMap.get(item.id), productColorImagesMap.get(item.id))
+        ),
+    );
+
+    return {
+      products: await productViewDtos,
+      currentPage: paginationRes.meta.currentPage,
+      itemsPerPage: paginationRes.meta.itemsPerPage,
+      totalItems: paginationRes.meta.totalItems,
+      totalPages: paginationRes.meta.totalPages,
     };
   }
 

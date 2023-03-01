@@ -7,7 +7,7 @@ import { IdentifiedEntity } from '../../../../service/util/model/entity/identifi
 @Entity('product-color-size')
 export class ProductColorSizeEntity extends IdentifiedEntity {
 
-    @ManyToOne(() => ProductEntity, product => product.id, { onDelete: 'CASCADE' })
+    @ManyToOne(() => ProductEntity, product => product.id, { eager: true, onDelete: 'CASCADE' })
     product: ProductEntity;
     
     @ManyToOne(() => ColorEntity, color => color.id, { eager: true, onDelete: 'SET NULL' })
