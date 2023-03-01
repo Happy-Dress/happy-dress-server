@@ -171,7 +171,7 @@ export class ProductsService implements IProductsService {
   }
 
   private buildFindOptions(productSearchDto: ProductSearchDto): FindOptionsWhere<ProductEntity> {
-    const findOptions: Record<string, any> = { where: {} };
+    const findOptions: Record<any, any> = { where: {} };
     if (productSearchDto?.name) {
       findOptions.where.name = Like('%' + productSearchDto.name + '%');
     }
