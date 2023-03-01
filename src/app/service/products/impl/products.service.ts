@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { MapUtils } from '../../../util/map-utils';
 import { IProductsService } from '../products.service.abstraction';
 import { ProductDto } from '../model/product.dto';
 import { ProductViewDto } from '../model/product.view.dto';

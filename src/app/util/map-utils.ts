@@ -1,4 +1,4 @@
-class MapUtils {
+export class MapUtils {
 
   public static groupBy<K, V>(array: V[], grouper: (item: V) => K): Map<K, V[]> {
     return array.reduce((store, item) => {
@@ -12,3 +12,5 @@ class MapUtils {
     }, new Map<K, V[]>());
   }
 }
+
+
