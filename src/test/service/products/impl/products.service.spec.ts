@@ -5,7 +5,7 @@ import {MockType, repositoryMockFactory} from "../../../test-utils/test-utils";
 import {ProductEntity} from "../../../../app/repository/product/entity/product.entity";
 import {
     generateProductColorImageViewDto,
-    generateProductColorSizeViewDto, generateProductDto, generateProductSearchDto,
+    generateProductColorSizeViewDto, generateProductDto, generateProductSearchDto, generateProductSearchViewDto,
     generateProductViewDto,
 } from "../../../test-utils/mock-dto-generators";
 import {ProductViewDto} from "../../../../app/service/products/model/product.view.dto";
@@ -36,9 +36,36 @@ import {MaterialEntity} from "../../../../app/repository/settings/material/entit
 import {EntitiesNotFoundByIdsException} from "../../../../app/exception/entities-not-found-by-ids.exception";
 import {EntityDuplicateFieldException} from "../../../../app/exception/entity-duplicate-field.exception";
 
-jest.mock('typeorm-transactional', () => ({
-    Transactional: () => () => ({}),
+jest.mock('nestjs-typeorm-paginate', () => ({
+    paginate: jest.fn().mockResolvedValue({
+        items: [{
+            id: 1,
+            name: 'plain text',
+            description: 'plain text',
+            category:  {
+                id: 1,
+                description: 'plain text',
+                imageUrl: 'plain text',
+                name: 'plain text',
+            },
+            model: {
+                id: 1,
+                name: 'plain text',
+            },
+            materials: [{
+                id: 1,
+                name: 'plain text',
+            }],
+        }],
+        meta: {
+            itemsPerPage: 1,
+            totalItems: 1,
+            totalPages: 1,
+            currentPage: 1,
+        }
+    }),
 }));
+
 
 describe('ProductsService', () => {
     let settingsService: ISettingsService;
@@ -74,13 +101,13 @@ describe('ProductsService', () => {
                         convertToPartialEntity: jest.fn(),
                     }
                 },
-
                 { provide: getRepositoryToken(ProductEntity), useFactory: repositoryMockFactory},
                 { provide: getRepositoryToken(ProductColorSizeEntity), useFactory: repositoryMockFactory},
                 { provide: getRepositoryToken(ProductColorImageEntity), useFactory: repositoryMockFactory},
             ],
 
         }).compile();
+
 
         settingsService = moduleRef.get<ISettingsService>(ISettingsService);
         productColorSizeImageService = moduleRef.get<IProductColorSizeImagesService>(IProductColorSizeImagesService);
@@ -90,11 +117,10 @@ describe('ProductsService', () => {
         productColorImagesRepository = moduleRef.get(getRepositoryToken(ProductColorImageEntity));
         productConverter = moduleRef.get<ProductConverter>(ProductConverter);
 
-
-
         jest.mock('typeorm-transactional', () => ({
             Transactional: () => () => ({}),
         }));
+
     });
 
     it('should get product', async () => {
@@ -259,17 +285,14 @@ describe('ProductsService', () => {
     describe('search', () => {
         it('should search product by all options', async () => {
             const productSearchDto = generateProductSearchDto();
-            const productSearchViewDto = generateProductViewDto();
-            const productEntity = generateProductEntity();
+            const productSearchViewDto = generateProductSearchViewDto();
             const productColorSizeEntities = generateProductColorSizeEntity();
             const productColorImageEntities = generateProductColorSizeEntity();
+            const productViewDto = generateProductViewDto();
 
-            jest.mock('nestjs-typeorm-paginate', () => ({
-                paginate: () => productEntity
-            }));
-
-            productColorSizesRepository.findBy.mockReturnValue(productColorSizeEntities);
-            productColorImagesRepository.findBy.mockReturnValue(productColorImageEntities);
+            productColorSizesRepository.findBy.mockReturnValue([productColorSizeEntities]);
+            productColorImagesRepository.findBy.mockReturnValue([productColorImageEntities]);
+            jest.spyOn(productConverter, 'convertToViewDto').mockResolvedValue(productViewDto);
 
             const actualResult = await productsService.searchProducts(productSearchDto);
             expect(actualResult).toStrictEqual(productSearchViewDto);
