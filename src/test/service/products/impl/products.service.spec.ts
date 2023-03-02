@@ -66,6 +66,10 @@ jest.mock('nestjs-typeorm-paginate', () => ({
     }),
 }));
 
+jest.mock('typeorm-transactional', () => ({
+    Transactional: () => () => ({}),
+}));
+
 
 describe('ProductsService', () => {
     let settingsService: ISettingsService;
@@ -116,10 +120,6 @@ describe('ProductsService', () => {
         productColorSizesRepository = moduleRef.get(getRepositoryToken(ProductColorSizeEntity));
         productColorImagesRepository = moduleRef.get(getRepositoryToken(ProductColorImageEntity));
         productConverter = moduleRef.get<ProductConverter>(ProductConverter);
-
-        jest.mock('typeorm-transactional', () => ({
-            Transactional: () => () => ({}),
-        }));
 
     });
 
