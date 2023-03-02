@@ -5,7 +5,7 @@ import {MockType, repositoryMockFactory} from "../../../test-utils/test-utils";
 import {ProductEntity} from "../../../../app/repository/product/entity/product.entity";
 import {
     generateProductColorImageViewDto,
-    generateProductColorSizeViewDto, generateProductDto,
+    generateProductColorSizeViewDto, generateProductDto, generateProductSearchDto,
     generateProductViewDto,
 } from "../../../test-utils/mock-dto-generators";
 import {ProductViewDto} from "../../../../app/service/products/model/product.view.dto";
@@ -255,4 +255,24 @@ describe('ProductsService', () => {
             expect(error).toBeInstanceOf(EntitiesNotFoundByIdsException);
         }
     });
+
+    describe('search', () => {
+        it('should search product by all options', async () => {
+            const productSearchDto = generateProductSearchDto();
+            const productSearchViewDto = generateProductViewDto();
+            const productEntity = generateProductEntity();
+            const productColorSizeEntities = generateProductColorSizeEntity();
+            const productColorImageEntities = generateProductColorSizeEntity();
+
+            jest.mock('nestjs-typeorm-paginate', () => ({
+                paginate: () => productEntity
+            }));
+
+            productColorSizesRepository.findBy.mockReturnValue(productColorSizeEntities);
+            productColorImagesRepository.findBy.mockReturnValue(productColorImageEntities);
+
+            const actualResult = await productsService.searchProducts(productSearchDto);
+            expect(actualResult).toStrictEqual(productSearchViewDto);
+        })
+    })
 })

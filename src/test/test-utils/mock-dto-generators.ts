@@ -11,6 +11,8 @@ import { ProductColorImageViewDto } from '../../app/service/products/model/produ
 import { ProductDto } from '../../app/service/products/model/product.dto';
 import { ProductColorSizeDto } from '../../app/service/products/model/product-color-size.dto';
 import { ProductColorImageDto } from '../../app/service/products/model/product-color-image.dto';
+import { ProductSearchDto } from '../../app/service/products/model/product-search.dto';
+import { ProductSearchViewDto } from '../../app/service/products/model/product-search.view.dto';
 
 export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
   return {
@@ -122,5 +124,27 @@ export function generateProductViewDto(): ProductViewDto {
     materials: [generateModelDto()],
     productColorSizes: [generateProductColorSizeViewDto()],
     productColorImages: [generateProductColorImageViewDto()],
+  };
+}
+
+export function generateProductSearchDto(): ProductSearchDto {
+  return {
+    page: 1,
+    limit: 1,
+    name: 'plain text',
+    categoryId: 1,
+    materialIds: [1],
+    modelIds: [1],
+  };
+}
+
+export function generateProductSearchViewDto(): ProductSearchViewDto {
+  const productSearchDto = generateProductSearchDto();
+  return {
+    products: [generateProductViewDto()],
+    itemsPerPage: productSearchDto.limit,
+    totalPages: 1,
+    currentPage: productSearchDto.page,
+    totalItems: 1,
   };
 }
