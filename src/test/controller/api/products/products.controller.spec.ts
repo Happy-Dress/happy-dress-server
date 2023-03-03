@@ -1,6 +1,7 @@
 import {ProductsController} from "../../../../app/controller/api/products/products.controller";
 import {IProductsService} from "../../../../app/service/products/products.service.abstraction";
 import {Test} from "@nestjs/testing";
+import {generateProductSearchDto, generateProductSearchViewDto} from "../../../test-utils/mock-dto-generators";
 
 
 describe('ProductsController', () => {
@@ -17,6 +18,7 @@ describe('ProductsController', () => {
                         createProduct: jest.fn(),
                         updateProduct: jest.fn(),
                         deleteProduct: jest.fn(),
+                        searchProducts: jest.fn(),
                     },
                 },
             ],
@@ -66,4 +68,14 @@ describe('ProductsController', () => {
             expect(productsService.deleteProduct).toHaveBeenCalled();
         });
     });
+
+    describe('search', () => {
+        it('should find product by many options', async () => {
+            const productSearchDto = generateProductSearchDto();
+            const result = generateProductSearchViewDto() as any;
+            jest.spyOn(productsService, 'searchProducts').mockImplementation(() => result);
+            const actualResult = await productsController.search(productSearchDto);
+            expect(actualResult).toStrictEqual(result);
+        });
+    })
 })

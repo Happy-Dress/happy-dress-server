@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { MapUtils } from '../../../util/map-utils';
 import { IProductsService } from '../products.service.abstraction';
 import { ProductDto } from '../model/product.dto';
 import { ProductViewDto } from '../model/product.view.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../../../repository/product/entity/product.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsWhere, In, Like, Repository } from 'typeorm';
 import { ProductConverter } from '../util/converters/product.converter';
 import { SettingType } from '../../settings/util/constant/setting.type.enum';
 import { CategoryEntity } from '../../../repository/settings/category/entity/category.entity';
@@ -19,6 +20,9 @@ import { Transactional } from 'typeorm-transactional';
 import { EntitiesNotFoundByIdsException } from '../../../exception/entities-not-found-by-ids.exception';
 import { IProductColorSizeImagesService } from '../productColorSizeImage/productColorSizeImages.service.abstraction';
 import { EntityDuplicateFieldException } from '../../../exception/entity-duplicate-field.exception';
+import { ProductSearchDto } from '../model/product-search.dto';
+import { paginate } from 'nestjs-typeorm-paginate';
+import { ProductSearchViewDto } from '../model/product-search.view.dto';
 
 const PRODUCTS = 'Продукты';
 
@@ -31,7 +35,7 @@ export class ProductsService implements IProductsService {
 
   @InjectRepository(ProductColorSizeEntity)
   readonly productColorSizesRepository: Repository<ProductColorSizeEntity>;
-  
+
   @InjectRepository(ProductColorImageEntity)
   readonly productColorImagesRepository: Repository<ProductColorImageEntity>;
 
@@ -40,7 +44,7 @@ export class ProductsService implements IProductsService {
 
   @Inject()
   readonly settingsService: ISettingsService;
-  
+
   @Inject()
   readonly productColorSizeImagesService: IProductColorSizeImagesService;
 
@@ -55,10 +59,10 @@ export class ProductsService implements IProductsService {
         throw new EntityDuplicateFieldException(PRODUCTS);
       }
     }
-    
+
     const productColorSizeEntities = await this.productColorSizeImagesService.getProductColorSizes(product.productColorSizes, savedProductEntity);
     const savedProductColorSizeEntities = await this.productColorSizesRepository.save(productColorSizeEntities);
-    
+
     const productColorImageEntities = await this.productColorSizeImagesService.getProductColorImages(product.productColorImages, savedProductEntity);
     const savedProductColorImageEntities = await this.productColorImagesRepository.save(productColorImageEntities);
 
@@ -80,7 +84,7 @@ export class ProductsService implements IProductsService {
     const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
       id: id,
     } } as FindOptionsWhere<ProductColorSizeEntity>);
-    
+
     const productColorImageEntities = await this.productColorImagesRepository.findBy({ product: {
       id: id,
     } } as FindOptionsWhere<ProductColorSizeEntity>);
@@ -124,11 +128,62 @@ export class ProductsService implements IProductsService {
     };
   }
 
+  public async searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
+    const findOptions = this.buildFindOptions(productSearchDto);
+    
+    const paginationRes = await paginate<ProductEntity>(this.productsRepository, {
+      page: productSearchDto.page,
+      limit: productSearchDto.limit,
+    }, findOptions);
+    const productIds = paginationRes.items.map(item => item.id);
+    const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
+      id: In(productIds),
+    } } as FindOptionsWhere<ProductColorSizeEntity>);
+
+    const productColorImageEntities = await this.productColorImagesRepository.findBy({ product: {
+      id: In(productIds),
+    } } as FindOptionsWhere<ProductColorSizeEntity>);
+
+    const productColorSizesMap = MapUtils.groupBy(productColorSizeEntities, (entity) => entity.product.id );
+    const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id );
+
+    const productViewDtos = Promise.all(
+        paginationRes.items.map(item =>
+            this.productConverter.convertToViewDto(item, productColorSizesMap.get(item.id), productColorImagesMap.get(item.id))
+        ),
+    );
+
+    return {
+      products: await productViewDtos,
+      currentPage: paginationRes.meta.currentPage,
+      itemsPerPage: paginationRes.meta.itemsPerPage,
+      totalItems: paginationRes.meta.totalItems,
+      totalPages: paginationRes.meta.totalPages,
+    };
+  }
+
   private async findProductById(id: number): Promise<ProductEntity> {
     const productEntity = await this.productsRepository.findOne({ where: { id: id } as FindOptionsWhere<ProductEntity> });
     if (productEntity === null) {
       throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
     }
     return productEntity;
+  }
+
+  private buildFindOptions(productSearchDto: ProductSearchDto): FindOptionsWhere<ProductEntity> {
+    const findOptions: Record<any, any> = { where: {} };
+    if (productSearchDto?.name) {
+      findOptions.where.name = Like('%' + productSearchDto.name + '%');
+    }
+    if (productSearchDto?.categoryId) {
+      findOptions.where.category = { id: productSearchDto.categoryId };
+    }
+    if (productSearchDto?.modelIds) {
+      findOptions.where.model = { id: In(productSearchDto.modelIds) };
+    }
+    if (productSearchDto?.materialIds) {
+      findOptions.where.materials = { id: In(productSearchDto.materialIds) };
+    }
+    return findOptions as FindOptionsWhere<ProductEntity>;
   }
 }

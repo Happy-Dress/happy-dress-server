@@ -3,6 +3,8 @@ import { ProductDto } from '../../../service/products/model/product.dto';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
 import { IProductsService } from '../../../service/products/products.service.abstraction';
 import { ProductViewDto } from '../../../service/products/model/product.view.dto';
+import { ProductSearchDto } from '../../../service/products/model/product-search.dto';
+import { ProductSearchViewDto } from '../../../service/products/model/product-search.view.dto';
 
 
 @Controller('products')
@@ -28,6 +30,11 @@ export class ProductsController {
       @Param('id', new ParseIntPipe()) id: number,
         @Body() productDto: ProductDto): Promise<ProductViewDto> {
       return await this.productService.updateProduct(id, productDto);
+    }
+
+    @Put('/search')
+    async search(@Body() productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
+      return await this.productService.searchProducts(productSearchDto);
     }
 
     @UseGuards(JwtAuthGuard)
