@@ -13,16 +13,16 @@ describe('SimpleListSettingConverter', () => {
   });
 
   describe('convert', () => {
-    it('should convert to DTO', () => {
+    it('should convert to DTO', async () => {
       const settingsEntities: SimpleListSettingEntity[] = [generateSimpleListEntity()];
       const settingsDTOs: SimpleListSetting[] = [generateSimpleListSetting()];
-      const convertResult = simpleListSettingConverter.convertToDTOs(settingsEntities);
+      const convertResult = await simpleListSettingConverter.convertToDTOs(settingsEntities);
       expect(convertResult).toStrictEqual(settingsDTOs);
     });
-    it('should convert to Entities', () => {
+    it('should convert to Entities', async () => {
       const settingsEntities: SimpleListSettingEntity[] = [generateSimpleListEntity()];
       const settingsDTOs: SimpleListSetting[] = [generateSimpleListSetting()];
-      const convertResult = simpleListSettingConverter.convertToEntities(settingsDTOs);
+      const convertResult = await simpleListSettingConverter.convertToEntities(settingsDTOs);
       expect(convertResult).toStrictEqual(settingsEntities);
     });
   });

@@ -49,6 +49,7 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.3",
     "nestjs-form-data": "^1.7.1",
+    "nestjs-typeorm-paginate": "^4.0.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -105,8 +106,21 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./app/**/*.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 87,
+        "branch": 62,
+        "functions": 67,
+        "lines": 88
+      }
+    },
     "coverageReporters": [
-      "json"
+      "text",
+      "html"
     ],
     "coverageDirectory": "../coverage/unit",
     "coveragePathIgnorePatterns": [

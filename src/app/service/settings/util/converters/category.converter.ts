@@ -7,6 +7,7 @@ import { CategoryDto } from '../../model/category.dto';
 @Injectable()
 export class CategoryConverter extends MultiConverter<CategoryEntity, CategoryDto> {
 
+<<<<<<< HEAD
   public convertToDTOs(dtos: CategoryEntity[]): CategoryDto[] {
     return dtos.map(value => ({
       id: value.id,
@@ -25,5 +26,23 @@ export class CategoryConverter extends MultiConverter<CategoryEntity, CategoryDt
       description: value.description,
       imageUrl: value.imageUrl,
     }));
+=======
+  public convertToEntity(dto: CategoryDto): Promise<CategoryEntity> {
+    return Promise.resolve({
+      id: dto.id,
+      name: dto.name,
+      description: dto.description,
+      imageUrl: dto.imageUrl,
+    });
+  }
+
+  public convertToDTO(entity: CategoryEntity): Promise<CategoryDto> {
+    return Promise.resolve({
+      id: entity.id,
+      name: entity.name,
+      description: entity.description,
+      imageUrl: entity.imageUrl,
+    });
+>>>>>>> develop
   }
 }
