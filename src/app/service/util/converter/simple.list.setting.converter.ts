@@ -8,6 +8,7 @@ export class SimpleListSettingConverter extends MultiConverter<SimpleListSetting
     return entities.map(value => ({
       id: value.id,
       name: value.name,
+      orderNumber: value.orderNumber,
     }));
   }
 
@@ -15,6 +16,7 @@ export class SimpleListSettingConverter extends MultiConverter<SimpleListSetting
     return dtos.map(value => ({
       id: value.id,
       name: value.name,
+      orderNumber: value.orderNumber,
     }));
   }
 }

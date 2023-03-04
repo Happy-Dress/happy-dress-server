@@ -8,6 +8,7 @@ export class ColorConverter extends MultiConverter<ColorEntity, ColorDto> {
     return entities.map(value => ({
       id: value.id,
       name: value.name,
+      orderNumber: value.orderNumber,
       firstColor: value.firstColor,
       secondColor: value.secondColor,
     }));
@@ -17,6 +18,7 @@ export class ColorConverter extends MultiConverter<ColorEntity, ColorDto> {
     return DTOs.map(value => ({
       id: value.id,
       name: value.name,
+      orderNumber: value.orderNumber,
       firstColor: value.firstColor,
       secondColor: value.secondColor,
     }));

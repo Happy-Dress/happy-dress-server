@@ -20,6 +20,7 @@ export function generateCategoryDto(): CategoryDto {
     description: 'Для свадебных платьев',
     imageUrl: 'image.jpg',
     name: 'Свадебные',
+    orderNumber: 1,
   };
 }
 
@@ -27,6 +28,7 @@ export function generateModelDto(): ModelDto {
   return {
     id: 1,
     name: 'Пышное',
+    orderNumber: 1,
   };
 }
 
@@ -34,6 +36,7 @@ export function generateMaterialDto(): MaterialDto {
   return {
     id: 1,
     name: 'Фатин',
+    orderNumber: 1,
   };
 }
 
@@ -43,6 +46,7 @@ export function generateColorDto(): ColorDto {
     firstColor: '#FF0000',
     name: 'красно-белый',
     secondColor: '#FFFFFF',
+    orderNumber: 1,
   };
 }
 
@@ -50,5 +54,6 @@ export function generateSimpleListSetting(): SimpleListSetting {
   return {
     id: 1,
     name: 'plain text',
+    orderNumber: 1,
   };
 }

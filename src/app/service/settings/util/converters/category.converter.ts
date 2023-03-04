@@ -11,6 +11,7 @@ export class CategoryConverter extends MultiConverter<CategoryEntity, CategoryDt
     return dtos.map(value => ({
       id: value.id,
       name: value.name,
+      orderNumber: value.orderNumber,
       description: value.description,
       imageUrl: value.imageUrl,
     }));
@@ -20,6 +21,7 @@ export class CategoryConverter extends MultiConverter<CategoryEntity, CategoryDt
     return entities.map(value => ({
       id: value.id,
       name: value.name,
+      orderNumber: value.orderNumber,
       description: value.description,
       imageUrl: value.imageUrl,
     }));

@@ -8,6 +8,7 @@ export function generateColorEntity(): ColorEntity {
     firstColor: '#FF0000',
     name: 'красно-белый',
     secondColor: '#FFFFFF',
+    orderNumber: 1,
   };
 }
 
@@ -15,6 +16,7 @@ export function generateSimpleListEntity(): SimpleListSettingEntity {
   return {
     id: 1,
     name: 'plain text',
+    orderNumber: 1,
   };
 }
 
@@ -24,5 +26,6 @@ export function generateCategoryEntity(): CategoryEntity {
     description: 'Для свадебных платьев',
     imageUrl: 'image.jpg',
     name: 'Свадебные',
+    orderNumber: 1,
   };
 }
