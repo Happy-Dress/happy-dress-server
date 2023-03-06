@@ -26,41 +26,24 @@ export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
 
 export function generateCategoryDto(): CategoryDto {
   return {
-    id: 1,
-<<<<<<< HEAD
-    description: 'Для свадебных платьев',
-    imageUrl: 'image.jpg',
-    name: 'Свадебные',
-    orderNumber: 1,
-=======
     description: 'plain text',
     imageUrl: 'plain text',
     name: 'plain text',
->>>>>>> develop
+    orderNumber: 1,
   };
 }
 
 export function generateModelDto(): ModelDto {
   return {
-    id: 1,
-<<<<<<< HEAD
-    name: 'Пышное',
-    orderNumber: 1,
-=======
     name: 'plain text',
->>>>>>> develop
+    orderNumber: 1,
   };
 }
 
 export function generateMaterialDto(): MaterialDto {
   return {
-    id: 1,
-<<<<<<< HEAD
-    name: 'Фатин',
-    orderNumber: 1,
-=======
     name: 'plain text',
->>>>>>> develop
+    orderNumber: 1,
   };
 }
 
@@ -137,6 +120,7 @@ export function generateProductViewDto(): ProductViewDto {
   return {
     id: 1,
     name: 'plain text',
+    orderNumber: 1,
     description: 'plain text',
     category: generateCategoryDto(),
     model: generateModelDto(),

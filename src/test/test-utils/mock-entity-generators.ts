@@ -29,15 +29,10 @@ export function generateSimpleListEntity(): SimpleListSettingEntity {
 export function generateCategoryEntity(): CategoryEntity {
   return {
     id: 1,
-<<<<<<< HEAD
-    description: 'Для свадебных платьев',
-    imageUrl: 'image.jpg',
-    name: 'Свадебные',
-    orderNumber: 1,
-=======
     description: 'plain text',
     imageUrl: 'plain text',
     name: 'plain text',
+    orderNumber: 1,
   };
 }
 
@@ -53,6 +48,7 @@ export function generateProductEntity(): ProductEntity {
     id: 1,
     name: 'plain text',
     description: 'plain text',
+    orderNumber: 1,
     category: generateCategoryEntity(),
     model: generateSimpleListEntity(),
     materials: [generateSimpleListEntity()],
@@ -75,6 +71,5 @@ export function generateProductColorImageEntity(): ProductColorImageEntity {
     color: generateColorEntity(),
     mainImageUrl: 'plain text',
     imageUrls: ['plain text'],
->>>>>>> develop
   };
 }
