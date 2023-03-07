@@ -1,4 +1,4 @@
-import { IsString, Matches, MaxLength, MinLength,  IsInt } from 'class-validator';
+import { IsString, Matches, MaxLength, MinLength,  IsInt, Min } from 'class-validator';
 import {
   NAME_TOO_LONG,
   NAME_TOO_SHORT,
@@ -10,15 +10,15 @@ const MIN_LENGTH_NAME = 3;
 const MAX_LENGTH_NAME = 20;
 
 export class SimpleListSetting implements IdentifiedModel {
+  id?: number;
 
-    id?: number;
+  @IsString()
+  @MinLength(MIN_LENGTH_NAME, { message: NAME_TOO_SHORT })
+  @MaxLength(MAX_LENGTH_NAME, { message: NAME_TOO_LONG })
+  @Matches(/^[а-яА-Яa-zA-Z0-9_.,\s\-]+$/, { message: INVALID_NAME_DETECTED })
+  name: string;
 
-    @IsString()
-    @MinLength(MIN_LENGTH_NAME, { message: NAME_TOO_SHORT })
-    @MaxLength(MAX_LENGTH_NAME, { message: NAME_TOO_LONG })
-    @Matches(/^[а-яА-Яa-zA-Z0-9_.,\s\-]+$/, { message: INVALID_NAME_DETECTED })
-    name: string;
-
-     @IsInt()
-    orderNumber: number;
+  @IsInt()
+  @Min(1)
+  orderNumber: number;
 }

@@ -1,13 +1,12 @@
-import { GlobalDressOptionsDto } from './../../../../../app/service/settings/model/global-dress-options.dto';
 import { BadRequestException } from '@nestjs/common';
-import { IVALID_ORDER_NUMBER } from 'src/app/messages/constants/messages.constants';
+import { GlobalDressOptionsDto } from './../../../../../app/service/settings/model/global-dress-options.dto';
+import { IVALID_ORDER_NUMBER } from './../../../../../app/messages/constants/messages.constants';
 import { OrderNumberValidationPipe } from './../../../../../app/repository/settings/validator/orderNumber.validation.pipe';
-
 
 describe('OrderNumberValidationPipe', () => {
   let orderNumberValidationPipe: OrderNumberValidationPipe;
   const error = new BadRequestException(IVALID_ORDER_NUMBER);
-  
+
   beforeEach(() => {
     orderNumberValidationPipe = new OrderNumberValidationPipe();
   });
