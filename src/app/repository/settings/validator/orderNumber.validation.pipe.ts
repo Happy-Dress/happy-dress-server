@@ -1,24 +1,23 @@
-import { Injectable, PipeTransform, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { IVALID_ORDER_NUMBER } from '../../../messages/constants/messages.constants';
 import { GlobalDressOptionsDto } from '../../../service/settings/model/global-dress-options.dto';
+import { SimpleListSetting } from '../../../service/util/model/dto/simple.list.setting';
+import { SettingType } from '../../../service/settings/util/constant/setting.type.enum';
+
 @Injectable()
 export class OrderNumberValidationPipe implements PipeTransform {
-  public validateSettingOrderNumbers(obj: GlobalDressOptionsDto, title: string): (void | never) {
-    obj[title].forEach((value: any, index: number) => {
-      const step = Object.values(obj[title]);
-      if (!step.includes(index + 1) ) throw new BadRequestException(IVALID_ORDER_NUMBER) ;
-    });
+  public validateSettingOrderNumbers(settings: SimpleListSetting[], settingType: SettingType): (void | never) {
+    const problematicSetting = settings.find((setting, index) => setting.orderNumber != index);
+    if (!!problematicSetting) {
+      throw new BadRequestException(IVALID_ORDER_NUMBER.replace('$DTO_NAME', settingType));
+    }
   }
 
-  public transform(obj: GlobalDressOptionsDto): GlobalDressOptionsDto | never {
-    try {
-      this.validateSettingOrderNumbers(obj, 'colors');
-      this.validateSettingOrderNumbers(obj, 'categories');
-      this.validateSettingOrderNumbers(obj, 'materials');
-      this.validateSettingOrderNumbers(obj, 'models');
-      return obj;
-    } catch (e) {
-      throw new BadRequestException(IVALID_ORDER_NUMBER);
-    }
+  public transform(globalDressOptionsDto: GlobalDressOptionsDto): GlobalDressOptionsDto | never {
+    this.validateSettingOrderNumbers(globalDressOptionsDto.models, SettingType.MODELS);
+    this.validateSettingOrderNumbers(globalDressOptionsDto.colors, SettingType.COLORS);
+    this.validateSettingOrderNumbers(globalDressOptionsDto.materials, SettingType.MATERIALS);
+    this.validateSettingOrderNumbers(globalDressOptionsDto.categories, SettingType.CATEGORIES);
+    return globalDressOptionsDto;
   }
 }
