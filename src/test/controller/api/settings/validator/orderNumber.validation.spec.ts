@@ -3,7 +3,6 @@ import { GlobalDressOptionsDto } from './../../../../../app/service/settings/mod
 import { INVALID_ORDER_NUMBER } from './../../../../../app/messages/constants/messages.constants';
 import { OrderNumberValidationPipe } from './../../../../../app/service/settings/validator/orderNumber.validation.pipe';
 import { generateGlobalDressOptionsDto } from './../../../../../test/test-utils/mock-dto-generators';
-import { SettingType } from './../../../../../app/service/settings/util/constant/setting.type.enum';
 
 describe('OrderNumberValidationPipe', () => {
   let orderNumberValidationPipe: OrderNumberValidationPipe;
