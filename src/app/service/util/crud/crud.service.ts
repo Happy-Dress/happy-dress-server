@@ -58,7 +58,7 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
       const arrayIds = Array.from(ids);
       const entities = await this.repository.findBy({ id: In(arrayIds) } as FindOptionsWhere<Entity>);
       const entityIds = entities.map(entity => entity.id);
-      this.checkIfAllEntitiesFound(entityIds, arrayIds);
+      this.checkIfAllEntitiesFound(arrayIds, entityIds);
       return entities;
     }
 
