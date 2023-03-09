@@ -4,7 +4,9 @@ import { IImageService } from '../../../service/image/image.service.abstraction'
 import { ImageUploadResult } from '../../../service/image/model/ImageUploadResult';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
 import { NullFileValidationPipe } from '../../../service/image/validator/image.validation.pipe';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('images')
 @Controller('images')
 export class ImageController {
 

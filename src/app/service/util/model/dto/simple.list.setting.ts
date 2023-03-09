@@ -5,14 +5,17 @@ import {
   INVALID_NAME_DETECTED,
 } from '../../../../messages/constants/messages.constants';
 import { IdentifiedModel } from './identified.model';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 const MIN_LENGTH_NAME = 3;
 const MAX_LENGTH_NAME = 20;
 
 export class SimpleListSetting implements IdentifiedModel {
 
+    @ApiPropertyOptional()
     id?: number;
 
+    @ApiProperty()
     @IsString()
     @MinLength(MIN_LENGTH_NAME, { message: NAME_TOO_SHORT })
     @MaxLength(MAX_LENGTH_NAME, { message: NAME_TOO_LONG })
