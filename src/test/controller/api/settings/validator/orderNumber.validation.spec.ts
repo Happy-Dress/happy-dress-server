@@ -6,7 +6,6 @@ import { generateGlobalDressOptionsDto } from './../../../../../test/test-utils/
 
 describe('OrderNumberValidationPipe', () => {
   let orderNumberValidationPipe: OrderNumberValidationPipe;
-  const error = new BadRequestException(INVALID_ORDER_NUMBER);
   const mockValue = {
     categories: [
       {
