@@ -1,6 +1,5 @@
-import { BadRequestException } from '@nestjs/common';
+
 import { GlobalDressOptionsDto } from './../../../../../app/service/settings/model/global-dress-options.dto';
-import { INVALID_ORDER_NUMBER } from './../../../../../app/messages/constants/messages.constants';
 import { OrderNumberValidationPipe } from './../../../../../app/service/settings/validator/orderNumber.validation.pipe';
 import { generateGlobalDressOptionsDto } from './../../../../../test/test-utils/mock-dto-generators';
 
