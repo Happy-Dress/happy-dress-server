@@ -26,6 +26,7 @@ export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
 
 export function generateCategoryDto(): CategoryDto {
   return {
+    id: 1,
     description: 'plain text',
     imageUrl: 'plain text',
     name: 'plain text',
