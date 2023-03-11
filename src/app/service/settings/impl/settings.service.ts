@@ -16,6 +16,7 @@ import { MaterialDto } from '../model/material.dto';
 import { CategoryDto } from '../model/category.dto';
 import { SizesCrudService } from '../crud/sizes.crud.service';
 import { SizeDto } from '../model/size.dto';
+import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 
 @Injectable()
 export class SettingsService implements ISettingsService, OnModuleInit {
@@ -33,7 +34,7 @@ export class SettingsService implements ISettingsService, OnModuleInit {
 
     @Inject()
     private colorsCrudService: ColorsCrudService;
-    
+
     @Inject()
     private sizesCrudService: SizesCrudService;
 
@@ -55,12 +56,17 @@ export class SettingsService implements ISettingsService, OnModuleInit {
       const colorDTOs = await this.colorsCrudService.getAll();
       const sizeDTOs = await this.sizesCrudService.getAll();
       return {
-        categories: categoryDTOs,
-        models: modelDTOs,
-        materials: materialDTOs,
-        colors: colorDTOs,
+        categories: this.getSortedByOrderNumber(categoryDTOs),
+        models: this.getSortedByOrderNumber(modelDTOs),
+        materials: this.getSortedByOrderNumber(materialDTOs),
+        colors: this.getSortedByOrderNumber(colorDTOs),
         sizes: sizeDTOs,
       };
+    }
+
+    private getSortedByOrderNumber<T extends SimpleListSetting>(simpleListSettings: T[]): T[] {
+      simpleListSettings.sort((first, second) => first.orderNumber - second.orderNumber);
+      return simpleListSettings;
     }
 
     @Transactional()
@@ -69,7 +75,7 @@ export class SettingsService implements ISettingsService, OnModuleInit {
         categories: categoriesToUpdate,
         models: modelsToUpdate,
         materials: materialsToUpdate,
-        colors: colorsToUpdate, 
+        colors: colorsToUpdate,
         sizes: sizesToUpdate,
       } = globalDressOptionsDTO;
       await this.updateSetting<ColorDto>(SettingType.COLORS, colorsToUpdate);
