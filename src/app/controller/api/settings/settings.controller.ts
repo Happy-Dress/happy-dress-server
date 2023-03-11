@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 
 import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
