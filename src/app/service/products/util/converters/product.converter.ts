@@ -40,6 +40,7 @@ export class ProductConverter  {
       id: productEntity.id,
       name: productEntity.name,
       description: productEntity.description,
+      orderNumber: productEntity.orderNumber,
       category: categoryDto,
       model: modelDto,
       materials: materialDtos,

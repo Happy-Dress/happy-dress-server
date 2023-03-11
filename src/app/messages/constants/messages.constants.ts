@@ -45,3 +45,5 @@ export const EMPTY_FIELD = 'Поле $TYPE является обязательн
 
 //Crud service
 export const DUPLICATE_ENTRY_ENTITY = 'Дублирующее значение в сущности $ENTITY_NAME';
+// orderNumber validation
+export const INVALID_ORDER_NUMBER = 'Неверные порядковые номера в $DTO_NAME';

@@ -20,6 +20,11 @@ export class materialEntity1666041975613 implements MigrationInterface {
                   isUnique: true,
                   isNullable: false,
                 },
+                {
+                  name: 'orderNumber',
+                  type: 'int4',
+                  isNullable: false,
+                },
               ],
             }),
             false,

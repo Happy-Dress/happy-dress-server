@@ -11,6 +11,7 @@ export class CategoryConverter extends MultiConverter<CategoryEntity, CategoryDt
     return Promise.resolve({
       id: dto.id,
       name: dto.name,
+      orderNumber: dto.orderNumber,
       description: dto.description,
       imageUrl: dto.imageUrl,
     });
@@ -20,8 +21,10 @@ export class CategoryConverter extends MultiConverter<CategoryEntity, CategoryDt
     return Promise.resolve({
       id: entity.id,
       name: entity.name,
+      orderNumber: entity.orderNumber,
       description: entity.description,
       imageUrl: entity.imageUrl,
     });
+
   }
 }

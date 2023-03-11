@@ -14,6 +14,7 @@ export function generateColorEntity(): ColorEntity {
     firstColor: '#FF0000',
     name: 'красно-белый',
     secondColor: '#FFFFFF',
+    orderNumber: 1,
   };
 }
 
@@ -21,6 +22,7 @@ export function generateSimpleListEntity(): SimpleListSettingEntity {
   return {
     id: 1,
     name: 'plain text',
+    orderNumber: 1,
   };
 }
 
@@ -30,6 +32,7 @@ export function generateCategoryEntity(): CategoryEntity {
     description: 'plain text',
     imageUrl: 'plain text',
     name: 'plain text',
+    orderNumber: 1,
   };
 }
 
@@ -45,6 +48,7 @@ export function generateProductEntity(): ProductEntity {
     id: 1,
     name: 'plain text',
     description: 'plain text',
+    orderNumber: 1,
     category: generateCategoryEntity(),
     model: generateSimpleListEntity(),
     materials: [generateSimpleListEntity()],

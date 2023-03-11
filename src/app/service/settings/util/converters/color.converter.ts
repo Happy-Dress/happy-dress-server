@@ -8,6 +8,7 @@ export class ColorConverter extends MultiConverter<ColorEntity, ColorDto> {
     return Promise.resolve( {
       id: entity.id,
       name: entity.name,
+      orderNumber: entity.orderNumber,
       firstColor: entity.firstColor,
       secondColor: entity.secondColor,
     });
@@ -17,6 +18,7 @@ export class ColorConverter extends MultiConverter<ColorEntity, ColorDto> {
     return Promise.resolve({
       id: dto.id,
       name: dto.name,
+      orderNumber: dto.orderNumber,
       firstColor: dto.firstColor,
       secondColor: dto.secondColor,
     });

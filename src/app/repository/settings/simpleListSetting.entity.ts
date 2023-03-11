@@ -8,4 +8,7 @@ export class SimpleListSettingEntity {
     @Column()
     name: string;
 
+    @Column()
+    orderNumber: number;
+
 }

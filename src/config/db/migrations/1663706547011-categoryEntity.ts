@@ -32,7 +32,12 @@ export class categories1663706547011 implements MigrationInterface {
                   type: 'varchar',
                   isUnique: false,
                   isNullable: false,
-                },   
+                },
+                {
+                  name: 'orderNumber',
+                  type: 'int4',
+                  isNullable: false,
+                },
               ],
             }),
             false,

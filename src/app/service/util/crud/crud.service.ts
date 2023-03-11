@@ -46,7 +46,7 @@ export class CrudService<Entity extends IdentifiedEntity, DTO extends Identified
 
     public async getAll(): Promise<DTO[]> {
       const entities = await this.repository.find();
-      return  this.converter.convertToDTOs(entities);
+      return this.converter.convertToDTOs(entities);
     }
 
     public async getById(id: number): Promise<DTO> {

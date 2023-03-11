@@ -8,6 +8,7 @@ export class SimpleListSettingConverter extends MultiConverter<SimpleListSetting
     return  Promise.resolve({
       id: entity.id,
       name: entity.name,
+      orderNumber: entity.orderNumber,
     });
   }
 
@@ -15,6 +16,8 @@ export class SimpleListSettingConverter extends MultiConverter<SimpleListSetting
     return Promise.resolve({
       id: dto.id,
       name: dto.name,
+      orderNumber: dto.orderNumber,
     });
+
   }
 }

@@ -20,6 +20,11 @@ export class modelEntity1665084922573 implements MigrationInterface {
                   isUnique: true,
                   isNullable: false,
                 },
+                {
+                  name: 'orderNumber',
+                  type: 'int4',
+                  isNullable: false,
+                },
               ],
             }),
             false,
