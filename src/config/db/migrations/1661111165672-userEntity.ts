@@ -30,13 +30,6 @@ export class userEntity1661111165672 implements MigrationInterface {
                 type: 'varchar',
                 isNullable: false,
               },
-              {
-                name: 'orderNumber',
-                type: 'int4',
-                isUnique: true,
-                isNullable: false,
-                
-              },
             ],
           }),
           false,
