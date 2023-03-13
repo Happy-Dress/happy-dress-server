@@ -122,7 +122,6 @@ export class ProductsService implements IProductsService {
       id: product.id,
       name: partialEntity.name,
       description: partialEntity.description,
-      orderNumber: partialEntity.orderNumber,
       category: categoryEntity,
       model: modelEntity,
       materials: materialEntities,
@@ -131,7 +130,7 @@ export class ProductsService implements IProductsService {
 
   public async searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
     const findOptions = this.buildFindOptions(productSearchDto);
-    
+
     const paginationRes = await paginate<ProductEntity>(this.productsRepository, {
       page: productSearchDto.page,
       limit: productSearchDto.limit,
