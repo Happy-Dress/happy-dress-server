@@ -12,9 +12,6 @@ export class ProductColorImageEntity extends IdentifiedEntity {
     @ManyToOne(() => ColorEntity, color => color.id, { eager: true, onDelete: 'SET NULL' })
     color: ColorEntity;
 
-    @Column()
-    mainImageUrl: string;
-
     @Column({ type: 'simple-array', nullable: true })
     imageUrls: string[];
 }

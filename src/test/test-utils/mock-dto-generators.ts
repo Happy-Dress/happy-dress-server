@@ -70,6 +70,7 @@ export function generateProductDto(): ProductDto {
     id: 1,
     name: 'plain text',
     description: 'plain text',
+    mainImageUrl: 'plain text',
     categoryId: 1,
     modelId: 1,
     materialIds: [1],
@@ -88,7 +89,6 @@ export function generateProductColorSizeDto(): ProductColorSizeDto {
 export function generateProductColorImageDto(): ProductColorImageDto {
   return {
     colorId: 1,
-    mainImageUrl: 'plain text',
     imageURLs: ['plain text'],
   };
 }
@@ -112,7 +112,6 @@ export function generateProductColorSizeViewDto(): ProductColorSizeViewDto {
 export function generateProductColorImageViewDto(): ProductColorImageViewDto {
   return {
     color: generateColorDto(),
-    mainImageUrl: 'plain text',
     imageURLs: ['plain text'],
   };
 }
@@ -122,6 +121,7 @@ export function generateProductViewDto(): ProductViewDto {
     id: 1,
     name: 'plain text',
     description: 'plain text',
+    mainImageUrl: 'plain text',
     category: generateCategoryDto(),
     model: generateModelDto(),
     materials: [generateModelDto()],

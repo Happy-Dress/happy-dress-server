@@ -42,6 +42,7 @@ jest.mock('nestjs-typeorm-paginate', () => ({
             id: 1,
             name: 'plain text',
             description: 'plain text',
+            mainImageUrl: 'plain text',
             category:  {
                 id: 1,
                 description: 'plain text',
