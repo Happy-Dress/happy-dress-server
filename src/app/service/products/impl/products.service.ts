@@ -122,6 +122,7 @@ export class ProductsService implements IProductsService {
       id: product.id,
       name: partialEntity.name,
       description: partialEntity.description,
+      mainImageUrl: product.mainImageUrl,
       category: categoryEntity,
       model: modelEntity,
       materials: materialEntities,

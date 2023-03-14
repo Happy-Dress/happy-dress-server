@@ -5,13 +5,13 @@ import {
   IsInt,
   IsNotEmpty,
   IsNumber,
-  IsString,
+  IsString, Matches,
   MaxLength,
   MinLength,
   ValidateNested,
 } from 'class-validator';
 import {
-  EMPTY_FIELD,
+  EMPTY_FIELD, INVALID_GOOGLE_DRIVE_LINK,
   INVALID_TYPE_ID,
   PRODUCT_DESCRIPTION_TOO_LONG,
   PRODUCT_DESCRIPTION_TOO_SHORT, PRODUCT_FIELD_MUST_BE_STRING, PRODUCT_NAME_TOO_LONG, PRODUCT_NAME_TOO_SHORT,
@@ -41,6 +41,12 @@ export class ProductDto implements IdentifiedModel {
     @MinLength(MIN_LENGTH_DESCRIPTION, { message: PRODUCT_DESCRIPTION_TOO_SHORT })
     @MaxLength(MAX_LENGTH_DESCRIPTION, { message: PRODUCT_DESCRIPTION_TOO_LONG })
     description: string;
+
+    @ApiProperty()
+    @IsNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'Главное фото') })
+    @IsString()
+    @Matches(/http:\/\/drive.google.com\/uc\?export=view&id=/, { message: INVALID_GOOGLE_DRIVE_LINK })
+    mainImageUrl: string;
 
     @ApiProperty()
     @IsNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'Категории') })

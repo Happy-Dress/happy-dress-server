@@ -48,6 +48,7 @@ export function generateProductEntity(): ProductEntity {
     id: 1,
     name: 'plain text',
     description: 'plain text',
+    mainImageUrl: 'plain text',
     category: generateCategoryEntity(),
     model: generateSimpleListEntity(),
     materials: [generateSimpleListEntity()],
@@ -68,7 +69,6 @@ export function generateProductColorImageEntity(): ProductColorImageEntity {
     id: 1,
     product: generateProductEntity(),
     color: generateColorEntity(),
-    mainImageUrl: 'plain text',
     imageUrls: ['plain text'],
   };
 }

@@ -20,6 +20,9 @@ export class ProductViewDto implements Omit<SimpleListSetting, 'orderNumber'> {
     description: string;
 
     @ApiProperty()
+    mainImageUrl: string;
+
+    @ApiProperty()
     category: CategoryDto;
 
     @ApiProperty()

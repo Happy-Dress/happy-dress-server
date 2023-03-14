@@ -1,32 +1,32 @@
-import { ProductConverter } from '../../../../../../app/service/products/util/converters/product.converter';
-import { CategoryConverter } from '../../../../../../app/service/settings/util/converters/category.converter';
-import { SimpleListSettingConverter } from '../../../../../../app/service/util/converter/simple.list.setting.converter';
+import { ProductConverter } from '../../../../../app/service/products/util/converters/product.converter';
+import { CategoryConverter } from '../../../../../app/service/settings/util/converters/category.converter';
+import { SimpleListSettingConverter } from '../../../../../app/service/util/converter/simple.list.setting.converter';
 import { Test } from '@nestjs/testing';
-import { ProductDto } from '../../../../../../app/service/products/model/product.dto';
+import { ProductDto } from '../../../../../app/service/products/model/product.dto';
 import {
   generateCategoryDto, generateMaterialDto, generateModelDto,
   generateProductColorImageViewDto,
   generateProductColorSizeViewDto,
   generateProductDto, generateProductViewDto,
-} from '../../../../../test-utils/mock-dto-generators';
-import { ProductEntity } from '../../../../../../app/repository/product/entity/product.entity';
+} from '../../../../test-utils/mock-dto-generators';
+import { ProductEntity } from '../../../../../app/repository/product/entity/product.entity';
 import {
   generateProductColorImageEntity,
   generateProductColorSizeEntity,
   generateProductEntity,
-} from '../../../../../test-utils/mock-entity-generators';
+} from '../../../../test-utils/mock-entity-generators';
 import {
   ProductColorImageEntity,
-} from '../../../../../../app/repository/product/product-color-image/entity/product-color-image.entity';
-import { ProductColorImageViewDto } from '../../../../../../app/service/products/model/product-color-image.view.dto';
+} from '../../../../../app/repository/product/product-color-image/entity/product-color-image.entity';
+import { ProductColorImageViewDto } from '../../../../../app/service/products/model/product-color-image.view.dto';
 import {
   ProductColorSizeEntity,
-} from '../../../../../../app/repository/product/product-color-size/entity/product-color-size.entity';
-import { ProductColorSizeViewDto } from '../../../../../../app/service/products/model/product-color-size.view.dto';
-import { ProductViewDto } from '../../../../../../app/service/products/model/product.view.dto';
-import { CategoryDto } from '../../../../../../app/service/settings/model/category.dto';
-import { ModelDto } from '../../../../../../app/service/settings/model/model.dto';
-import { MaterialDto } from '../../../../../../app/service/settings/model/material.dto';
+} from '../../../../../app/repository/product/product-color-size/entity/product-color-size.entity';
+import { ProductColorSizeViewDto } from '../../../../../app/service/products/model/product-color-size.view.dto';
+import { ProductViewDto } from '../../../../../app/service/products/model/product.view.dto';
+import { CategoryDto } from '../../../../../app/service/settings/model/category.dto';
+import { ModelDto } from '../../../../../app/service/settings/model/model.dto';
+import { MaterialDto } from '../../../../../app/service/settings/model/material.dto';
 
 
 describe('ProductConverter', () => {

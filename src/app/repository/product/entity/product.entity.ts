@@ -14,6 +14,9 @@ export class ProductEntity extends IdentifiedEntity {
     @Column({ nullable: false })
     description: string;
 
+    @Column({ nullable: false })
+    mainImageUrl: string;
+
     @ManyToOne(() => CategoryEntity, { eager: true, onDelete: 'SET NULL' })
     category: CategoryEntity;
 

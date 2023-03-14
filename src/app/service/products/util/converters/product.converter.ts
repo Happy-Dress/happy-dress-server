@@ -40,6 +40,7 @@ export class ProductConverter  {
       id: productEntity.id,
       name: productEntity.name,
       description: productEntity.description,
+      mainImageUrl: productEntity.mainImageUrl,
       category: categoryDto,
       model: modelDto,
       materials: materialDtos,
@@ -61,7 +62,6 @@ export class ProductConverter  {
     return productColorImages.map(productColorImage => {
       return {
         color: productColorImage.color,
-        mainImageUrl: productColorImage.mainImageUrl,
         imageURLs: productColorImage.imageUrls,
       };
     });
