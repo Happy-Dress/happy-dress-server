@@ -19,6 +19,12 @@ export class ProductSearchDto {
 
     @ApiPropertyOptional({ type: [Number] })
     materialIds?: number[];
+    
+    @ApiPropertyOptional({ type: [Number] })
+    colorIds?: number[];
+    
+    @ApiPropertyOptional({ type: [Number] })
+    sizeIds?: number[];
 
     @ApiPropertyOptional()
     name?: string;

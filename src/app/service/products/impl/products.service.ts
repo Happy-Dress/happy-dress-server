@@ -130,27 +130,23 @@ export class ProductsService implements IProductsService {
   }
 
   public async searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
-    const findOptions = this.buildFindOptions(productSearchDto);
+    const productColorSizeFindOptions = this.buildProductColorSizeFindOptions(productSearchDto);
 
-    const paginationRes = await paginate<ProductEntity>(this.productsRepository, {
+    const paginationRes = await paginate<ProductColorSizeEntity>(this.productColorSizesRepository, {
       page: productSearchDto.page,
       limit: productSearchDto.limit,
-    }, findOptions);
-    const productIds = paginationRes.items.map(item => item.id);
-    const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
-      id: In(productIds),
-    } } as FindOptionsWhere<ProductColorSizeEntity>);
+    }, productColorSizeFindOptions);
 
-    const productColorImageEntities = await this.productColorImagesRepository.findBy({ product: {
-      id: In(productIds),
-    } } as FindOptionsWhere<ProductColorSizeEntity>);
+    const productIds = paginationRes.items.map(item => item.product.id);
+    const productColorImageFindOptions = this.buildProductColorImageFindOptions(productSearchDto, productIds);
+    const productColorImageEntities = await this.productColorImagesRepository.findBy(productColorImageFindOptions);
 
-    const productColorSizesMap = MapUtils.groupBy(productColorSizeEntities, (entity) => entity.product.id );
+    const productColorSizesMap = MapUtils.groupBy(paginationRes.items, (entity) => entity.product.id );
     const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id );
 
     const productViewDtos = Promise.all(
         paginationRes.items.map(item =>
-            this.productConverter.convertToViewDto(item, productColorSizesMap.get(item.id), productColorImagesMap.get(item.id))
+            this.productConverter.convertToViewDto(item.product, productColorSizesMap.get(item.product.id), productColorImagesMap.get(item.product.id))
         ),
     );
 
@@ -171,20 +167,37 @@ export class ProductsService implements IProductsService {
     return productEntity;
   }
 
-  private buildFindOptions(productSearchDto: ProductSearchDto): FindOptionsWhere<ProductEntity> {
-    const findOptions: Record<any, any> = { where: {} };
+  private buildProductColorSizeFindOptions(productSearchDto: ProductSearchDto): FindOptionsWhere<ProductColorSizeEntity> {
+    const findOptions: Record<any, any> = { where: {
+      product: {},
+    } };
     if (productSearchDto?.name) {
-      findOptions.where.name = Like('%' + productSearchDto.name + '%');
+      findOptions.where.product.name = Like('%' + productSearchDto.name + '%');
     }
     if (productSearchDto?.categoryId) {
-      findOptions.where.category = { id: productSearchDto.categoryId };
+      findOptions.where.product.category = { id: productSearchDto.categoryId };
     }
     if (productSearchDto?.modelIds) {
-      findOptions.where.model = { id: In(productSearchDto.modelIds) };
+      findOptions.where.product.model = { id: In(productSearchDto.modelIds) };
     }
     if (productSearchDto?.materialIds) {
-      findOptions.where.materials = { id: In(productSearchDto.materialIds) };
+      findOptions.where.product.materials = { id: In(productSearchDto.materialIds) };
     }
-    return findOptions as FindOptionsWhere<ProductEntity>;
+    if (productSearchDto?.colorIds) {
+      findOptions.where.color = { id: In(productSearchDto.colorIds) };
+    }
+    if (productSearchDto?.sizeIds) {
+      findOptions.where.size = { id: In(productSearchDto.sizeIds) };
+    }
+    return findOptions as FindOptionsWhere<ProductColorSizeEntity>;
+  }
+
+  private buildProductColorImageFindOptions(productSearchDto: ProductSearchDto, productIds: number[]): FindOptionsWhere<ProductColorImageEntity> {
+    const findOptions: Record<any, any> = {};
+    if (productSearchDto?.sizeIds) {
+      findOptions.size = { id: In(productSearchDto.sizeIds) };
+    }
+    findOptions.product = { id: In(productIds) };
+    return findOptions as FindOptionsWhere<ProductColorSizeEntity>;
   }
 }
