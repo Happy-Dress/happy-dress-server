@@ -179,8 +179,8 @@ export class ProductsService implements IProductsService {
 
   private buildProductColorImageFindOptions(productSearchDto: ProductSearchDto, productIds: number[]): FindOptionsWhere<ProductColorImageEntity> {
     const findOptions: Record<any, any> = {};
-    if (productSearchDto?.sizeIds) {
-      findOptions.size = { id: In(productSearchDto.sizeIds) };
+    if (productSearchDto?.colorIds) {
+      findOptions.color = { id: In(productSearchDto.colorIds) };
     }
     findOptions.product = { id: In(productIds) };
     return findOptions as FindOptionsWhere<ProductColorSizeEntity>;
