@@ -35,27 +35,44 @@ import {ModelEntity} from "../../../../app/repository/settings/model/entity/mode
 import {MaterialEntity} from "../../../../app/repository/settings/material/entity/material.entity";
 import {EntitiesNotFoundByIdsException} from "../../../../app/exception/entities-not-found-by-ids.exception";
 import {EntityDuplicateFieldException} from "../../../../app/exception/entity-duplicate-field.exception";
+import {
+    EntitiesDoNotMatchByIdsException
+} from "../../../../app/service/products/exception/entities-do-not-match-by-ids.exception";
 
 jest.mock('nestjs-typeorm-paginate', () => ({
     paginate: jest.fn().mockResolvedValue({
         items: [{
             id: 1,
-            name: 'plain text',
-            description: 'plain text',
-            mainImageUrl: 'plain text',
-            category:  {
+            product: {
                 id: 1,
+                name: 'plain text',
                 description: 'plain text',
-                imageUrl: 'plain text',
-                name: 'plain text',
+                mainImageUrl: 'plain text',
+                category: {
+                    id: 1,
+                    description: 'plain text',
+                    imageUrl: 'plain text',
+                    name: 'plain text',
+                },
+                model: {
+                    id: 1,
+                    name: 'plain text',
+                },
+                materials: [{
+                    id: 1,
+                    name: 'plain text',
+                }]
             },
-            model: {
+            colors: [{
                 id: 1,
-                name: 'plain text',
-            },
-            materials: [{
+                firstColor: '#FF0000',
+                name: 'красно-белый',
+                secondColor: '#FFFFFF',
+                orderNumber: 1,
+            }],
+            sizes: [{
                 id: 1,
-                name: 'plain text',
+                sizeValue: 1,
             }],
         }],
         meta: {
@@ -237,6 +254,24 @@ describe('ProductsService', () => {
             expect(error).toBeInstanceOf(EntityDuplicateFieldException);
         }
 
+    });
+
+    it('should throw EntitiesDoNotMatchByIdsException when colorsIds do not match while creating or updating product ', async () => {
+        const productDto = generateProductDto();
+        productDto.productColorImages[0].colorId = 2;
+
+        try {
+            await productsService.createProduct(productDto);
+        } catch (error) {
+            expect(error).toBeInstanceOf(EntitiesDoNotMatchByIdsException);
+        }
+
+        try {
+            await productsService.updateProduct(1, productDto);
+        } catch (error){
+            expect(error).toBeInstanceOf(EntitiesDoNotMatchByIdsException)
+        }
+        
     });
 
     it('should update product', async () => {
