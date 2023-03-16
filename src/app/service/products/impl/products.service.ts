@@ -23,6 +23,7 @@ import { EntityDuplicateFieldException } from '../../../exception/entity-duplica
 import { ProductSearchDto } from '../model/product-search.dto';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { ProductSearchViewDto } from '../model/product-search.view.dto';
+import { EntitiesDoNotMatchByIdsException } from '../exception/entities-do-not-match-by-ids.exception';
 
 const PRODUCTS = 'Продукты';
 
@@ -50,6 +51,7 @@ export class ProductsService implements IProductsService {
 
   @Transactional()
   public async createProduct(product: ProductDto): Promise<ProductViewDto> {
+    this.checkIsMatchColorSizesAndColorImages(product);
     const productEntity = await this.getProductEntity(product);
     let savedProductEntity: ProductEntity;
     try {
@@ -95,7 +97,7 @@ export class ProductsService implements IProductsService {
   @Transactional()
   public async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
     await this.findProductById(id);
-
+    this.checkIsMatchColorSizesAndColorImages(product);
     const partialProductEntity = await this.getProductEntity(product);
     partialProductEntity.id = id;
 
@@ -110,23 +112,6 @@ export class ProductsService implements IProductsService {
     const savedProductColorImageEntities = await this.productColorImagesRepository.save(productColorImageEntities);
 
     return this.productConverter.convertToViewDto(savedProductEntity, savedProductColorSizeEntities, savedProductColorImageEntities);
-  }
-
-  private async getProductEntity(product: ProductDto): Promise<ProductEntity> {
-    const categoryEntity = await this.settingsService.getSettingEntityById<CategoryEntity>(product.categoryId, SettingType.CATEGORIES);
-    const modelEntity = await this.settingsService.getSettingEntityById<ModelEntity>(product.modelId, SettingType.MODELS);
-    const materialIds = new Set<number>(product.materialIds.map(materialId => materialId));
-    const materialEntities = await this.settingsService.getSettingEntitiesByIds<MaterialEntity>(materialIds, SettingType.MATERIALS);
-    const partialEntity = this.productConverter.convertToPartialEntity(product);
-    return {
-      id: product.id,
-      name: partialEntity.name,
-      description: partialEntity.description,
-      mainImageUrl: product.mainImageUrl,
-      category: categoryEntity,
-      model: modelEntity,
-      materials: materialEntities,
-    };
   }
 
   public async searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
@@ -199,5 +184,31 @@ export class ProductsService implements IProductsService {
     }
     findOptions.product = { id: In(productIds) };
     return findOptions as FindOptionsWhere<ProductColorSizeEntity>;
+  }
+
+  private async getProductEntity(product: ProductDto): Promise<ProductEntity> {
+    const categoryEntity = await this.settingsService.getSettingEntityById<CategoryEntity>(product.categoryId, SettingType.CATEGORIES);
+    const modelEntity = await this.settingsService.getSettingEntityById<ModelEntity>(product.modelId, SettingType.MODELS);
+    const materialIds = new Set<number>(product.materialIds.map(materialId => materialId));
+    const materialEntities = await this.settingsService.getSettingEntitiesByIds<MaterialEntity>(materialIds, SettingType.MATERIALS);
+    const partialEntity = this.productConverter.convertToPartialEntity(product);
+    return {
+      id: product.id,
+      name: partialEntity.name,
+      description: partialEntity.description,
+      mainImageUrl: product.mainImageUrl,
+      category: categoryEntity,
+      model: modelEntity,
+      materials: materialEntities,
+    };
+  }
+
+  private checkIsMatchColorSizesAndColorImages(product: ProductDto): void {
+    const colorSizesIds = product.productColorSizes.map(productColorSize => productColorSize.colorId);
+    const colorImagesIds = product.productColorImages.map(productColorImage => productColorImage.colorId);
+    const invalidIds = colorSizesIds.filter(id => !colorImagesIds.includes(id));
+    if (invalidIds.length) {
+      throw new EntitiesDoNotMatchByIdsException(invalidIds, 'ColorSizeEntity', 'ColorImageEntity');
+    }
   }
 }
