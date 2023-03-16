@@ -23,6 +23,7 @@ import { EntityDuplicateFieldException } from '../../../exception/entity-duplica
 import { ProductSearchDto } from '../model/product-search.dto';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { ProductSearchViewDto } from '../model/product-search.view.dto';
+import { EntitiesDoNotMatchByIdsException } from '../exception/entities-do-not-match-by-ids.exception';
 
 const PRODUCTS = 'Продукты';
 
@@ -50,6 +51,7 @@ export class ProductsService implements IProductsService {
 
   @Transactional()
   public async createProduct(product: ProductDto): Promise<ProductViewDto> {
+    this.checkIsMatchColorSizesAndColorImages(product);
     const productEntity = await this.getProductEntity(product);
     let savedProductEntity: ProductEntity;
     try {
@@ -95,7 +97,7 @@ export class ProductsService implements IProductsService {
   @Transactional()
   public async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
     await this.findProductById(id);
-
+    this.checkIsMatchColorSizesAndColorImages(product);
     const partialProductEntity = await this.getProductEntity(product);
     partialProductEntity.id = id;
 
@@ -112,45 +114,24 @@ export class ProductsService implements IProductsService {
     return this.productConverter.convertToViewDto(savedProductEntity, savedProductColorSizeEntities, savedProductColorImageEntities);
   }
 
-  private async getProductEntity(product: ProductDto): Promise<ProductEntity> {
-    const categoryEntity = await this.settingsService.getSettingEntityById<CategoryEntity>(product.categoryId, SettingType.CATEGORIES);
-    const modelEntity = await this.settingsService.getSettingEntityById<ModelEntity>(product.modelId, SettingType.MODELS);
-    const materialIds = new Set<number>(product.materialIds.map(materialId => materialId));
-    const materialEntities = await this.settingsService.getSettingEntitiesByIds<MaterialEntity>(materialIds, SettingType.MATERIALS);
-    const partialEntity = this.productConverter.convertToPartialEntity(product);
-    return {
-      id: product.id,
-      name: partialEntity.name,
-      description: partialEntity.description,
-      mainImageUrl: product.mainImageUrl,
-      category: categoryEntity,
-      model: modelEntity,
-      materials: materialEntities,
-    };
-  }
-
   public async searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
-    const findOptions = this.buildFindOptions(productSearchDto);
+    const productColorSizeFindOptions = this.buildProductColorSizeFindOptions(productSearchDto);
 
-    const paginationRes = await paginate<ProductEntity>(this.productsRepository, {
+    const paginationRes = await paginate<ProductColorSizeEntity>(this.productColorSizesRepository, {
       page: productSearchDto.page,
       limit: productSearchDto.limit,
-    }, findOptions);
-    const productIds = paginationRes.items.map(item => item.id);
-    const productColorSizeEntities = await this.productColorSizesRepository.findBy({ product: {
-      id: In(productIds),
-    } } as FindOptionsWhere<ProductColorSizeEntity>);
+    }, productColorSizeFindOptions);
 
-    const productColorImageEntities = await this.productColorImagesRepository.findBy({ product: {
-      id: In(productIds),
-    } } as FindOptionsWhere<ProductColorSizeEntity>);
+    const productIds = paginationRes.items.map(item => item.product.id);
+    const productColorImageFindOptions = this.buildProductColorImageFindOptions(productSearchDto, productIds);
+    const productColorImageEntities = await this.productColorImagesRepository.findBy(productColorImageFindOptions);
 
-    const productColorSizesMap = MapUtils.groupBy(productColorSizeEntities, (entity) => entity.product.id );
+    const productColorSizesMap = MapUtils.groupBy(paginationRes.items, (entity) => entity.product.id );
     const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id );
 
     const productViewDtos = Promise.all(
         paginationRes.items.map(item =>
-            this.productConverter.convertToViewDto(item, productColorSizesMap.get(item.id), productColorImagesMap.get(item.id))
+            this.productConverter.convertToViewDto(item.product, productColorSizesMap.get(item.product.id), productColorImagesMap.get(item.product.id))
         ),
     );
 
@@ -171,20 +152,63 @@ export class ProductsService implements IProductsService {
     return productEntity;
   }
 
-  private buildFindOptions(productSearchDto: ProductSearchDto): FindOptionsWhere<ProductEntity> {
-    const findOptions: Record<any, any> = { where: {} };
+  private buildProductColorSizeFindOptions(productSearchDto: ProductSearchDto): FindOptionsWhere<ProductColorSizeEntity> {
+    const findOptions: Record<any, any> = { where: {
+      product: {},
+    } };
     if (productSearchDto?.name) {
-      findOptions.where.name = Like('%' + productSearchDto.name + '%');
+      findOptions.where.product.name = Like('%' + productSearchDto.name + '%');
     }
     if (productSearchDto?.categoryId) {
-      findOptions.where.category = { id: productSearchDto.categoryId };
+      findOptions.where.product.category = { id: productSearchDto.categoryId };
     }
     if (productSearchDto?.modelIds) {
-      findOptions.where.model = { id: In(productSearchDto.modelIds) };
+      findOptions.where.product.model = { id: In(productSearchDto.modelIds) };
     }
     if (productSearchDto?.materialIds) {
-      findOptions.where.materials = { id: In(productSearchDto.materialIds) };
+      findOptions.where.product.materials = { id: In(productSearchDto.materialIds) };
     }
-    return findOptions as FindOptionsWhere<ProductEntity>;
+    if (productSearchDto?.colorIds) {
+      findOptions.where.color = { id: In(productSearchDto.colorIds) };
+    }
+    if (productSearchDto?.sizeIds) {
+      findOptions.where.size = { id: In(productSearchDto.sizeIds) };
+    }
+    return findOptions as FindOptionsWhere<ProductColorSizeEntity>;
+  }
+
+  private buildProductColorImageFindOptions(productSearchDto: ProductSearchDto, productIds: number[]): FindOptionsWhere<ProductColorImageEntity> {
+    const findOptions: Record<any, any> = {};
+    if (productSearchDto?.colorIds) {
+      findOptions.color = { id: In(productSearchDto.colorIds) };
+    }
+    findOptions.product = { id: In(productIds) };
+    return findOptions as FindOptionsWhere<ProductColorSizeEntity>;
+  }
+
+  private async getProductEntity(product: ProductDto): Promise<ProductEntity> {
+    const categoryEntity = await this.settingsService.getSettingEntityById<CategoryEntity>(product.categoryId, SettingType.CATEGORIES);
+    const modelEntity = await this.settingsService.getSettingEntityById<ModelEntity>(product.modelId, SettingType.MODELS);
+    const materialIds = new Set<number>(product.materialIds.map(materialId => materialId));
+    const materialEntities = await this.settingsService.getSettingEntitiesByIds<MaterialEntity>(materialIds, SettingType.MATERIALS);
+    const partialEntity = this.productConverter.convertToPartialEntity(product);
+    return {
+      id: product.id,
+      name: partialEntity.name,
+      description: partialEntity.description,
+      mainImageUrl: product.mainImageUrl,
+      category: categoryEntity,
+      model: modelEntity,
+      materials: materialEntities,
+    };
+  }
+
+  private checkIsMatchColorSizesAndColorImages(product: ProductDto): void {
+    const colorSizesIds = product.productColorSizes.map(productColorSize => productColorSize.colorId);
+    const colorImagesIds = product.productColorImages.map(productColorImage => productColorImage.colorId);
+    const invalidIds = colorSizesIds.filter(id => !colorImagesIds.includes(id));
+    if (invalidIds.length) {
+      throw new EntitiesDoNotMatchByIdsException(invalidIds, 'ColorSizeEntity', 'ColorImageEntity');
+    }
   }
 }

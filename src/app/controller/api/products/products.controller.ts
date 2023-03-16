@@ -46,7 +46,7 @@ export class ProductsController {
       return await this.productService.updateProduct(id, productDto);
     }
     
-    @Put('/search')
+    @Post('/search')
     @ApiOkResponse({
       description: 'successful search product response',
       type: ProductSearchViewDto,
