@@ -7,8 +7,21 @@ const urlLogin = process.argv[5] || 'https://happy-dress-server.herokuapp.com/ap
 const urlGet = process.argv[6] || 'https://happy-dress-server.herokuapp.com/api/v1/settings';
 const urlCreate = process.argv[7] || 'https://happy-dress-server.herokuapp.com/api/v1/products/create'
 const errConnectionMessage = 'has exceeded the \'max_user_connections\' resource';
-const errQuestionsMessage = 'has exceeded the \'max_questions\'';
 
+if (login === undefined || !!Number(login)){
+    console.error("Login: param not defined");
+    process.exit(1)
+}
+
+if (password === undefined || !!Number(password)){
+    console.error("Password: param not defined");
+    process.exit(1)
+}
+
+if (numOfProductPerOneCategory > 20){
+    console.error("Num of products per one category: too big number for generating");
+    process.exit(1)
+}
 axios.post(urlLogin, {
     login: login,
     password: password,
@@ -21,7 +34,7 @@ axios.post(urlLogin, {
             return [...acc, ...createProductsWithCertainCategory(category, data, numOfProductPerOneCategory, index)]
         }, []);
         products.forEach((product)=> {
-            setTimeout(() => saveProduct(product, headers), 100);
+            saveProduct(product, headers);
         })
     })
 })
@@ -31,10 +44,11 @@ function saveProduct(product, headers) {
     axios.post(urlCreate, product, {headers})
         .then(() => console.log(`Product was saved successfully: ${JSON.stringify(product)}`))
         .catch((error) => {
-            console.error(error.response.data.error);
-            if (error.response.data.error.includes(errConnectionMessage)
-                || error.response.data.error.includes(errQuestionsMessage)) {
-                setTimeout(() => saveProduct(product, headers), 10000);
+            if (error.response.data.error.includes(errConnectionMessage)){
+                setTimeout(() => {
+                    console.error(error.response.data, "\n Retrying...")
+                    saveProduct(product, headers)
+                }, 10000);
             } else {
                 console.error(error.response.data)
             }
