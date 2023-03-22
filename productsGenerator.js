@@ -71,7 +71,7 @@ function createProductsWithCertainCategory(category, settings, numOfCreateProduc
 
 function generateName() {
     const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-    return alphabet[Math.floor(Math.random() * alphabet.length)] + String(Math.random() * 1000000).padStart(7, "0");
+    return alphabet[Math.floor(Math.random() * alphabet.length)] + String(Math.floor(Math.random() * 1000000)).padStart(7, "0");
 }
 
 function generateDescription(minLength, maxLength){
