@@ -1,6 +1,7 @@
 const axios = require('axios');
 const mysql = require('mysql2')
 
+require('dotenv').config();
 
 const numOfProductPerOneCategory = process.argv[2] || 10;
 const urlGet = process.argv[6] || 'https://happy-dress-server.herokuapp.com/api/v1/settings';
@@ -16,7 +17,7 @@ const sqlProductColorSizes = 'INSERT INTO `product-color-size` (productId, color
 
 
 const connection = mysql.createConnection({
-    host: 'us-cdbr-east-06.cleardb.net',
+    host: process.env.DATABASE_HOST_SCRIPT,
     user: 'b6650482e460f0',
     password: '7630ad55',
     database: 'heroku_dbdd418e2e45a3d',
