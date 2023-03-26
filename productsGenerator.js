@@ -7,20 +7,15 @@ const numOfProductPerOneCategory = process.argv[2] || 10;
 const urlGet = process.argv[6] || 'https://happy-dress-server.herokuapp.com/api/v1/settings';
 const sqlProduct = 'INSERT INTO product (name, description, mainImageUrl, categoryId, modelId) VALUES (?, ?, ?, ?, ?)';
 const sqlProductMaterials = 'INSERT INTO `product-material` (productId, materialId) VALUES (?, ?)';
-const sqlProductColorImages = 'INSERT INTO `product-color-image` (productId, colorId, imageUrls, mainImageUrl) VALUES (?, ?, ?, ?)';
+const sqlProductColorImages = 'INSERT INTO `product-color-image` (productId, colorId, imageUrls) VALUES (?, ?, ?)';
 const sqlProductColorSizes = 'INSERT INTO `product-color-size` (productId, colorId, sizeId) VALUES (?, ?, ?)';
-
-// if (numOfProductPerOneCategory > 20) {
-//     console.error("Num of products per one category: too big number for generating");
-//     process.exit(1)
-// }
 
 
 const connection = mysql.createConnection({
     host: process.env.DATABASE_HOST_SCRIPT,
-    user: 'b6650482e460f0',
-    password: '7630ad55',
-    database: 'heroku_dbdd418e2e45a3d',
+    user: process.env.DATABASE_USER_SCRIPT,
+    password: process.env.DATABASE_PASSWORD_SCRIPT,
+    database: process.env.DATABASE_NAME_SCRIPT,
 })
 
 connection.connect((err) => {
@@ -110,7 +105,7 @@ function saveProduct(product) {
 
                 connection.query(sqlProductColorImages,
                     [result.insertId, product.productColorImages[0].colorId,
-                        product.productColorImages[0].imageURLs[0], null],
+                        product.productColorImages[0].imageURLs[0]],
                     (err, result) => {
                         if (err) {
                             connection.rollback(() => console.error(err.stack))
