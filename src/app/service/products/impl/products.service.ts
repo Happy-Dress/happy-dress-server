@@ -122,16 +122,18 @@ export class ProductsService implements IProductsService {
       limit: productSearchDto.limit,
     }, productColorSizeFindOptions);
 
-    const productIds = paginationRes.items.map(item => item.product.id);
+    const key = 'id';
+    const products = [...new Map(paginationRes.items.map(item => [item.product[key], item.product])).values()];
+    const productIds = products.map(product => product.id);
     const productColorImageFindOptions = this.buildProductColorImageFindOptions(productSearchDto, productIds);
     const productColorImageEntities = await this.productColorImagesRepository.findBy(productColorImageFindOptions);
 
-    const productColorSizesMap = MapUtils.groupBy(paginationRes.items, (entity) => entity.product.id );
-    const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id );
+    const productColorSizesMap = MapUtils.groupBy(paginationRes.items, (entity) => entity.product.id);
+    const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id);
 
     const productViewDtos = Promise.all(
-        paginationRes.items.map(item =>
-            this.productConverter.convertToViewDto(item.product, productColorSizesMap.get(item.product.id), productColorImagesMap.get(item.product.id))
+        products.map(product =>
+            this.productConverter.convertToViewDto(product, productColorSizesMap.get(product.id), productColorImagesMap.get(product.id))
         ),
     );
 
