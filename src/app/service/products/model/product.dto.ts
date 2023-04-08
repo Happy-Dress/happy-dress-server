@@ -11,7 +11,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import {
-  EMPTY_FIELD, INVALID_GOOGLE_DRIVE_LINK,
+  EMPTY_FIELD, INVALID_GOOGLE_DRIVE_LINK, INVALID_PRODUCT_DESCRIPTION, INVALID_PRODUCT_NAME,
   INVALID_TYPE_ID,
   PRODUCT_DESCRIPTION_TOO_LONG,
   PRODUCT_DESCRIPTION_TOO_SHORT, PRODUCT_FIELD_MUST_BE_STRING, PRODUCT_NAME_TOO_LONG, PRODUCT_NAME_TOO_SHORT,
@@ -33,6 +33,7 @@ export class ProductDto implements IdentifiedModel {
     @IsString({ message: PRODUCT_FIELD_MUST_BE_STRING.replace('$FIELD', 'Имя') })
     @MinLength(MIN_LENGTH_NAME, { message: PRODUCT_NAME_TOO_SHORT })
     @MaxLength(MAX_LENGTH_NAME, { message: PRODUCT_NAME_TOO_LONG })
+    @Matches(/^(?!\s+$)[a-zA-Z0-9а-яА-ЯёЁ\s]*$/, { message: INVALID_PRODUCT_NAME })
     name: string;
 
     @ApiProperty()
@@ -40,6 +41,7 @@ export class ProductDto implements IdentifiedModel {
     @IsString({ message: PRODUCT_FIELD_MUST_BE_STRING.replace('$FIELD', 'Описание') })
     @MinLength(MIN_LENGTH_DESCRIPTION, { message: PRODUCT_DESCRIPTION_TOO_SHORT })
     @MaxLength(MAX_LENGTH_DESCRIPTION, { message: PRODUCT_DESCRIPTION_TOO_LONG })
+    @Matches(/^(?=.*[^ ]).+$/, { message: INVALID_PRODUCT_DESCRIPTION })
     description: string;
 
     @ApiProperty()

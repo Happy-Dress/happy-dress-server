@@ -52,6 +52,8 @@ export class ProductsService implements IProductsService {
   @Transactional()
   public async createProduct(product: ProductDto): Promise<ProductViewDto> {
     this.checkIsMatchColorSizesAndColorImages(product);
+    product.name = product.name.trim();
+    product.description = product.description.trim();
     const productEntity = await this.getProductEntity(product);
     let savedProductEntity: ProductEntity;
     try {
@@ -98,6 +100,8 @@ export class ProductsService implements IProductsService {
   public async updateProduct(id: number, product: ProductDto): Promise<ProductViewDto> {
     await this.findProductById(id);
     this.checkIsMatchColorSizesAndColorImages(product);
+    product.name = product.name.trim();
+    product.description = product.description.trim();
     const partialProductEntity = await this.getProductEntity(product);
     partialProductEntity.id = id;
 
