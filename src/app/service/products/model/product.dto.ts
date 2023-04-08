@@ -41,7 +41,7 @@ export class ProductDto implements IdentifiedModel {
     @IsString({ message: PRODUCT_FIELD_MUST_BE_STRING.replace('$FIELD', 'Описание') })
     @MinLength(MIN_LENGTH_DESCRIPTION, { message: PRODUCT_DESCRIPTION_TOO_SHORT })
     @MaxLength(MAX_LENGTH_DESCRIPTION, { message: PRODUCT_DESCRIPTION_TOO_LONG })
-    @Matches(/^(?=.*[^ ]).+$/, { message: INVALID_PRODUCT_DESCRIPTION })
+    @Matches(/^\S.*\S$/, { message: INVALID_PRODUCT_DESCRIPTION })
     description: string;
 
     @ApiProperty()
