@@ -1,7 +1,7 @@
 import { ProductColorSizeDto } from './product-color-size.dto';
 import { ProductColorImageDto } from './product-color-image.dto';
 import {
-  ArrayMinSize,
+  ArrayMinSize, ArrayNotEmpty,
   IsInt,
   IsNotEmpty,
   IsNumber,
@@ -67,14 +67,18 @@ export class ProductDto implements IdentifiedModel {
     materialIds: number[];
 
     @ApiProperty({ type: [ProductColorImageDto] })
-    @ValidateNested({ each: true })
-    @Type(() => ProductColorSizeDto)
-    @IsNotEmpty({ message: 'Цвета с размерами являются обязательным полем' })
-    productColorSizes: ProductColorSizeDto[];
-
-    @ApiProperty({ type: [ProductColorImageDto] })
+    @IsNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'productColorImages') })
+    @ArrayNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'productColorImages') })
     @ValidateNested({ each: true })
     @Type(() => ProductColorImageDto)
     @IsNotEmpty({ message: 'Цвета и фотографии являются обязательным полем' })
     productColorImages: ProductColorImageDto[];
+
+    @ApiProperty({ type: [ProductColorImageDto] })
+    @IsNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'productColorSize') })
+    @ArrayNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'productColorSize') })
+    @ValidateNested({ each: true })
+    @Type(() => ProductColorSizeDto)
+    @IsNotEmpty({ message: 'Цвета с размерами являются обязательным полем' })
+    productColorSizes: ProductColorSizeDto[];
 }
