@@ -212,9 +212,8 @@ export class ProductsService implements IProductsService {
   private checkIsMatchColorSizesAndColorImages(product: ProductDto): void {
     const colorSizesIds = product.productColorSizes.map(productColorSize => productColorSize.colorId);
     const colorImagesIds = product.productColorImages.map(productColorImage => productColorImage.colorId);
-    const invalidIds = colorSizesIds.filter(id => !colorImagesIds.includes(id));
-    if (invalidIds.length) {
-      throw new EntitiesDoNotMatchByIdsException(invalidIds, 'ColorSizeEntity', 'ColorImageEntity');
+    if (new Set(colorImagesIds).size !== new Set(colorSizesIds).size || !colorSizesIds.every(id => colorImagesIds.includes(id))) {
+      throw new EntitiesDoNotMatchByIdsException( 'ColorSizeEntity', 'ColorImageEntity');
     }
   }
 }

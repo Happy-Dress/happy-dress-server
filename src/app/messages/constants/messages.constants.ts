@@ -30,7 +30,7 @@ export const INVALID_NAME_DETECTED = 'В названии содержатся �
 export const INVALID_DESCRIPTION_DETECTED = 'В описании содержатся неразрешенные символы';
 export const UNABLE_TO_FIND_BY_IDS = 'Невозможно найти / обновить сущность(-и) в $ENTITY_NAME с id: $ID';
 
-export const ENTITES_DO_NOT_MATCH_BY_IDS = 'Сущности $ENTITY_1 и $ENTITY_2 не совпадают по id: $ID';
+export const ENTITIES_DO_NOT_MATCH_BY_IDS = 'Сущности $ENTITY_1 и $ENTITY_2 не совпадают по ID';
 
 export const INVALID_ID_TO_UPDATE = '$name не найдены по id: $ID';
 export const INVALID_GOOGLE_DRIVE_LINK = 'Неверная ссылка на фотографию в google-drive';
