@@ -1,5 +1,5 @@
 import {
-  COEFFICIENT_BYTES_TO_MEGABYTES,
+  COEFFICIENT_BYTES_TO_MEGABYTES, FRACTION_DIGITS,
   IMAGE_EXTENSIONS, MAX_AMOUNT,
   MAX_IMAGE_SIZE,
   MIN_IMAGE_SIZE,
@@ -72,9 +72,9 @@ export class ImageValidator {
   }
 
   private getInvalidSizeMessage(imageSize: number): string {
-    const minSizeMB = (MIN_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2);
-    const maxSizeMB = (MAX_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2);
-    const currSizeMB = (imageSize * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(2);
+    const minSizeMB = (MIN_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(FRACTION_DIGITS);
+    const maxSizeMB = (MAX_IMAGE_SIZE * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(FRACTION_DIGITS);
+    const currSizeMB = (imageSize * COEFFICIENT_BYTES_TO_MEGABYTES).toFixed(FRACTION_DIGITS);
     return INVALID_SIZE_MESSAGE
       .replace('$min', minSizeMB)
       .replace('$max', maxSizeMB)
