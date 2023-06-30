@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ProductViewDto } from '../../model/product.view.dto';
+import { ProductViewDto } from '../../../../repository/model/product.view.dto';
 import { CategoryConverter } from '../../../settings/util/converters/category.converter';
 import { SimpleListSettingConverter } from '../../../util/converter/simple.list.setting.converter';
-import { ProductDto } from '../../model/product.dto';
+import { ProductDto } from '../../../../repository/model/product.dto';
 import { ProductEntity } from '../../../../repository/product/entity/product.entity';
 import { ProductColorSizeEntity } from '../../../../repository/product/product-color-size/entity/product-color-size.entity';
-import { ProductColorSizeViewDto } from '../../model/product-color-size.view.dto';
+import { ProductColorSizeViewDto } from '../../../../repository/model/product-color-size.view.dto';
 import {
   ProductColorImageEntity,
 } from '../../../../repository/product/product-color-image/entity/product-color-image.entity';
-import { ProductColorImageViewDto } from '../../model/product-color-image.view.dto';
+import { ProductColorImageViewDto } from '../../../../repository/model/product-color-image.view.dto';
 
 
 @Injectable()
@@ -40,7 +40,6 @@ export class ProductConverter  {
       id: productEntity.id,
       name: productEntity.name,
       description: productEntity.description,
-      orderNumber: productEntity.orderNumber,
       category: categoryDto,
       model: modelDto,
       materials: materialDtos,

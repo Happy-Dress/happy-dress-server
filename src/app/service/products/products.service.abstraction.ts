@@ -1,7 +1,7 @@
-import { ProductDto } from './model/product.dto';
-import { ProductViewDto } from './model/product.view.dto';
-import { ProductSearchDto } from './model/product-search.dto';
-import { ProductSearchViewDto } from './model/product-search.view.dto';
+import { ProductDto } from '../../repository/model/product.dto';
+import { ProductViewDto } from '../../repository/model/product.view.dto';
+import { ProductSearchDto } from '../../repository/model/product-search.dto';
+import { ProductSearchViewDto } from '../../repository/model/product-search.view.dto';
 
 
 export abstract class IProductsService {

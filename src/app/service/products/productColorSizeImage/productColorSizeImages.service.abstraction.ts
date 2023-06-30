@@ -1,7 +1,7 @@
-import { ProductColorSizeDto } from '../model/product-color-size.dto';
+import { ProductColorSizeDto } from '../../../repository/model/product-color-size.dto';
 import { ProductEntity } from '../../../repository/product/entity/product.entity';
 import { ProductColorSizeEntity } from '../../../repository/product/product-color-size/entity/product-color-size.entity';
-import { ProductColorImageDto } from '../model/product-color-image.dto';
+import { ProductColorImageDto } from '../../../repository/model/product-color-image.dto';
 import {
   ProductColorImageEntity,
 } from '../../../repository/product/product-color-image/entity/product-color-image.entity';

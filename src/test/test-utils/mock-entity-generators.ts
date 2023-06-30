@@ -48,7 +48,6 @@ export function generateProductEntity(): ProductEntity {
     id: 1,
     name: 'plain text',
     description: 'plain text',
-    orderNumber: 1,
     category: generateCategoryEntity(),
     model: generateSimpleListEntity(),
     materials: [generateSimpleListEntity()],

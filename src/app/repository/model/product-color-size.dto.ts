@@ -1,5 +1,5 @@
 import { IsInt, IsNotEmpty } from 'class-validator';
-import { EMPTY_FIELD, INVALID_TYPE_ID } from '../../../messages/constants/messages.constants';
+import { EMPTY_FIELD, INVALID_TYPE_ID } from '../../messages/constants/messages.constants';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ProductColorSizeDto {

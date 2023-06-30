@@ -2,7 +2,7 @@ import { ProductConverter } from '../../../../../../app/service/products/util/co
 import { CategoryConverter } from '../../../../../../app/service/settings/util/converters/category.converter';
 import { SimpleListSettingConverter } from '../../../../../../app/service/util/converter/simple.list.setting.converter';
 import { Test } from '@nestjs/testing';
-import { ProductDto } from '../../../../../../app/service/products/model/product.dto';
+import { ProductDto } from '../../../../../../app/repository/model/product.dto';
 import {
   generateCategoryDto, generateMaterialDto, generateModelDto,
   generateProductColorImageViewDto,
@@ -18,12 +18,12 @@ import {
 import {
   ProductColorImageEntity,
 } from '../../../../../../app/repository/product/product-color-image/entity/product-color-image.entity';
-import { ProductColorImageViewDto } from '../../../../../../app/service/products/model/product-color-image.view.dto';
+import { ProductColorImageViewDto } from '../../../../../../app/repository/model/product-color-image.view.dto';
 import {
   ProductColorSizeEntity,
 } from '../../../../../../app/repository/product/product-color-size/entity/product-color-size.entity';
-import { ProductColorSizeViewDto } from '../../../../../../app/service/products/model/product-color-size.view.dto';
-import { ProductViewDto } from '../../../../../../app/service/products/model/product.view.dto';
+import { ProductColorSizeViewDto } from '../../../../../../app/repository/model/product-color-size.view.dto';
+import { ProductViewDto } from '../../../../../../app/repository/model/product.view.dto';
 import { CategoryDto } from '../../../../../../app/service/settings/model/category.dto';
 import { ModelDto } from '../../../../../../app/service/settings/model/model.dto';
 import { MaterialDto } from '../../../../../../app/service/settings/model/material.dto';

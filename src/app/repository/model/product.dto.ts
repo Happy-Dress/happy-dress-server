@@ -15,8 +15,8 @@ import {
   INVALID_TYPE_ID,
   PRODUCT_DESCRIPTION_TOO_LONG,
   PRODUCT_DESCRIPTION_TOO_SHORT, PRODUCT_FIELD_MUST_BE_STRING, PRODUCT_NAME_TOO_LONG, PRODUCT_NAME_TOO_SHORT,
-} from '../../../messages/constants/messages.constants';
-import { IdentifiedModel } from '../../util/model/dto/identified.model';
+} from '../../messages/constants/messages.constants';
+import { IdentifiedModel } from '../../service/util/model/dto/identified.model';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 

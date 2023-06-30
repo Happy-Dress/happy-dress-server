@@ -8,7 +8,7 @@ import {
     generateProductColorSizeViewDto, generateProductDto, generateProductSearchDto, generateProductSearchViewDto,
     generateProductViewDto,
 } from "../../../test-utils/mock-dto-generators";
-import {ProductViewDto} from "../../../../app/service/products/model/product.view.dto";
+import {ProductViewDto} from "../../../../app/repository/model/product.view.dto";
 import {Repository} from "typeorm";
 import {
     ProductColorSizeEntity
@@ -23,13 +23,13 @@ import {
     ProductColorImageEntity
 } from "../../../../app/repository/product/product-color-image/entity/product-color-image.entity";
 import {ProductConverter} from "../../../../app/service/products/util/converters/product.converter";
-import {ProductColorSizeViewDto} from "../../../../app/service/products/model/product-color-size.view.dto";
-import {ProductColorImageViewDto} from "../../../../app/service/products/model/product-color-image.view.dto";
+import {ProductColorSizeViewDto} from "../../../../app/repository/model/product-color-size.view.dto";
+import {ProductColorImageViewDto} from "../../../../app/repository/model/product-color-image.view.dto";
 import {ISettingsService} from "../../../../app/service/settings/settings.service.abstraction";
 import {
     IProductColorSizeImagesService
 } from "../../../../app/service/products/productColorSizeImage/productColorSizeImages.service.abstraction";
-import {ProductDto} from "../../../../app/service/products/model/product.dto";
+import {ProductDto} from "../../../../app/repository/model/product.dto";
 import {CategoryEntity} from "../../../../app/repository/settings/category/entity/category.entity";
 import {ModelEntity} from "../../../../app/repository/settings/model/entity/model.entity";
 import {MaterialEntity} from "../../../../app/repository/settings/material/entity/material.entity";

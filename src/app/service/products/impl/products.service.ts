@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { MapUtils } from '../../../util/map-utils';
 import { IProductsService } from '../products.service.abstraction';
-import { ProductDto } from '../model/product.dto';
-import { ProductViewDto } from '../model/product.view.dto';
+import { ProductDto } from '../../../repository/model/product.dto';
+import { ProductViewDto } from '../../../repository/model/product.view.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../../../repository/product/entity/product.entity';
 import { FindOptionsWhere, In, Like, Repository } from 'typeorm';
@@ -20,9 +20,9 @@ import { Transactional } from 'typeorm-transactional';
 import { EntitiesNotFoundByIdsException } from '../../../exception/entities-not-found-by-ids.exception';
 import { IProductColorSizeImagesService } from '../productColorSizeImage/productColorSizeImages.service.abstraction';
 import { EntityDuplicateFieldException } from '../../../exception/entity-duplicate-field.exception';
-import { ProductSearchDto } from '../model/product-search.dto';
+import { ProductSearchDto } from '../../../repository/model/product-search.dto';
 import { paginate } from 'nestjs-typeorm-paginate';
-import { ProductSearchViewDto } from '../model/product-search.view.dto';
+import { ProductSearchViewDto } from '../../../repository/model/product-search.view.dto';
 
 const PRODUCTS = 'Продукты';
 
@@ -122,7 +122,6 @@ export class ProductsService implements IProductsService {
       id: product.id,
       name: partialEntity.name,
       description: partialEntity.description,
-      orderNumber: partialEntity.orderNumber,
       category: categoryEntity,
       model: modelEntity,
       materials: materialEntities,

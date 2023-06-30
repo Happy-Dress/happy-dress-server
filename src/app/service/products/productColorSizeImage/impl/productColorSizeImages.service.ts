@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IProductColorSizeImagesService } from '../productColorSizeImages.service.abstraction';
-import { ProductColorSizeDto } from '../../model/product-color-size.dto';
+import { ProductColorSizeDto } from '../../../../repository/model/product-color-size.dto';
 import { ProductEntity } from '../../../../repository/product/entity/product.entity';
 import {
   ProductColorSizeEntity,
@@ -8,7 +8,7 @@ import {
 import { ColorEntity } from '../../../../repository/settings/color/entity/color.entity';
 import { SettingType } from '../../../settings/util/constant/setting.type.enum';
 import { SizeEntity } from '../../../../repository/settings/size/enitity/size.entity';
-import { ProductColorImageDto } from '../../model/product-color-image.dto';
+import { ProductColorImageDto } from '../../../../repository/model/product-color-image.dto';
 import {
   ProductColorImageEntity,
 } from '../../../../repository/product/product-color-image/entity/product-color-image.entity';

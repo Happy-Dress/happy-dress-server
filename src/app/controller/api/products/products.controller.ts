@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
-import { ProductDto } from '../../../service/products/model/product.dto';
+import { ProductDto } from '../../../repository/model/product.dto';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
 import { IProductsService } from '../../../service/products/products.service.abstraction';
-import { ProductViewDto } from '../../../service/products/model/product.view.dto';
-import { ProductSearchDto } from '../../../service/products/model/product-search.dto';
-import { ProductSearchViewDto } from '../../../service/products/model/product-search.view.dto';
+import { ProductViewDto } from '../../../repository/model/product.view.dto';
+import { ProductSearchDto } from '../../../repository/model/product-search.dto';
+import { ProductSearchViewDto } from '../../../repository/model/product-search.view.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 

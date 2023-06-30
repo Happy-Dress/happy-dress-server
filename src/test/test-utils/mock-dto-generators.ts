@@ -5,14 +5,14 @@ import { ColorDto } from '../../app/service/settings/model/color.dto';
 import { GlobalDressOptionsDto } from '../../app/service/settings/model/global-dress-options.dto';
 import { SimpleListSetting } from '../../app/service/util/model/dto/simple.list.setting';
 import { SizeDto } from '../../app/service/settings/model/size.dto';
-import { ProductViewDto } from '../../app/service/products/model/product.view.dto';
-import { ProductColorSizeViewDto } from '../../app/service/products/model/product-color-size.view.dto';
-import { ProductColorImageViewDto } from '../../app/service/products/model/product-color-image.view.dto';
-import { ProductDto } from '../../app/service/products/model/product.dto';
-import { ProductColorSizeDto } from '../../app/service/products/model/product-color-size.dto';
-import { ProductColorImageDto } from '../../app/service/products/model/product-color-image.dto';
-import { ProductSearchDto } from '../../app/service/products/model/product-search.dto';
-import { ProductSearchViewDto } from '../../app/service/products/model/product-search.view.dto';
+import { ProductViewDto } from '../../app/repository/model/product.view.dto';
+import { ProductColorSizeViewDto } from '../../app/repository/model/product-color-size.view.dto';
+import { ProductColorImageViewDto } from '../../app/repository/model/product-color-image.view.dto';
+import { ProductDto } from '../../app/repository/model/product.dto';
+import { ProductColorSizeDto } from '../../app/repository/model/product-color-size.dto';
+import { ProductColorImageDto } from '../../app/repository/model/product-color-image.dto';
+import { ProductSearchDto } from '../../app/repository/model/product-search.dto';
+import { ProductSearchViewDto } from '../../app/repository/model/product-search.view.dto';
 
 export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
   return {

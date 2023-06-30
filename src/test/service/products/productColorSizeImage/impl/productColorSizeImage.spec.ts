@@ -12,11 +12,11 @@ import {
     generateProductColorSizeEntity,
     generateProductEntity, generateSizeEntity
 } from "../../../../test-utils/mock-entity-generators";
-import {ProductColorSizeDto} from "../../../../../app/service/products/model/product-color-size.dto";
+import {ProductColorSizeDto} from "../../../../../app/repository/model/product-color-size.dto";
 import {generateProductColorImageDto, generateProductColorSizeDto} from "../../../../test-utils/mock-dto-generators";
 import {ColorEntity} from "../../../../../app/repository/settings/color/entity/color.entity";
 import {SizeEntity} from "../../../../../app/repository/settings/size/enitity/size.entity";
-import {ProductColorImageDto} from "../../../../../app/service/products/model/product-color-image.dto";
+import {ProductColorImageDto} from "../../../../../app/repository/model/product-color-image.dto";
 import {
     ProductColorImageEntity
 } from "../../../../../app/repository/product/product-color-image/entity/product-color-image.entity";
