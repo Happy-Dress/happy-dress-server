@@ -121,7 +121,6 @@ export function generateProductViewDto(): ProductViewDto {
   return {
     id: 1,
     name: 'plain text',
-    orderNumber: 1,
     description: 'plain text',
     category: generateCategoryDto(),
     model: generateModelDto(),

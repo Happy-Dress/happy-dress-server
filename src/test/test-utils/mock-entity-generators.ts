@@ -39,7 +39,7 @@ export function generateCategoryEntity(): CategoryEntity {
 export function generateSizeEntity(): SizeEntity {
   return {
     id: 1,
-    sizeValue: 1,     
+    sizeValue: 1,
   };
 }
 

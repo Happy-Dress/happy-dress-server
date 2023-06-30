@@ -22,7 +22,7 @@ export class ProductConverter  {
   readonly simpleListSettingConverter: SimpleListSettingConverter;
 
 
-  async convertToViewDto(productEntity: ProductEntity, productColorSizeEntities: ProductColorSizeEntity[], 
+  async convertToViewDto(productEntity: ProductEntity, productColorSizeEntities: ProductColorSizeEntity[],
     productColorImageEntities: ProductColorImageEntity[]): Promise<ProductViewDto> {
 
     const categoryEntity = await productEntity.category;

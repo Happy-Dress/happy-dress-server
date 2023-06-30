@@ -130,7 +130,7 @@ export class ProductsService implements IProductsService {
 
   public async searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
     const findOptions = this.buildFindOptions(productSearchDto);
-    
+
     const paginationRes = await paginate<ProductEntity>(this.productsRepository, {
       page: productSearchDto.page,
       limit: productSearchDto.limit,
