@@ -9,7 +9,7 @@ export class FileUploadError extends HttpException {
         this.failedFile = failedImage;
     }
 
-    public getFailedImage(): FailedUploadResult {
+    public getFailedFiles(): FailedUploadResult {
       return this.failedFile;
     }
 }

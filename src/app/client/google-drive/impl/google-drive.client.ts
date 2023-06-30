@@ -55,13 +55,13 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
       return uploadResponse
         .filter(response => response.status === this.STATUS_REJECTED)
         .map(response => response as PromiseRejectedResult)
-        .map(response => (response.reason as FileUploadError).getFailedImage());
+        .map(response => (response.reason as FileUploadError).getFailedFiles());
     }
 
     public async uploadFile(file: Express.Multer.File, folderName: string, fileId?: number): Promise<UploadedFileModel> {
-      const folderId = await this.getFolderId(folderName);
-      const params = this.getCreatingParams(file, folderId);
       try {
+        const folderId = await this.getFolderId(folderName);
+        const params = this.getCreatingParams(file, folderId);
         const { data: { id, name } = {} } = await this.googleDriveApi.files.create(params);
         return {
           id: fileId || 0,
@@ -92,7 +92,7 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
           fields: this.API_RESPONSE_FIELDS,
         };
     }
-    
+
     private async getFolderId(folderName: string): Promise<string> {
       const folderMetadata = this.getFolderMetadata(folderName);
       const existingFolders = await this.getExistingFoldersByName(folderName);
