@@ -58,7 +58,7 @@ export class ImageValidator {
   private getFailedResult(image: Image, reason: string): FailedUploadResult {
     return {
       id: image.id,
-      imageName: image.originalname,
+      fileName: image.originalname,
       reason,
     };
   }

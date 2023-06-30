@@ -6,6 +6,7 @@ import { AuthenticationController } from './api/authentication/authentication.co
 import { JwtStrategy } from './security/strategy/jwt.strategy';
 import { SettingsController } from './api/settings/settings.controller';
 import { ProductsController } from './api/products/products.controller';
+import { BlogController } from './api/blog/blog.controller';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ProductsController } from './api/products/products.controller';
     AuthenticationController,
     SettingsController,
     ProductsController,
+    BlogController,
   ],
   providers: [JwtStrategy],
 })

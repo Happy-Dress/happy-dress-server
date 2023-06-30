@@ -1,5 +1,5 @@
 export interface FailedUploadResult {
   id: number,
-  imageName: string,
+  fileName: string,
   reason: string
 }

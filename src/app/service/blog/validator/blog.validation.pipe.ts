@@ -4,14 +4,13 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { NULL_FILES_DETECTED } from '../../../messages/constants/messages.constants';
-import { Image } from '../model/Image';
 
 @Injectable()
-export class NullFilesValidationPipe implements PipeTransform {
-  public transform( files: Image[] ): Image[] {
-    if (!files?.length || !Array.isArray(files)) {
+export class NullFileValidationPipe implements PipeTransform {
+  public transform( file: Express.Multer.File ): Express.Multer.File {
+    if (!file) {
       throw new BadRequestException(NULL_FILES_DETECTED);
     }
-    return files;
+    return file;
   }
 }

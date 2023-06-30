@@ -1,15 +1,15 @@
 
-import { NullFileValidationPipe } from '../../../../app/service/image/validator/image.validation.pipe';
+import { NullFilesValidationPipe } from '../../../../app/service/image/validator/image.validation.pipe';
 import { Image } from '../../../../app/service/image/model/Image';
 import { BadRequestException } from '@nestjs/common';
-import { NULL_IMAGES_DETECTED } from '../../../../app/messages/constants/messages.constants';
+import { NULL_FILES_DETECTED } from '../../../../app/messages/constants/messages.constants';
 
 describe('NullFileValidationPipe', () => {
-  let nullFileValidationPipe: NullFileValidationPipe;
-  const error = new BadRequestException(NULL_IMAGES_DETECTED);
+  let nullFileValidationPipe: NullFilesValidationPipe;
+  const error = new BadRequestException(NULL_FILES_DETECTED);
     
     beforeEach( () => {
-      nullFileValidationPipe = new NullFileValidationPipe();
+      nullFileValidationPipe = new NullFilesValidationPipe();
     });
 
     describe('upload',  () => {

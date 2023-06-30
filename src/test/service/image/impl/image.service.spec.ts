@@ -53,7 +53,7 @@ describe('ImageService', () => {
             failedImages: [],
           } as any;
             jest.spyOn(imageValidator, 'getImageValidationResult').mockImplementation(() => resultImageValidation);
-            jest.spyOn(googleDriveClient, 'uploadImages').mockImplementation(() => resultUploaded);
+            jest.spyOn(googleDriveClient, 'uploadFiles').mockImplementation(() => resultUploaded);
             jest.spyOn(imageUrlConverter, 'convertToBaseUrl').mockImplementation(() => resultUploaded);
             const actualResult = await imageService.uploadImages(files);
             expect(actualResult).toBe(resultUploaded);
