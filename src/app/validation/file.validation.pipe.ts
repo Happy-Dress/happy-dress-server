@@ -3,7 +3,7 @@ import {
   PipeTransform,
   BadRequestException,
 } from '@nestjs/common';
-import { NULL_FILES_DETECTED } from '../../../messages/constants/messages.constants';
+import { NULL_FILES_DETECTED } from '../messages/constants/messages.constants';
 
 @Injectable()
 export class NullFileValidationPipe implements PipeTransform {

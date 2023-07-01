@@ -17,7 +17,7 @@ import { BlogSearchDto } from '../../../service/blog/model/blog-search.dto';
 import { BlogUploadResultDto } from '../../../service/blog/model/blog-upload-result.dto';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { NullFileValidationPipe } from '../../../service/blog/validator/blog.validation.pipe';
+import { NullFileValidationPipe } from '../../../validation/file.validation.pipe';
 
 @ApiTags('blog')
 @Controller('blog')
