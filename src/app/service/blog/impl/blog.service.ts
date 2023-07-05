@@ -40,9 +40,9 @@ export class BlogService implements IBlogService {
       return blogEntities.map(entity => this.blogConverter.convertToDto(entity));
     }
     
-    public uploadFileBlog(htmlBlog: Express.Multer.File): Promise<BlogUploadResultDto> {
+    public async uploadFileBlog(htmlBlog: Express.Multer.File): Promise<BlogUploadResultDto> {
       if (this.checkHtmlExtension(htmlBlog)) {
-        return this.googleDriveClient.uploadFile(htmlBlog, BLOG);
+        return await this.googleDriveClient.uploadFile(htmlBlog, BLOG);
       } else {
         throw new HttpException(this.getInvalidExtensionMessage(htmlBlog.mimetype), HttpStatus.BAD_REQUEST);
       }
