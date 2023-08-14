@@ -179,21 +179,21 @@ describe('ProductsService', () => {
     });
 
     it('should delete product', async () => {
-        const id = 1;
+        const ids = [1];
         const deleteResult = {} as never;
         productsRepository.delete.mockResolvedValue(deleteResult);
-        await productsService.deleteProduct(id);
+        await productsService.deleteProducts(ids);
         expect(productsRepository.delete).toHaveBeenCalled();
     });
 
     it('should throw EntitiesNotFoundByIdsException when deleting the product', async () => {
-        const id = 1;
+        const ids = [1];
         const deleteResult = {
             affected: 0,
         };
         productsRepository.delete.mockReturnValue(deleteResult);
         try{
-            await productsService.deleteProduct(id);
+            await productsService.deleteProducts(ids);
         } catch (error) {
             expect(error).toBeInstanceOf(EntitiesNotFoundByIdsException);
         }
