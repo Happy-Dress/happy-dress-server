@@ -57,9 +57,9 @@ export class ProductsSecureController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Delete(':id')
-    async deleteProduct(@Param('id', new ParseIntPipe()) id: number): Promise<void> {
-      await this.productService.deleteProduct(id);
+    @Delete()
+    async deleteProducts(@Body() ids: number[]): Promise<void> {
+      await this.productService.deleteProducts(ids);
     }
 
 }

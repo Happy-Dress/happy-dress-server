@@ -74,10 +74,10 @@ export class ProductsService implements IProductsService {
   }
 
   @Transactional()
-  public async deleteProduct(id: number): Promise<void> {
-    const deleteResult = await this.productsRepository.delete({ id: id } as FindOptionsWhere<ProductEntity>);
+  public async deleteProducts(ids: number[]): Promise<void> {
+    const deleteResult = await this.productsRepository.delete(ids);
     if (deleteResult.affected === 0) {
-      throw new EntitiesNotFoundByIdsException([id], PRODUCTS);
+      throw new EntitiesNotFoundByIdsException(ids, PRODUCTS);
     }
   }
 

@@ -17,7 +17,7 @@ describe('ProductsController', () => {
               getProduct: jest.fn(),
               createProduct: jest.fn(),
               updateProduct: jest.fn(),
-              deleteProduct: jest.fn(),
+              deleteProducts: jest.fn(),
               searchProducts: jest.fn(),
             },
           },
@@ -62,10 +62,10 @@ describe('ProductsController', () => {
 
     describe('delete',  () => {
         it('should delete product', async () => {
-          const id = 1;
-            jest.spyOn(productsService, 'deleteProduct').mockResolvedValue();
-            await productsController.deleteProduct(id);
-            expect(productsService.deleteProduct).toHaveBeenCalled();
+          const ids = [1];
+            jest.spyOn(productsService, 'deleteProducts').mockResolvedValue();
+            await productsController.deleteProducts(ids);
+            expect(productsService.deleteProducts).toHaveBeenCalled();
         });
     });
 
