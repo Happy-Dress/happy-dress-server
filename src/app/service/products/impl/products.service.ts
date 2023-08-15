@@ -75,6 +75,7 @@ export class ProductsService implements IProductsService {
 
   @Transactional()
   public async deleteProducts(ids: number[]): Promise<void> {
+    ids = Array.from(new Set(ids));
     const deleteResult = await this.productsRepository.delete(ids);
     if (deleteResult.affected === 0) {
       throw new EntitiesNotFoundByIdsException(ids, PRODUCTS);

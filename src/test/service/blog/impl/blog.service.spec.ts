@@ -112,21 +112,21 @@ describe('BlogService', () => {
 
     describe('delete', () => {
         it('should delete the blog', async () => {
-            const id = 1;
+            const ids = [1];
             const deleteResult = {} as never;
             blogRepository.delete.mockResolvedValue(deleteResult);
-            await blogService.deleteBlog(id);
+            await blogService.deleteBlog(ids);
             expect(blogRepository.delete).toHaveBeenCalled();
         });
 
         it('should throw EntitiesNotFoundByIdsException', async () => {
-            const id = 1;
+            const ids = [1];
             const deleteResult = {
                 affected: 0,
             } as never;
             blogRepository.delete.mockResolvedValue(deleteResult);
             try {
-                await blogService.deleteBlog(id);
+                await blogService.deleteBlog(ids);
             } catch (error) {
                 expect(error).toBeInstanceOf(EntitiesNotFoundByIdsException)
             }

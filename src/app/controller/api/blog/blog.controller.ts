@@ -78,12 +78,12 @@ export class BlogController {
     }
     
     @UseGuards(JwtAuthGuard)
-    @Delete('/delete/:id')
+    @Delete('/delete')
     @ApiOkResponse({
       description: 'successful delete blog response',
     })
-    async deleteBlog(@Param('id', new ParseIntPipe()) id: number): Promise<void> {
-      await this.blogService.deleteBlog(id);
+    async deleteBlog(@Body() ids: number[]): Promise<void> {
+      await this.blogService.deleteBlog(ids);
     }
 
 

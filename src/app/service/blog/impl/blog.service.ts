@@ -84,10 +84,11 @@ export class BlogService implements IBlogService {
     } 
     
     @Transactional()
-    public async deleteBlog(id: number): Promise<void> {
-      const deleteResult = await this.blogRepository.delete({ id: id } as FindOptionsWhere<ProductEntity>);
+    public async deleteBlog(ids: number[]): Promise<void> {
+      ids = Array.from(new Set(ids));
+      const deleteResult = await this.blogRepository.delete(ids);
       if (deleteResult.affected === 0) {
-        throw new EntitiesNotFoundByIdsException([id], BLOG);
+        throw new EntitiesNotFoundByIdsException(ids, BLOG);
       }
     }
 

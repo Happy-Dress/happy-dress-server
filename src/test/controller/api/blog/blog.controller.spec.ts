@@ -84,10 +84,10 @@ describe('BlogController', () => {
 
     describe('delete', () => {
         it('should delete blog', async () => {
-            const id = 1;
+            const ids = [1];
             const result = {} as Promise<void>;
             const deleteFunc = jest.spyOn(blogService, 'deleteBlog').mockImplementation(() => result);
-            await blogController.deleteBlog(id);
+            await blogController.deleteBlog(ids);
             expect(deleteFunc).toHaveBeenCalled();
         });
     })
