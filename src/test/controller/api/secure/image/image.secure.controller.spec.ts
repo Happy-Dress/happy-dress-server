@@ -1,8 +1,8 @@
-import { ImageSecureController } from '../../../../app/controller/api/secure/image/image.secure.controller';
+import { ImageSecureController } from '../../../../../app/controller/api/secure/image/image.secure.controller';
 import { Test } from '@nestjs/testing';
-import { IImageService } from '../../../../app/service/image/image.service.abstraction';
+import { IImageService } from '../../../../../app/service/image/image.service.abstraction';
 
-describe('ImageController', () => {
+describe('ImageSecureController', () => {
   let imageController: ImageSecureController;
   let imageService: IImageService;
 

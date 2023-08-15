@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { AuthenticationController } from '../../../../app/controller/api/unsecure/authentication/authentication.controller';
-import { IAuthenticationService } from '../../../../app/service/authentication/authentication.service.abstraction';
-import { UserCredentials } from '../../../../app/service/authentication/model/UserCredentials';
+import { AuthenticationController } from '../../../../../app/controller/api/unsecure/authentication/authentication.controller';
+import { IAuthenticationService } from '../../../../../app/service/authentication/authentication.service.abstraction';
+import { UserCredentials } from '../../../../../app/service/authentication/model/UserCredentials';
 
 describe('AuthenticationController', () => {
   let authenticationController: AuthenticationController;
