@@ -14,7 +14,7 @@ async function bootstrap(): Promise<void> {
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: [process.env.ORIGIN_PATH],
+    origin: process.env.ORIGIN_PATH.split(','),
   });
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api/v1');
@@ -26,7 +26,7 @@ async function bootstrap(): Promise<void> {
     .setDescription('happy-dress-server API description')
     .setVersion('1.0')
     .addTag('authentication')
-    .addTag('health')  
+    .addTag('health')
     .addTag('images')
     .addTag('products')
     .addTag('settings')
@@ -35,9 +35,9 @@ async function bootstrap(): Promise<void> {
   SwaggerModule.setup('doc', app, document);
 
   await writeFile('./.swagger/swagger.json', JSON.stringify(document));
-  
+
   await app.listen(parseInt(process.env.PORT, 10) || DEFAULT_PORT);
 
-  
+
 }
 bootstrap();

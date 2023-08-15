@@ -5,14 +5,18 @@ import { ProductSearchViewDto } from './model/product-search.view.dto';
 
 
 export abstract class IProductsService {
-
   abstract getProduct(id: number): Promise<ProductViewDto>;
 
   abstract createProduct(product: ProductDto): Promise<ProductViewDto>;
 
-  abstract updateProduct(id: number, product: ProductDto): Promise<ProductViewDto>;
+  abstract updateProduct(
+    id: number,
+    product: ProductDto
+  ): Promise<ProductViewDto>;
 
-  abstract deleteProduct(id: number): Promise<void>;
+  abstract deleteProducts(ids: number[]): Promise<void>;
 
-  abstract searchProducts(productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto>;
+  abstract searchProducts(
+    productSearchDto: ProductSearchDto
+  ): Promise<ProductSearchViewDto>;
 }
