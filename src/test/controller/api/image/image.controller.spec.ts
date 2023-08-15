@@ -1,9 +1,9 @@
-import { ImageController } from '../../../../app/controller/api/image/image.controller';
+import { ImageSecureController } from '../../../../app/controller/api/secure/image/image.secure.controller';
 import { Test } from '@nestjs/testing';
 import { IImageService } from '../../../../app/service/image/image.service.abstraction';
 
 describe('ImageController', () => {
-  let imageController: ImageController;
+  let imageController: ImageSecureController;
   let imageService: IImageService;
 
     beforeEach(async () => {
@@ -16,11 +16,11 @@ describe('ImageController', () => {
             },
           },
         ],
-        controllers: [ImageController],
+        controllers: [ImageSecureController],
       }).compile();
 
       imageService = moduleRef.get<IImageService>(IImageService);
-      imageController = moduleRef.get<ImageController>(ImageController);
+      imageController = moduleRef.get<ImageSecureController>(ImageSecureController);
     });
 
     describe('upload',  () => {

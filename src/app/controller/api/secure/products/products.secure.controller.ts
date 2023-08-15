@@ -1,20 +1,20 @@
-import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
-import { ProductDto } from '../../../service/products/model/product.dto';
-import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
-import { IProductsService } from '../../../service/products/products.service.abstraction';
-import { ProductViewDto } from '../../../service/products/model/product.view.dto';
-import { ProductSearchDto } from '../../../service/products/model/product-search.dto';
-import { ProductSearchViewDto } from '../../../service/products/model/product-search.view.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
+import { IProductsService } from '../../../../service/products/products.service.abstraction';
+import { ProductViewDto } from '../../../../service/products/model/product.view.dto';
+import { JwtAuthGuard } from '../../../security/guards/jwt.auth.guard';
+import { ProductDto } from '../../../../service/products/model/product.dto';
+import { ProductSearchViewDto } from '../../../../service/products/model/product-search.view.dto';
+import { ProductSearchDto } from '../../../../service/products/model/product-search.dto';
 
-
-@ApiTags('products')
-@Controller('products')
+@ApiTags('secure_products')
+@Controller('secure/products')
 export class ProductsController {
 
     @Inject()
     private productService: IProductsService;
-    
+
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     @ApiOkResponse({
       description: 'successful get product response',
@@ -23,7 +23,7 @@ export class ProductsController {
     async getProduct(@Param('id', new ParseIntPipe()) id: number): Promise<ProductViewDto> {
       return this.productService.getProduct(id);
     }
-    
+
     @UseGuards(JwtAuthGuard)
     @Post('/create')
     @ApiOkResponse({
@@ -33,7 +33,7 @@ export class ProductsController {
     async createProduct(@Body() productDto: ProductDto): Promise<ProductViewDto> {
       return await this.productService.createProduct(productDto);
     }
-    
+
     @UseGuards(JwtAuthGuard)
     @Put('/update/:id')
     @ApiOkResponse({
@@ -45,7 +45,8 @@ export class ProductsController {
         @Body() productDto: ProductDto): Promise<ProductViewDto> {
       return await this.productService.updateProduct(id, productDto);
     }
-    
+
+    @UseGuards(JwtAuthGuard)
     @Post('/search')
     @ApiOkResponse({
       description: 'successful search product response',
@@ -54,7 +55,7 @@ export class ProductsController {
     async search(@Body() productSearchDto: ProductSearchDto): Promise<ProductSearchViewDto> {
       return await this.productService.searchProducts(productSearchDto);
     }
-    
+
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteProduct(@Param('id', new ParseIntPipe()) id: number): Promise<void> {

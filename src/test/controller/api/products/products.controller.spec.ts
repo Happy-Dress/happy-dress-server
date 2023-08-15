@@ -1,4 +1,4 @@
-import { ProductsController } from '../../../../app/controller/api/products/products.controller';
+import { ProductsController } from '../../../../app/controller/api/unsecure/products/products.controller';
 import { IProductsService } from '../../../../app/service/products/products.service.abstraction';
 import { Test } from '@nestjs/testing';
 import { generateProductSearchDto, generateProductSearchViewDto } from '../../../test-utils/mock-dto-generators';

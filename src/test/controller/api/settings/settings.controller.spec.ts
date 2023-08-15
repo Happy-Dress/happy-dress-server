@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { SettingsController } from '../../../../app/controller/api/settings/settings.controller';
+import { SettingsController } from '../../../../app/controller/api/unsecure/settings/settings.controller';
 import { ISettingsService } from '../../../../app/service/settings/settings.service.abstraction';
 
 describe('SettingsController', () => {
