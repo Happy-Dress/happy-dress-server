@@ -6,7 +6,7 @@ import { JwtAuthGuard } from '../../../security/guards/jwt.auth.guard';
 
 @ApiTags('secure_settings')
 @Controller('secure/settings')
-export class SettingsController {
+export class SettingsSecureController {
 
     @Inject()
     private settingsService: ISettingsService;

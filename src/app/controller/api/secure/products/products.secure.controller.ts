@@ -9,7 +9,7 @@ import { ProductSearchDto } from '../../../../service/products/model/product-sea
 
 @ApiTags('secure_products')
 @Controller('secure/products')
-export class ProductsController {
+export class ProductsSecureController {
 
     @Inject()
     private productService: IProductsService;

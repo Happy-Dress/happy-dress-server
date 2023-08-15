@@ -6,6 +6,8 @@ import { AuthenticationController } from './api/unsecure/authentication/authenti
 import { JwtStrategy } from './security/strategy/jwt.strategy';
 import { SettingsController } from './api/unsecure/settings/settings.controller';
 import { ProductsController } from './api/unsecure/products/products.controller';
+import { ProductsSecureController } from './api/secure/products/products.secure.controller';
+import { SettingsSecureController } from './api/secure/settings/settings.secure.controller';
 
 @Module({
   imports: [
@@ -16,7 +18,9 @@ import { ProductsController } from './api/unsecure/products/products.controller'
     ImageSecureController,
     AuthenticationController,
     SettingsController,
+    SettingsSecureController,
     ProductsController,
+    ProductsSecureController,
   ],
   providers: [JwtStrategy],
 })
