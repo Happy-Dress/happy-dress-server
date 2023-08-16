@@ -1,7 +1,7 @@
 
-import { GlobalDressOptionsDto } from './../../../../../app/service/settings/model/global-dress-options.dto';
-import { OrderNumberValidationPipe } from './../../../../../app/service/settings/validator/orderNumber.validation.pipe';
-import { generateGlobalDressOptionsDto } from './../../../../../test/test-utils/mock-dto-generators';
+import { GlobalDressOptionsDto } from '../../../../../../app/service/settings/model/global-dress-options.dto';
+import { OrderNumberValidationPipe } from '../../../../../../app/service/settings/validator/orderNumber.validation.pipe';
+import { generateGlobalDressOptionsDto } from '../../../../../test-utils/mock-dto-generators';
 
 describe('OrderNumberValidationPipe', () => {
   let orderNumberValidationPipe: OrderNumberValidationPipe;
