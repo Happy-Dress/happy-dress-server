@@ -9,5 +9,7 @@ export abstract class IAuthenticationService {
 
   abstract signIn(credentials: UserCredentials): Promise<JwtToken>;
 
+  abstract refreshToken(refreshToken: string): Promise<JwtToken>;
+
   abstract getUserById(id: number): Promise<UserInfo>;
 }

@@ -2,7 +2,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { ISettingsService } from '../../../../service/settings/settings.service.abstraction';
 import { GlobalDressOptionsDto } from '../../../../service/settings/model/global-dress-options.dto';
-import { JwtAuthGuard } from '../../../security/guards/jwt.auth.guard';
+import { JwtAccessAuthGuard } from '../../../security/guards/jwt.access.auth.guard';
 
 @ApiTags('secure_settings')
 @Controller('secure/settings')
@@ -11,7 +11,7 @@ export class SettingsSecureController {
     @Inject()
     private settingsService: ISettingsService;
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Get()
     @ApiOkResponse({
       description: 'successful get global dress options',
@@ -21,7 +21,7 @@ export class SettingsSecureController {
       return this.settingsService.getGlobalDressOptions();
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Post()
     @ApiOkResponse({
       description: 'successful save global dress options',
