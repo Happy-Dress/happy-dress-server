@@ -84,7 +84,7 @@ describe('BlogController', () => {
 
     describe('delete', () => {
         it('should delete blog', async () => {
-            const ids = [1];
+            const ids = new Set([1]);
             const result = {} as Promise<void>;
             const deleteFunc = jest.spyOn(blogService, 'deleteBlog').mockImplementation(() => result);
             await blogController.deleteBlog(ids);

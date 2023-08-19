@@ -179,7 +179,7 @@ describe('ProductsService', () => {
     });
 
     it('should delete product', async () => {
-        const ids = [1];
+        const ids = new Set([1]);
         const deleteResult = {} as never;
         productsRepository.delete.mockResolvedValue(deleteResult);
         await productsService.deleteProducts(ids);
@@ -187,7 +187,7 @@ describe('ProductsService', () => {
     });
 
     it('should throw EntitiesNotFoundByIdsException when deleting the product', async () => {
-        const ids = [1];
+        const ids = new Set([1]);
         const deleteResult = {
             affected: 0,
         };

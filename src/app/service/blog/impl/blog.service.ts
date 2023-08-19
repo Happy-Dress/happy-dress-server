@@ -13,7 +13,7 @@ import { EntitiesNotFoundByIdsException } from '../../../exception/entities-not-
 import { EntityDuplicateFieldException } from '../../../exception/entity-duplicate-field.exception';
 import { INVALID_EXTENSION_MESSAGE } from '../../../messages/constants/messages.constants';
 import { Transactional } from 'typeorm-transactional';
-import { ProductEntity } from '../../../repository/product/entity/product.entity';
+
 
 const BLOG = 'Блог';
 const HTML_EXTENSION = 'html';
@@ -84,9 +84,8 @@ export class BlogService implements IBlogService {
     } 
     
     @Transactional()
-    public async deleteBlog(ids: number[]): Promise<void> {
-      ids = Array.from(new Set(ids));
-      const deleteResult = await this.blogRepository.delete(ids);
+    public async deleteBlog(ids: Set<number>): Promise<void> {
+      const deleteResult = await this.blogRepository.delete(Array.from(ids));
       if (deleteResult.affected === 0) {
         throw new EntitiesNotFoundByIdsException(ids, BLOG);
       }
