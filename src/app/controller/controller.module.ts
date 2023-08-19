@@ -20,11 +20,7 @@ import { SettingsSecureController } from './api/secure/settings/settings.secure.
     SettingsController,
     SettingsSecureController,
     ProductsController,
-<<<<<<< HEAD
-    BlogController,
-=======
     ProductsSecureController,
->>>>>>> develop
   ],
   providers: [JwtStrategy],
 })
