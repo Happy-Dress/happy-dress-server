@@ -18,7 +18,6 @@ import { CategoryConverter } from './settings/util/converters/category.converter
 import { ColorConverter } from './settings/util/converters/color.converter';
 import { MaterialEntity } from '../repository/settings/material/entity/material.entity';
 import { ColorEntity } from '../repository/settings/color/entity/color.entity';
-import { ImageUrlConverter } from './image/util/imageUrl.converter';
 import { MaterialsCrudService } from './settings/crud/materials.crud.service';
 import { ColorsCrudService } from './settings/crud/colors.crud.service';
 import { ModelsCrudService } from './settings/crud/models.crud.service';
@@ -36,6 +35,10 @@ import {
   IProductColorSizeImagesService,
 } from './products/productColorSizeImage/productColorSizeImages.service.abstraction';
 import { ProductColorSizeImagesService } from './products/productColorSizeImage/impl/productColorSizeImages.service';
+import { BlogConverter } from './blog/util/converters/blog.converter';
+import { BlogEntity } from '../repository/blog/blog.entity';
+import { IBlogService } from './blog/blog.service.abstraction';
+import { BlogService } from './blog/impl/blog.service';
 
 @Module({
   // Delegates
@@ -64,18 +67,22 @@ import { ProductColorSizeImagesService } from './products/productColorSizeImage/
       provide: IProductsService,
       useClass: ProductsService,
     },
+    {
+      provide: IBlogService,
+      useClass: BlogService,
+    },
 
     // Validators
     ImageValidator,
 
 
     // Converters
-    ImageUrlConverter,
     SimpleListSettingConverter,
     CategoryConverter,
     ColorConverter,
     SizeConverter,
     ProductConverter,
+    BlogConverter,
 
     // Crud services
     MaterialsCrudService,
@@ -87,8 +94,8 @@ import { ProductColorSizeImagesService } from './products/productColorSizeImage/
   imports: [
     ClientModule,
         TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity,
-          SizeEntity, ProductEntity, ProductColorSizeEntity, ProductColorImageEntity]),
+          SizeEntity, ProductEntity, ProductColorSizeEntity, ProductColorImageEntity, BlogEntity]),
   ],
-  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService, IProductsService],
+  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService, IProductsService, IBlogService],
 })
 export class ServiceModule {}

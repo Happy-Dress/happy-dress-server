@@ -13,6 +13,9 @@ import { ProductColorSizeDto } from '../../app/service/products/model/product-co
 import { ProductColorImageDto } from '../../app/service/products/model/product-color-image.dto';
 import { ProductSearchDto } from '../../app/service/products/model/product-search.dto';
 import { ProductSearchViewDto } from '../../app/service/products/model/product-search.view.dto';
+import { BlogDto } from '../../app/service/blog/model/blog.dto';
+import { BlogSearchDto } from '../../app/service/blog/model/blog-search.dto';
+import { BlogUploadResultDto } from '../../app/service/blog/model/blog-upload-result.dto';
 
 export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
   return {
@@ -149,5 +152,30 @@ export function generateProductSearchViewDto(): ProductSearchViewDto {
     totalPages: 1,
     currentPage: productSearchDto.page,
     totalItems: 1,
+  };
+}
+
+export function generateBlogDto(): BlogDto {
+  return {
+    id: 1,
+    name: 'plain text',
+    shortDescription: 'plain text',
+    isPublished: true,
+    htmlLinkBlog: 'plain link',
+  };
+}
+
+export function generateBlogSearchDto(): BlogSearchDto {
+  return {
+    name: 'plain text',
+    shortDescription: 'plain text',
+  };
+}
+
+export function generateBlogUploadResultDto(): BlogUploadResultDto {
+  return {
+    id: 1,
+    fileName: 'plain text',
+    fileUrl: 'plain text',
   };
 }

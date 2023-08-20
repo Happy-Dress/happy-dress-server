@@ -1,4 +1,3 @@
-
 import { Image } from '../../../../app/service/image/model/Image';
 import { GoogleDriveClient } from '../../../../app/client/google-drive/impl/google-drive.client';
 
@@ -17,7 +16,7 @@ describe('GoogleDriveClient', () => {
             } as any,
           ];
             googleDriveClient.onApplicationBootstrap();
-            const actualResult = await googleDriveClient.uploadImages(images);
+            const actualResult = await googleDriveClient.uploadFiles(images, 'example');
             expect(actualResult.uploadedImages.length).toBe(0);
             expect(actualResult.failedImages.length).toBe(1);
         });
