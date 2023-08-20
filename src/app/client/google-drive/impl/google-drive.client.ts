@@ -1,26 +1,27 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { IGoogleDriveClient } from '../google-drive.client.abstraction';
-import { UploadedImageModel } from '../models/uploaded-image.model';
+import { UploadedFileModel } from '../models/uploaded-file.model';
 import * as stream from 'stream';
 import { drive_v3, google } from 'googleapis';
 import * as path from 'path';
-import { ImageUploadError } from '../expection/image-upload.error';
+import { FileUploadError } from '../expection/file-upload.error';
 import Drive = drive_v3.Drive;
-import { ImageUploadResult } from '../../../service/image/model/ImageUploadResult';
+import { FilesUploadResult } from '../../../service/image/model/FilesUploadResult';
 import { FailedUploadResult } from '../../../service/image/model/FailedUploadResult';
 import { FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE } from '../../../messages/constants/messages.constants';
-import { Image } from '../../../service/image/model/Image';
 import Params$Resource$Files$Create = drive_v3.Params$Resource$Files$Create;
+import { GaxiosPromise } from '@googleapis/docs';
 
 @Injectable()
 export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBootstrap {
 
     private readonly CREDENTIALS_FILE_NAME = 'google-credentials.json';
-    private readonly IMAGE_DEFAULT_URL = 'https://drive.google.com/open?id=';
+    private readonly FILE_DEFAULT_URL = 'http://drive.google.com/uc?export=view&id=';
     private readonly API_RESPONSE_FIELDS = 'id,name';
     private readonly STATUS_FULFILLED = 'fulfilled';
     private readonly STATUS_REJECTED = 'rejected';
     private readonly DRIVE_VERSION = 'v3';
+    private readonly FOLDER_MIMETYPE = 'application/vnd.google-apps.folder';
 
     private googleDriveApi: Drive;
 
@@ -33,62 +34,91 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
       this.googleDriveApi = google.drive({ version: this.DRIVE_VERSION, auth });
     }
 
-    public async uploadImages(images: Image[]): Promise<ImageUploadResult> {
-      const uploadResponse = await Promise.allSettled(images.map(image => this.uploadImage(image)));
-      const uploadedImages = this.getUploadedImages(uploadResponse);
-      const failedImages = this.getFailedImages(uploadResponse);
+    public async uploadFiles(files: Express.Multer.File[], folderName: string): Promise<FilesUploadResult> {
+      const uploadResponse = await Promise.allSettled(files.map((file, index) => this.uploadFile(file, folderName, index)));
+      const uploadedFiles = this.getUploadedFiles(uploadResponse);
+      const failedFiles = this.getFailedFiles(uploadResponse);
       return {
-        uploadedImages,
-        failedImages,
+        uploadedImages: uploadedFiles,
+        failedImages: failedFiles,
       };
     }
 
-    private getUploadedImages(uploadResponse: PromiseSettledResult<UploadedImageModel>[]): UploadedImageModel[] {
+    private getUploadedFiles(uploadResponse: PromiseSettledResult<UploadedFileModel>[]): UploadedFileModel[] {
       return uploadResponse
         .filter(response => response.status === this.STATUS_FULFILLED)
-        .map(response => response as PromiseFulfilledResult<UploadedImageModel>)
+        .map(response => response as PromiseFulfilledResult<UploadedFileModel>)
         .map(response => response.value);
     }
 
-    private getFailedImages(uploadResponse: PromiseSettledResult<UploadedImageModel>[]): FailedUploadResult[] {
+    private getFailedFiles(uploadResponse: PromiseSettledResult<UploadedFileModel>[]): FailedUploadResult[] {
       return uploadResponse
         .filter(response => response.status === this.STATUS_REJECTED)
         .map(response => response as PromiseRejectedResult)
-        .map(response => (response.reason as ImageUploadError).getFailedImage());
+        .map(response => (response.reason as FileUploadError).getFailedFiles());
     }
 
-    private async uploadImage(image: Image): Promise<UploadedImageModel> {
-      const params = this.getImageCreateParams(image);
+    public async uploadFile(file: Express.Multer.File, folderName: string, fileId?: number): Promise<UploadedFileModel> {
       try {
+        const folderId = await this.getFolderId(folderName);
+        const params = this.getCreatingParams(file, folderId);
         const { data: { id, name } = {} } = await this.googleDriveApi.files.create(params);
         return {
-          id: image.id,
-          imageUrl: `${this.IMAGE_DEFAULT_URL}${id}`,
-          imageName: name,
+          id: fileId || 0,
+          fileUrl: `${this.FILE_DEFAULT_URL}${id}`,
+          fileName: name,
         };
       } catch (e) {
-        throw new ImageUploadError({
-          id: image.id,
-          imageName: image.originalname,
+        throw new FileUploadError({
+          id: fileId || 0,
+          fileName: file.originalname,
           reason: `${FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE}`,
         });
       }
     }
 
-    private getImageCreateParams(image: Image): Params$Resource$Files$Create {
+    private getCreatingParams(htmlBlog: Express.Multer.File, folderId: string): Params$Resource$Files$Create {
       const bufferStream = new stream.PassThrough();
-        bufferStream.end(image.buffer);
+        bufferStream.end(htmlBlog.buffer);
         return {
           media: {
-            mimeType: image.mimetype,
+            mimeType: htmlBlog.mimetype,
             body: bufferStream,
           },
           requestBody: {
-            name: image.originalname,
-            parents: [process.env.PARENT_FOLDER],
+            name: htmlBlog.originalname,
+            parents: [folderId],
           },
           fields: this.API_RESPONSE_FIELDS,
         };
+    }
+
+    private async getFolderId(folderName: string): Promise<string> {
+      const folderMetadata = this.getFolderMetadata(folderName);
+      const existingFolders = await this.getExistingFoldersByName(folderName);
+      if (existingFolders.data.files.length > 0) {
+        return existingFolders.data.files[0].id;
+      } else {
+        const file = await this.googleDriveApi.files.create({
+          requestBody: folderMetadata,
+          fields: 'id',
+        });
+        return file.data.id;
+      }
+    }
+
+    private async getExistingFoldersByName(folderName: string): Promise<GaxiosPromise<drive_v3.Schema$FileList>> {
+      return await this.googleDriveApi.files.list({
+        q: `mimeType='application/vnd.google-apps.folder' and name='${folderName}'`,
+        spaces: 'drive',
+      });
+    }
+
+    private getFolderMetadata(folderName: string): drive_v3.Schema$File {
+      return {
+        name: folderName,
+        mimeType: this.FOLDER_MIMETYPE,
+      };
     }
 
 }

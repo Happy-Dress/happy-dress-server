@@ -7,6 +7,7 @@ import { ProductEntity } from '../../app/repository/product/entity/product.entit
 import {
   ProductColorImageEntity,
 } from '../../app/repository/product/product-color-image/entity/product-color-image.entity';
+import { BlogEntity } from '../../app/repository/blog/blog.entity';
 
 export function generateColorEntity(): ColorEntity {
   return {
@@ -70,5 +71,15 @@ export function generateProductColorImageEntity(): ProductColorImageEntity {
     product: generateProductEntity(),
     color: generateColorEntity(),
     imageUrls: ['plain text'],
+  };
+}
+
+export function generateBlogEntity(): BlogEntity {
+  return {
+    id: 1,
+    name: 'plain text',
+    shortDescription: 'plain text',
+    isPublished: true,
+    htmlLinkBlog: 'plain link',
   };
 }

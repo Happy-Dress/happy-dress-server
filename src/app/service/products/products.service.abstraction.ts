@@ -14,7 +14,7 @@ export abstract class IProductsService {
     product: ProductDto
   ): Promise<ProductViewDto>;
 
-  abstract deleteProducts(ids: number[]): Promise<void>;
+  abstract deleteProducts(ids: Set<number>): Promise<void>;
 
   abstract searchProducts(
     productSearchDto: ProductSearchDto
