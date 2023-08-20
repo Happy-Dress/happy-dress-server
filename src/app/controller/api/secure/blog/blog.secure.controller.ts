@@ -11,21 +11,22 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { IBlogService } from '../../../service/blog/blog.service.abstraction';
-import { BlogDto } from '../../../service/blog/model/blog.dto';
-import { BlogSearchDto } from '../../../service/blog/model/blog-search.dto';
-import { BlogUploadResultDto } from '../../../service/blog/model/blog-upload-result.dto';
-import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
+import { IBlogService } from '../../../../service/blog/blog.service.abstraction';
+import { BlogDto } from '../../../../service/blog/model/blog.dto';
+import { BlogSearchDto } from '../../../../service/blog/model/blog-search.dto';
+import { JwtAccessAuthGuard } from '../../../security/guards/jwt.access.auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { NullFileValidationPipe } from '../../../validation/file.validation.pipe';
+import { BlogUploadResultDto } from '../../../../service/blog/model/blog-upload-result.dto';
+import { NullFileValidationPipe } from '../../../../validation/file.validation.pipe';
 
 @ApiTags('blog')
 @Controller('blog')
-export class BlogController {
+export class BlogSecureController {
 
     @Inject()
     private blogService: IBlogService;
 
+    @UseGuards(JwtAccessAuthGuard)
     @Get(':id')
     @ApiOkResponse({
       description: 'successful get blog response',
@@ -35,6 +36,7 @@ export class BlogController {
       return await this.blogService.getBlog(id);
     }
 
+    @UseGuards(JwtAccessAuthGuard)
     @Post('/search')
     @ApiOkResponse({
       description: 'successful search blog response',
@@ -44,7 +46,7 @@ export class BlogController {
       return await this.blogService.searchBlog(blogSearchDto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Post('/uploadFile')
     @UseInterceptors(FileInterceptor('file'))
     @ApiOkResponse({
@@ -55,7 +57,7 @@ export class BlogController {
       return await this.blogService.uploadFileBlog(file);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Post('/create')
     @ApiOkResponse({
       description: 'successful create blog response',
@@ -65,7 +67,7 @@ export class BlogController {
       return await this.blogService.createBlog(blogDto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Put('/update/:id')
     @ApiOkResponse({
       description: 'successful update blog response',
@@ -76,8 +78,8 @@ export class BlogController {
         @Body() blogDto: BlogDto): Promise<BlogDto> {
       return await this.blogService.updateBlog(id, blogDto);
     }
-    
-    @UseGuards(JwtAuthGuard)
+
+    @UseGuards(JwtAccessAuthGuard)
     @Delete('/delete')
     @ApiOkResponse({
       description: 'successful delete blog response',

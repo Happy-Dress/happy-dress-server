@@ -2,7 +2,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { IProductsService } from '../../../../service/products/products.service.abstraction';
 import { ProductViewDto } from '../../../../service/products/model/product.view.dto';
-import { JwtAuthGuard } from '../../../security/guards/jwt.auth.guard';
+import { JwtAccessAuthGuard } from '../../../security/guards/jwt.access.auth.guard';
 import { ProductDto } from '../../../../service/products/model/product.dto';
 import { ProductSearchViewDto } from '../../../../service/products/model/product-search.view.dto';
 import { ProductSearchDto } from '../../../../service/products/model/product-search.dto';
@@ -14,7 +14,7 @@ export class ProductsSecureController {
     @Inject()
     private productService: IProductsService;
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Get(':id')
     @ApiOkResponse({
       description: 'successful get product response',
@@ -24,7 +24,7 @@ export class ProductsSecureController {
       return this.productService.getProduct(id);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Post('/create')
     @ApiOkResponse({
       description: 'successful create product response',
@@ -34,7 +34,7 @@ export class ProductsSecureController {
       return await this.productService.createProduct(productDto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Put('/update/:id')
     @ApiOkResponse({
       description: 'successful update product response',
@@ -46,7 +46,7 @@ export class ProductsSecureController {
       return await this.productService.updateProduct(id, productDto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Post('/search')
     @ApiOkResponse({
       description: 'successful search product response',
@@ -56,7 +56,7 @@ export class ProductsSecureController {
       return await this.productService.searchProducts(productSearchDto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAccessAuthGuard)
     @Delete()
     async deleteProducts(@Body() ids: Set<number>): Promise<void> {
       await this.productService.deleteProducts(ids);

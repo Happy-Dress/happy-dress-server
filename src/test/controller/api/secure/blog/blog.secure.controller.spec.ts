@@ -1,12 +1,12 @@
-import {BlogController} from "../../../../app/controller/api/blog/blog.controller";
-import {IBlogService} from "../../../../app/service/blog/blog.service.abstraction";
+import {IBlogService} from "../../../../../app/service/blog/blog.service.abstraction";
 import {Test} from "@nestjs/testing";
-import {BlogDto} from "../../../../app/service/blog/model/blog.dto";
-import {BlogSearchDto} from "../../../../app/service/blog/model/blog-search.dto";
-import {BlogUploadResultDto} from "../../../../app/service/blog/model/blog-upload-result.dto";
+import {BlogSecureController} from "../../../../../app/controller/api/secure/blog/blog.secure.controller";
+import {BlogDto} from "../../../../../app/service/blog/model/blog.dto";
+import {BlogSearchDto} from "../../../../../app/service/blog/model/blog-search.dto";
+import {BlogUploadResultDto} from "../../../../../app/service/blog/model/blog-upload-result.dto";
 
-describe('BlogController', () => {
-    let blogController: BlogController;
+describe('BlogSecureController', () => {
+    let blogSecureController: BlogSecureController;
     let blogService: IBlogService;
 
     beforeEach(async () => {
@@ -24,11 +24,11 @@ describe('BlogController', () => {
                     },
                 }
             ],
-            controllers: [BlogController],
+            controllers: [BlogSecureController],
         }).compile();
 
         blogService = moduleRef.get<IBlogService>(IBlogService);
-        blogController = moduleRef.get<BlogController>(BlogController);
+        blogSecureController = moduleRef.get<BlogSecureController>(BlogSecureController);
     });
 
     describe('get', () => {
@@ -36,7 +36,7 @@ describe('BlogController', () => {
             const id = 1;
             const result = {} as Promise<BlogDto>;
             jest.spyOn(blogService, 'getBlog').mockImplementation(() => result);
-            const actualResult = await blogController.getBlog(id);
+            const actualResult = await blogSecureController.getBlog(id);
             expect(actualResult).toBe(result);
         });
     });
@@ -46,7 +46,7 @@ describe('BlogController', () => {
             const blog = {} as BlogDto;
             const result = {} as Promise<BlogDto>;
             jest.spyOn(blogService, 'createBlog').mockImplementation(() => result);
-            const actualResult = await blogController.createBlog(blog);
+            const actualResult = await blogSecureController.createBlog(blog);
             expect(actualResult).toBe(result);
         });
     });
@@ -57,7 +57,7 @@ describe('BlogController', () => {
             const blog = {} as BlogDto;
             const result = {} as Promise<BlogDto>;
             jest.spyOn(blogService, 'updateBlog').mockImplementation(() => result);
-            const actualResult = await blogController.updateBlog(id, blog);
+            const actualResult = await blogSecureController.updateBlog(id, blog);
             expect(actualResult).toBe(result);
         });
     })
@@ -67,19 +67,19 @@ describe('BlogController', () => {
             const blogSearchDto = {} as BlogSearchDto;
             const result = {} as Promise<BlogDto[]>;
             jest.spyOn(blogService, 'searchBlog').mockImplementation(() => result);
-            const actualResult = await blogController.searchBlog(blogSearchDto);
+            const actualResult = await blogSecureController.searchBlog(blogSearchDto);
             expect(actualResult).toBe(result);
         });
     })
 
     describe('uploadFile', () => {
-       it('should upload blog file', async () => {
-           const file = {} as Express.Multer.File;
-           const result = {} as Promise<BlogUploadResultDto>;
-           jest.spyOn(blogService, 'uploadFileBlog').mockImplementation(() => result);
-           const actualResult = await blogController.uploadBlogFile(file);
-           expect(actualResult).toBe(result);
-       });
+        it('should upload blog file', async () => {
+            const file = {} as Express.Multer.File;
+            const result = {} as Promise<BlogUploadResultDto>;
+            jest.spyOn(blogService, 'uploadFileBlog').mockImplementation(() => result);
+            const actualResult = await blogSecureController.uploadBlogFile(file);
+            expect(actualResult).toBe(result);
+        });
     });
 
     describe('delete', () => {
@@ -87,9 +87,8 @@ describe('BlogController', () => {
             const ids = new Set([1]);
             const result = {} as Promise<void>;
             const deleteFunc = jest.spyOn(blogService, 'deleteBlog').mockImplementation(() => result);
-            await blogController.deleteBlog(ids);
+            await blogSecureController.deleteBlog(ids);
             expect(deleteFunc).toHaveBeenCalled();
         });
     })
-
-})
+});

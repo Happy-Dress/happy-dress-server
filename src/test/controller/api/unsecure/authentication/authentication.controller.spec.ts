@@ -32,6 +32,7 @@ describe('AuthenticationController', () => {
       } as UserCredentials;
       const token = {
         accessToken: '121dsdsfw12fsf21',
+        refreshToken: '121dsdsfw12fsf21',
       };
         jest.spyOn(authenticationService, 'signIn').mockImplementation(() => Promise.resolve(token));
         const actualResponse = await authenticationController.login(creds);
