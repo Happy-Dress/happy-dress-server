@@ -17,8 +17,8 @@ describe('GoogleDriveClient', () => {
           ];
             googleDriveClient.onApplicationBootstrap();
             const actualResult = await googleDriveClient.uploadFiles(images, 'example');
-            expect(actualResult.uploadedImages.length).toBe(0);
-            expect(actualResult.failedImages.length).toBe(1);
+            expect(actualResult.uploadedFiles.length).toBe(0);
+            expect(actualResult.failedFiles.length).toBe(1);
         });
 
     });
