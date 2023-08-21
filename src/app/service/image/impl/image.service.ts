@@ -21,7 +21,7 @@ export class ImageService implements IImageService {
       const images: Image[] = files.map((file, index) => ({ id : index, ...file }));
       const { validImages, invalidImagesMap } = this.imageValidator.getImageValidationResult(images);
       const uploadResult = await this.googleDriveClient.uploadFiles(validImages, IMAGES);
-      uploadResult.failedImages.push(...invalidImagesMap.values());
+      uploadResult.failedFiles.push(...invalidImagesMap.values());
       return uploadResult;
     }
 }

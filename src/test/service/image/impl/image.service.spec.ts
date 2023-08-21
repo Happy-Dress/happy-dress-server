@@ -40,8 +40,8 @@ describe('ImageService', () => {
             invalidImagesMap: new Map,
           };
           const resultUploaded = {
-            uploadImages: [],
-            failedImages: [],
+            uploadFiles: [],
+            failedFiles: [],
           } as any;
             jest.spyOn(imageValidator, 'getImageValidationResult').mockImplementation(() => resultImageValidation);
             jest.spyOn(googleDriveClient, 'uploadFiles').mockImplementation(() => resultUploaded);

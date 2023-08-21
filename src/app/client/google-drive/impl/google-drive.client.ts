@@ -39,8 +39,8 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
       const uploadedFiles = this.getUploadedFiles(uploadResponse);
       const failedFiles = this.getFailedFiles(uploadResponse);
       return {
-        uploadedImages: uploadedFiles,
-        failedImages: failedFiles,
+        uploadedFiles,
+        failedFiles,
       };
     }
 
@@ -77,16 +77,16 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
       }
     }
 
-    private getCreatingParams(htmlBlog: Express.Multer.File, folderId: string): Params$Resource$Files$Create {
+    private getCreatingParams(file: Express.Multer.File, folderId: string): Params$Resource$Files$Create {
       const bufferStream = new stream.PassThrough();
-        bufferStream.end(htmlBlog.buffer);
+        bufferStream.end(file.buffer);
         return {
           media: {
-            mimeType: htmlBlog.mimetype,
+            mimeType: file.mimetype,
             body: bufferStream,
           },
           requestBody: {
-            name: htmlBlog.originalname,
+            name: file.originalname,
             parents: [folderId],
           },
           fields: this.API_RESPONSE_FIELDS,
