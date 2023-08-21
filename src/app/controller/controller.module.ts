@@ -3,11 +3,13 @@ import { ServiceModule } from '../service/service.module';
 import { ImageSecureController } from './api/secure/image/image.secure.controller';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 import { AuthenticationController } from './api/unsecure/authentication/authentication.controller';
-import { JwtStrategy } from './security/strategy/jwt.strategy';
+import { JwtAccessStrategy } from './security/strategy/jwt.access.strategy';
 import { SettingsController } from './api/unsecure/settings/settings.controller';
 import { ProductsController } from './api/unsecure/products/products.controller';
 import { ProductsSecureController } from './api/secure/products/products.secure.controller';
 import { SettingsSecureController } from './api/secure/settings/settings.secure.controller';
+import { AuthenticationSecureController } from './api/secure/authentication/authentication.secure.controller';
+import { JwtRefreshStrategy } from './security/strategy/jwt.refresh.strategy';
 
 @Module({
   imports: [
@@ -17,11 +19,12 @@ import { SettingsSecureController } from './api/secure/settings/settings.secure.
   controllers: [
     ImageSecureController,
     AuthenticationController,
+    AuthenticationSecureController,  
     SettingsController,
     SettingsSecureController,
     ProductsController,
     ProductsSecureController,
   ],
-  providers: [JwtStrategy],
+  providers: [JwtAccessStrategy, JwtRefreshStrategy],
 })
 export class ControllerModule {}

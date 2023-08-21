@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConnectionService } from './db/connectionSource';
 import { addTransactionalDataSource } from 'typeorm-transactional';
@@ -19,19 +19,7 @@ import { DataSource } from 'typeorm';
         return addTransactionalDataSource(new DataSource(options));
       },
     }),
-    JwtModule.register({
-      secret: 'secret_key',
-      signOptions: { expiresIn: '4h' },
-    }),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      // eslint-disable-next-line @typescript-eslint/require-await
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET_KEY'),
-        signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION') },
-      }),
-      inject: [ConfigService],
-    }),
+    JwtModule,
   ],
   exports: [JwtModule],
 })

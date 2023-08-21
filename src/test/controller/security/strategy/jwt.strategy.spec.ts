@@ -1,6 +1,6 @@
 import { IAuthenticationService } from '../../../../app/service/authentication/authentication.service.abstraction';
 import { Test } from '@nestjs/testing';
-import { JwtStrategy } from '../../../../app/controller/security/strategy/jwt.strategy';
+import { JwtAccessStrategy } from '../../../../app/controller/security/strategy/jwt.access.strategy';
 import { ConfigService } from '@nestjs/config';
 
 jest.mock('passport-jwt', () => {
@@ -16,7 +16,7 @@ jest.mock('passport', () => {
 });
 
 describe('JwtStrategy', () => {
-  let jwtStrategy: JwtStrategy;
+  let jwtStrategy: JwtAccessStrategy;
   let authenticationService: IAuthenticationService;
 
     beforeEach(async () => {
@@ -34,12 +34,12 @@ describe('JwtStrategy', () => {
               get: jest.fn(),
             },
           },
-          JwtStrategy,
+          JwtAccessStrategy,
         ],
       }).compile();
 
       authenticationService = moduleRef.get<IAuthenticationService>(IAuthenticationService);
-      jwtStrategy = moduleRef.get<JwtStrategy>(JwtStrategy);
+      jwtStrategy = moduleRef.get<JwtAccessStrategy>(JwtAccessStrategy);
     });
 
     it('should validate', async () => {

@@ -8,6 +8,7 @@ import { INVALID_LOGIN_OR_PASSWORD } from '../../../messages/constants/messages.
 import { IUserService } from '../../user/user.service.abstraction';
 import { UserInfo } from '../model/UserInfo';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 
 @Injectable()
@@ -19,11 +20,22 @@ export class AuthenticationService implements IAuthenticationService {
     @Inject()
     private userService: IUserService;
 
+    @Inject()
+    private configService: ConfigService;
+
     public async signIn(credentials: UserCredentials): Promise<JwtToken> {
       const user = await this.getUser(credentials);
-      const payload = { username: user.name, userId: user.id };
+      const payload = { username: user.name, id: user.id };
       return {
-        accessToken: this.jwtService.sign(payload),
+        ...await this.getTokens(payload),
+      };
+    }
+
+    public async refreshToken(refreshToken: string): Promise<JwtToken> {
+      const userId = (this.jwtService.decode(refreshToken) as UserInfo).id;
+      const userInfo = await this.getUserById(userId);
+      return {
+        ...await this.getTokens(userInfo), 
       };
     }
 
@@ -42,6 +54,29 @@ export class AuthenticationService implements IAuthenticationService {
         throw new UnauthorizedException();
       }
       return { id: user.id, username: user.name };
+    }
+
+    private async getTokens(payload: UserInfo): Promise<JwtToken> {
+      const [accessToken, refreshToken] = await Promise.all([
+        this.jwtService.signAsync(
+            payload,
+            {
+              secret: this.configService.get('JWT_ACCESS_SECRET_KEY'),
+              expiresIn: this.configService.get('JWT_ACCESS_EXPIRATION'),
+            }
+        ),
+        this.jwtService.signAsync(
+            payload,
+            {
+              secret: this.configService.get('JWT_REFRESH_SECRET_KEY'),
+              expiresIn: this.configService.get('JWT_REFRESH_EXPIRATION'),
+            }
+        ),
+      ]);
+      return {
+        accessToken,
+        refreshToken,
+      };
     }
 
     private async areCredentialsInvalid(credentials: UserCredentials, user: UserEntity): Promise<boolean> {
