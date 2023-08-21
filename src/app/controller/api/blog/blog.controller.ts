@@ -82,7 +82,7 @@ export class BlogController {
     @ApiOkResponse({
       description: 'successful delete blog response',
     })
-    async deleteBlog(@Body() ids: number[]): Promise<void> {
+    async deleteBlog(@Body() ids: Set<number>): Promise<void> {
       await this.blogService.deleteBlog(ids);
     }
 

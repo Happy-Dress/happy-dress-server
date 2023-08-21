@@ -1,7 +1,7 @@
-import { ProductsController } from '../../../../app/controller/api/products/products.controller';
-import { IProductsService } from '../../../../app/service/products/products.service.abstraction';
+import { ProductsController } from '../../../../../app/controller/api/unsecure/products/products.controller';
+import { IProductsService } from '../../../../../app/service/products/products.service.abstraction';
 import { Test } from '@nestjs/testing';
-import { generateProductSearchDto, generateProductSearchViewDto } from '../../../test-utils/mock-dto-generators';
+import { generateProductSearchDto, generateProductSearchViewDto } from '../../../../test-utils/mock-dto-generators';
 
 
 describe('ProductsController', () => {
@@ -36,36 +36,6 @@ describe('ProductsController', () => {
             jest.spyOn(productsService, 'getProduct').mockImplementation(() => result);
             const actualResult = await productsController.getProduct(id);
             expect(actualResult).toBe(result);
-        });
-    });
-
-    describe('create',  () => {
-        it('should create product', async () => {
-          const product = {} as any;
-          const result = {} as any;
-            jest.spyOn(productsService, 'createProduct').mockImplementation(() => result);
-            const actualResult = await productsController.createProduct(product);
-            expect(actualResult).toBe(result);
-        });
-    });
-
-    describe('update',  () => {
-        it('should update product', async () => {
-          const id = 1;
-          const product = {} as any;
-          const result = {} as any;
-            jest.spyOn(productsService, 'updateProduct').mockImplementation(() => result);
-            const actualResult = await productsController.updateProduct(id, product);
-            expect(actualResult).toBe(result);
-        });
-    });
-
-    describe('delete',  () => {
-        it('should delete product', async () => {
-          const ids = [1];
-            jest.spyOn(productsService, 'deleteProducts').mockResolvedValue();
-            await productsController.deleteProducts(ids);
-            expect(productsService.deleteProducts).toHaveBeenCalled();
         });
     });
 

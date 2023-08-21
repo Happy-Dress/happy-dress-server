@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ServiceModule } from '../service/service.module';
-import { ImageController } from './api/image/image.controller';
+import { ImageSecureController } from './api/secure/image/image.secure.controller';
 import { MemoryStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
-import { AuthenticationController } from './api/authentication/authentication.controller';
+import { AuthenticationController } from './api/unsecure/authentication/authentication.controller';
 import { JwtStrategy } from './security/strategy/jwt.strategy';
-import { SettingsController } from './api/settings/settings.controller';
-import { ProductsController } from './api/products/products.controller';
-import { BlogController } from './api/blog/blog.controller';
+import { SettingsController } from './api/unsecure/settings/settings.controller';
+import { ProductsController } from './api/unsecure/products/products.controller';
+import { ProductsSecureController } from './api/secure/products/products.secure.controller';
+import { SettingsSecureController } from './api/secure/settings/settings.secure.controller';
 
 @Module({
   imports: [
@@ -14,11 +15,12 @@ import { BlogController } from './api/blog/blog.controller';
         NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [
-    ImageController,
+    ImageSecureController,
     AuthenticationController,
     SettingsController,
+    SettingsSecureController,
     ProductsController,
-    BlogController,
+    ProductsSecureController,
   ],
   providers: [JwtStrategy],
 })

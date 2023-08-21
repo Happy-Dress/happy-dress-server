@@ -8,5 +8,5 @@ export abstract class IBlogService {
   abstract uploadFileBlog(htmlBlog: Express.Multer.File): Promise<BlogUploadResultDto>;
   abstract createBlog(blogDto: BlogDto): Promise<BlogDto>;
   abstract updateBlog(id: number, blogDto: BlogDto): Promise<BlogDto>;
-  abstract deleteBlog(ids: number[]): Promise<void>;
+  abstract deleteBlog(ids: Set<number>): Promise<void>;
 }
