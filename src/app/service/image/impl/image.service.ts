@@ -5,7 +5,7 @@ import { IGoogleDriveClient } from '../../../client/google-drive/google-drive.cl
 import { FilesUploadResult } from '../model/FilesUploadResult';
 import { Image } from '../model/Image';
 
-const IMAGES = 'images';
+const IMAGES_FOLDER_NAME = 'images';
 
 @Injectable()
 export class ImageService implements IImageService {
@@ -20,8 +20,8 @@ export class ImageService implements IImageService {
     public async uploadImages(files: Express.Multer.File[]): Promise<FilesUploadResult> {
       const images: Image[] = files.map((file, index) => ({ id : index, ...file }));
       const { validImages, invalidImagesMap } = this.imageValidator.getImageValidationResult(images);
-      const uploadResult = await this.googleDriveClient.uploadFiles(validImages, IMAGES);
-      uploadResult.failedImages.push(...invalidImagesMap.values());
+      const uploadResult = await this.googleDriveClient.uploadFiles(validImages, IMAGES_FOLDER_NAME);
+      uploadResult.failedFiles.push(...invalidImagesMap.values());
       return uploadResult;
     }
 }
