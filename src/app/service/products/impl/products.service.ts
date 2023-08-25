@@ -129,10 +129,14 @@ export class ProductsService implements IProductsService {
     const key = 'id';
     const products = [...new Map(paginationRes.items.map(item => [item.product[key], item.product])).values()];
     const productIds = products.map(product => product.id);
-    const productColorImageFindOptions = this.buildProductColorImageFindOptions(productSearchDto, productIds);
+
+    const productColorImageFindOptions = this.buildProductsFindOptions(productIds) as FindOptionsWhere<ProductColorImageEntity>;
     const productColorImageEntities = await this.productColorImagesRepository.findBy(productColorImageFindOptions);
 
-    const productColorSizesMap = MapUtils.groupBy(paginationRes.items, (entity) => entity.product.id);
+    const productColorSizesFindOptions = this.buildProductsFindOptions(productIds) as FindOptionsWhere<ProductColorSizeEntity>;
+    const productColorSizesEntities = await this.productColorSizesRepository.findBy(productColorSizesFindOptions);
+
+    const productColorSizesMap = MapUtils.groupBy(productColorSizesEntities, (entity) => entity.product.id);
     const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id);
 
     const productViewDtos = Promise.all(
@@ -183,13 +187,10 @@ export class ProductsService implements IProductsService {
     return findOptions as FindOptionsWhere<ProductColorSizeEntity>;
   }
 
-  private buildProductColorImageFindOptions(productSearchDto: ProductSearchDto, productIds: number[]): FindOptionsWhere<ProductColorImageEntity> {
+  private buildProductsFindOptions(productIds: number[]): FindOptionsWhere<any> {
     const findOptions: Record<any, any> = {};
-    if (productSearchDto?.colorIds) {
-      findOptions.color = { id: In(productSearchDto.colorIds) };
-    }
     findOptions.product = { id: In(productIds) };
-    return findOptions as FindOptionsWhere<ProductColorSizeEntity>;
+    return findOptions as FindOptionsWhere<any>;
   }
 
   private async getProductEntity(product: ProductDto): Promise<ProductEntity> {
