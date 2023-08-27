@@ -134,18 +134,18 @@ export class ProductsService implements IProductsService {
     const productColorSizesMap = MapUtils.groupBy(productColorSizesEntities, (entity) => entity.product.id);
     const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id);
 
-    const productViewDtos = Promise.all(
+    const productViewDtos = await Promise.all(
         products.map(product =>
             this.productConverter.convertToViewDto(product, productColorSizesMap.get(product.id), productColorImagesMap.get(product.id))
         ),
     );
 
     return {
-      products: await productViewDtos,
+      products: productViewDtos,
       currentPage: productSearchDto.page,
       itemsPerPage: productSearchDto.limit,
-      totalItems: (await productViewDtos).length,
-      totalPages: products.length / (await productViewDtos).length || 0,
+      totalItems: productViewDtos.length,
+      totalPages: products.length / productViewDtos.length || 0,
     };
   }
 
