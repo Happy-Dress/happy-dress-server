@@ -42,9 +42,9 @@ export class updateProductEntity1693088518917 implements MigrationInterface {
       onDelete: 'SET NULL',
     }));
 
-    await queryRunner.query('ALTER TABLE `product` MODIFY COLUMN `categoryId` INT NULL');
+    await queryRunner.query('ALTER TABLE `product` MODIFY COLUMN `categoryId` INT(11) NULL');
 
-    await queryRunner.query('ALTER TABLE `product` MODIFY COLUMN `modelId` INT NULL');
+    await queryRunner.query('ALTER TABLE `product` MODIFY COLUMN `modelId` INT(11) NULL');
   }
 
 }
