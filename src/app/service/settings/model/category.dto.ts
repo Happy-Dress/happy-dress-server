@@ -16,7 +16,7 @@ export class CategoryDto extends SimpleListSetting {
     @IsString()
     @MinLength(MIN_LENGTH_DESCRIPTION, { message: DESCRIPTION_TOO_SHORT })
     @MaxLength(MAX_LENGTH_DESCRIPTION, { message: DESCRIPTION_TOO_LONG })
-    @Matches(/^[а-яА-Яa-zA-Z0-9_.\s\-]+$/, { message: INVALID_DESCRIPTION_DETECTED })
+    @Matches(/^[а-яА-Яa-zA-Z0-9_.,:— \-]+$/, { message: INVALID_DESCRIPTION_DETECTED })
     @Matches(/^\S.*\S$/, { message: INVALID_DESCRIPTION_DETECTED })
     description: string;
 

@@ -33,7 +33,7 @@ export class ProductDto implements IdentifiedModel {
     @IsString({ message: FIELD_MUST_BE_STRING.replace('$FIELD', 'Имя') })
     @MinLength(MIN_LENGTH_NAME, { message: PRODUCT_NAME_TOO_SHORT })
     @MaxLength(MAX_LENGTH_NAME, { message: PRODUCT_NAME_TOO_LONG })
-    @Matches(/^(?!\s+$)[a-zA-Z0-9а-яА-ЯёЁ\s]*$/, { message: INVALID_PRODUCT_NAME })
+    @Matches(/^(?!\s+$)[a-zA-Z0-9а-яА-ЯёЁ—: ]*$/, { message: INVALID_PRODUCT_NAME })
     name: string;
 
     @ApiProperty()
