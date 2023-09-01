@@ -17,15 +17,17 @@ export class productColorImageEntity1676481186028 implements MigrationInterface 
                 {
                   name: 'productId',
                   type: 'int',
+                  isNullable: false,
                 },
                 {
                   name: 'colorId',
                   type: 'int',
-                  isNullable: true,  
+                  isNullable: false,  
                 },
                 {
                   name: 'imageUrls',
                   type: 'text',
+                  isNullable: false,
                 },
               ],
             }), false, true);
@@ -46,7 +48,7 @@ export class productColorImageEntity1676481186028 implements MigrationInterface 
               columnNames: ['colorId'],
               referencedTableName: 'color',
               referencedColumnNames: ['id'],
-              onDelete: 'SET NULL',
+              onDelete: 'CASCADE',
             })
         );
   }

@@ -51,7 +51,7 @@ export class productEntity1676478164623 implements MigrationInterface {
               columnNames: ['categoryId'],
               referencedTableName: 'category',
               referencedColumnNames: ['id'],
-              onDelete: 'SET NULL',
+              onDelete: 'CASCADE',
             })
         );
 
@@ -61,7 +61,7 @@ export class productEntity1676478164623 implements MigrationInterface {
               columnNames: ['modelId'],
               referencedTableName: 'model',
               referencedColumnNames: ['id'],
-              onDelete: 'SET NULL',
+              onDelete: 'CASCADE',
             })
         );
   }

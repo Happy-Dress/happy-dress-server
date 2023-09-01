@@ -17,16 +17,17 @@ export class productColorSizeEntity1676480843495 implements MigrationInterface {
                 {
                   name: 'productId',
                   type: 'int',
+                  isNullable: false,
                 },
                 {
                   name: 'colorId',
                   type: 'int',
-                  isNullable: true,
+                  isNullable: false,
                 },
                 {
                   name: 'sizeId',
                   type: 'int',
-                  isNullable: true,
+                  isNullable: false,
                 },
               ],
             }), false, true);
@@ -47,7 +48,7 @@ export class productColorSizeEntity1676480843495 implements MigrationInterface {
               columnNames: ['colorId'],
               referencedTableName: 'color',
               referencedColumnNames: ['id'],
-              onDelete: 'SET NULL',
+              onDelete: 'CASCADE',
             })
         );
     await queryRunner.createForeignKey(
@@ -56,7 +57,7 @@ export class productColorSizeEntity1676480843495 implements MigrationInterface {
             columnNames: ['sizeId'],
             referencedTableName: 'size',
             referencedColumnNames: ['id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
           })
       );
   }
