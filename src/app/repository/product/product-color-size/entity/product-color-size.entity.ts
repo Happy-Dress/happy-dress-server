@@ -7,13 +7,13 @@ import { IdentifiedEntity } from '../../../../service/util/model/entity/identifi
 @Entity('product-color-size')
 export class ProductColorSizeEntity extends IdentifiedEntity {
 
-    @ManyToOne(() => ProductEntity, product => product.id, { eager: true, onDelete: 'CASCADE' })
+    @ManyToOne(() => ProductEntity, product => product.id, { nullable: false, eager: true, onDelete: 'CASCADE' })
     product: ProductEntity;
     
-    @ManyToOne(() => ColorEntity, color => color.id, { eager: true, onDelete: 'CASCADE' })
+    @ManyToOne(() => ColorEntity, color => color.id, { nullable: false, eager: true, onDelete: 'CASCADE' })
     color: ColorEntity;
 
-    @ManyToOne(() => SizeEntity, size => size.id, { eager: true, onDelete: 'CASCADE' })
+    @ManyToOne(() => SizeEntity, size => size.id, { nullable: false, eager: true, onDelete: 'CASCADE' })
     size: SizeEntity;
     
 }

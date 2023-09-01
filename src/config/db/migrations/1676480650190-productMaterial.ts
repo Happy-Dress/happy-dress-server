@@ -10,10 +10,12 @@ export class productMaterial1676480650190 implements MigrationInterface {
                 {
                   name: 'productId',
                   type: 'int',
+                  isNullable: false,
                 },
                 {
                   name: 'materialId',
                   type: 'int',
+                  isNullable: false,
                 },
               ],
             }), false, true);
