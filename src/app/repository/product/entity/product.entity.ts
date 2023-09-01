@@ -17,10 +17,10 @@ export class ProductEntity extends IdentifiedEntity {
     @Column({ nullable: false })
     mainImageUrl: string;
 
-    @ManyToOne(() => CategoryEntity, { eager: true, onDelete: 'SET NULL' })
+    @ManyToOne(() => CategoryEntity, { eager: true, onDelete: 'CASCADE' })
     category: CategoryEntity;
 
-    @ManyToOne(() => ModelEntity, { eager: true, onDelete: 'SET NULL' })
+    @ManyToOne(() => ModelEntity, { eager: true, onDelete: 'CASCADE' })
     model: ModelEntity;
 
     @ManyToMany(() => MaterialEntity, { eager: true, onDelete: 'CASCADE' })
