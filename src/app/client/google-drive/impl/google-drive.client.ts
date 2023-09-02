@@ -69,11 +69,12 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
           fileName: name,
         };
       } catch (e) {
-        throw new FileUploadError({
-          id: fileId || 0,
-          fileName: file.originalname,
-          reason: `${FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE}`,
-        });
+          console.log(e);
+          throw new FileUploadError({
+            id: fileId || 0,
+            fileName: file.originalname,
+            reason: `${FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE}`,
+          });
       }
     }
 
