@@ -1,6 +1,10 @@
 # compiled output
 /dist
 /node_modules
+/google-credentials.json
+
+npm-debug.log
+/*.env
 
 # Logs
 logs
