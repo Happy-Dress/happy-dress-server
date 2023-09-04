@@ -28,7 +28,7 @@ export class BlogDto implements IdentifiedModel {
     @IsString({ message: FIELD_MUST_BE_STRING.replace('$FIELD', 'Имя') })
     @MinLength(MIN_LENGTH_NAME, { message: BLOG_NAME_TOO_SHORT })
     @MaxLength(MAX_LENGTH_NAME, { message: BLOG_NAME_TOO_LONG })
-    @Matches(/^(?!\s+$)[a-zA-Z0-9а-яА-ЯёЁ\s]*$/, { message: INVALID_BLOG_NAME })
+    //@Matches(/^(?!\s+$)[a-zA-Z0-9а-яА-ЯёЁ\s]*$/, { message: INVALID_BLOG_NAME })
     name: string;
 
     @ApiProperty()
@@ -36,7 +36,7 @@ export class BlogDto implements IdentifiedModel {
     @IsString({ message: FIELD_MUST_BE_STRING.replace('$FIELD', 'Краткая описание') })
     @MinLength(MIN_LENGTH_SHORT_DESCRIPTION, { message: BLOG_SHORT_DESCRIPTION_TOO_SHORT })
     @MaxLength(MAX_LENGTH_SHORT_DESCRIPTION, { message: BLOG_SHORT_DESCRIPTION_TOO_LONG })
-    @Matches(/^(?=.*[^ ]).+$/, { message: INVALID_BLOG_SHORT_DESCRIPTION })
+    //@Matches(/^(?=.*[^ ]).+$/, { message: INVALID_BLOG_SHORT_DESCRIPTION })
     shortDescription: string;
 
     @ApiProperty()
