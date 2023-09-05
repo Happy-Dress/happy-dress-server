@@ -7,12 +7,12 @@ export class ColorDto extends SimpleListSetting {
 
     @ApiProperty()
     @IsString()
-    @Matches(/^#(?:[0-9a-fA-F]{3}){1,2}$/, { message: INVALID_COLOR_DETECTED })
+    @Matches(/^#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?$/, { message: INVALID_COLOR_DETECTED })
     firstColor: string;
 
     @ApiPropertyOptional()
     @IsOptional()
     @IsString()
-    @Matches(/^#(?:[0-9a-fA-F]{3}){1,2}$/, { message: INVALID_COLOR_DETECTED })
+    @Matches(/^#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?$/, { message: INVALID_COLOR_DETECTED })
     secondColor: string;
 }
