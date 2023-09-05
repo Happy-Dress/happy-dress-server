@@ -1,14 +1,13 @@
 import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
 import {
   DESCRIPTION_TOO_LONG,
-  DESCRIPTION_TOO_SHORT,
-  INVALID_DESCRIPTION_DETECTED, INVALID_GOOGLE_DRIVE_LINK,
+  DESCRIPTION_TOO_SHORT, INVALID_GOOGLE_DRIVE_LINK,
 } from '../../../messages/constants/messages.constants';
 import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 import { ApiProperty } from '@nestjs/swagger';
 
 const MIN_LENGTH_DESCRIPTION = 3;
-const MAX_LENGTH_DESCRIPTION = 100;
+const MAX_LENGTH_DESCRIPTION = 500;
 
 export class CategoryDto extends SimpleListSetting {
 
