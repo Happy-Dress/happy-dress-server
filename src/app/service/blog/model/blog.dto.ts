@@ -1,6 +1,6 @@
 import { IdentifiedModel } from '../../util/model/dto/identified.model';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import {
   BLOG_NAME_TOO_LONG,
   BLOG_NAME_TOO_SHORT,
@@ -8,10 +8,7 @@ import {
   BLOG_SHORT_DESCRIPTION_TOO_SHORT,
   EMPTY_FIELD,
   FIELD_MUST_BE_STRING,
-  INVALID_BLOG_NAME,
-  INVALID_BLOG_SHORT_DESCRIPTION,
   INVALID_BOOLEAN_FIELD,
-  INVALID_GOOGLE_DRIVE_LINK,
 } from '../../../messages/constants/messages.constants';
 
 const MIN_LENGTH_SHORT_DESCRIPTION = 3;
@@ -43,10 +40,9 @@ export class BlogDto implements IdentifiedModel {
     @IsNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'Опубликован') })
     @IsBoolean({ message: INVALID_BOOLEAN_FIELD.replace('$FIELD', 'Опубликован') })
     isPublished: boolean;
-
+    
     @ApiProperty()
-    @IsNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'Ссылка на html-файл') })
-    @IsString({ message: FIELD_MUST_BE_STRING.replace('$FIELD', 'Ссылка на html-файл') })
-    @Matches(/http:\/\/drive.google.com\/uc\?export=view&id=/, { message: INVALID_GOOGLE_DRIVE_LINK })
-    htmlLinkBlog: string;
+    @IsNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'HTML-ссылка-id') })
+    @IsString({ message: FIELD_MUST_BE_STRING.replace('$FIELD', 'HTML-ссылка-id') })
+    htmlLinkId: string;
 }

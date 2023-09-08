@@ -1,5 +1,5 @@
 import { ImageValidator } from '../../../../app/service/image/validator/image.validator';
-import { Image } from '../../../../app/service/image/model/Image';
+import { Image } from '../../../../app/service/image/model/Image.model';
 import { isEmpty } from '@nestjs/common/utils/shared.utils';
 
 describe('ImageValidator', () => {

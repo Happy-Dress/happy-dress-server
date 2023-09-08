@@ -80,6 +80,6 @@ export function generateBlogEntity(): BlogEntity {
     name: 'plain text',
     shortDescription: 'plain text',
     isPublished: true,
-    htmlLinkBlog: 'plain link',
+    htmlLinkId: 'plain link',
   };
 }

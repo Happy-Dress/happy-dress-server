@@ -16,6 +16,9 @@ import { ProductSearchViewDto } from '../../app/service/products/model/product-s
 import { BlogDto } from '../../app/service/blog/model/blog.dto';
 import { BlogSearchDto } from '../../app/service/blog/model/blog-search.dto';
 import { BlogUploadResultDto } from '../../app/service/blog/model/blog-upload-result.dto';
+import { drive_v3 } from 'googleapis';
+import { BlogViewDto } from '../../app/service/blog/model/blog-view.dto';
+import { DownloadedFileModel } from '../../app/client/google-drive/models/DownloadedFile.model';
 
 export function generateGlobalDressOptionsDto(): GlobalDressOptionsDto {
   return {
@@ -161,7 +164,21 @@ export function generateBlogDto(): BlogDto {
     name: 'plain text',
     shortDescription: 'plain text',
     isPublished: true,
-    htmlLinkBlog: 'plain link',
+    htmlLinkId: 'plain link',
+  };
+}
+
+export function generateBlogViewDto(): BlogViewDto {
+  return {
+    ...generateBlogDto(),
+    htmlFile: {} as DownloadedFileModel,
+  };
+}
+
+export function generateDownloadedFileModel(): DownloadedFileModel {
+  return {
+    id: 0,
+    file: {} as drive_v3.Schema$File,
   };
 }
 
@@ -176,6 +193,6 @@ export function generateBlogUploadResultDto(): BlogUploadResultDto {
   return {
     id: 1,
     fileName: 'plain text',
-    fileUrl: 'plain text',
+    fileId: 'plain text',
   };
 }

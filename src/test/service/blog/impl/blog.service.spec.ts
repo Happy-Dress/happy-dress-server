@@ -12,7 +12,7 @@ import { generateBlogEntity } from "../../../test-utils/mock-entity-generators";
 import {
   generateBlogDto,
   generateBlogSearchDto,
-  generateBlogUploadResultDto,
+  generateBlogUploadResultDto, generateBlogViewDto, generateDownloadedFileModel,
 } from "../../../test-utils/mock-dto-generators";
 import { IGoogleDriveClient } from "../../../../app/client/google-drive/google-drive.client.abstraction";
 import { EntitiesNotFoundByIdsException } from "../../../../app/exception/entities-not-found-by-ids.exception";
@@ -38,6 +38,7 @@ describe("BlogService", () => {
           provide: IGoogleDriveClient,
           useValue: {
             uploadFile: jest.fn(),
+            downloadFile: jest.fn(),
           },
         },
         {
@@ -64,9 +65,10 @@ describe("BlogService", () => {
     it("should get blog", async () => {
       const id = generateBlogEntity().id;
       const blogEntity = generateBlogEntity();
-      const blogDto = generateBlogDto();
+      const blogDto = generateBlogViewDto();
 
       jest.spyOn(blogConverter, "convertToDto").mockReturnValue(blogDto);
+      jest.spyOn(googleDriveClient, 'downloadFile').mockResolvedValue(generateDownloadedFileModel());
 
       blogRepository.findOne.mockReturnValue(blogEntity);
       const actualBlogDto = await blogService.getBlog(id);
@@ -75,6 +77,7 @@ describe("BlogService", () => {
 
     it("should throw EntitiesNotFoundByIdsException when getting the blog", async () => {
       const id = 1;
+      jest.spyOn(googleDriveClient, 'downloadFile').mockResolvedValue(generateDownloadedFileModel());
       blogRepository.findOne.mockReturnValue(null);
       try {
         await blogService.getBlog(id);
@@ -86,11 +89,13 @@ describe("BlogService", () => {
 
   describe("create", () => {
     it("should create blog", async () => {
-      const blogDto = generateBlogDto();
+      const blogDto = generateBlogViewDto();
       const blogEntity = generateBlogEntity();
 
       jest.spyOn(blogConverter, "convertToEntity").mockReturnValue(blogEntity);
       jest.spyOn(blogConverter, "convertToDto").mockReturnValue(blogDto);
+
+      jest.spyOn(googleDriveClient, 'downloadFile').mockResolvedValue(generateDownloadedFileModel());
 
       blogRepository.save.mockReturnValue(blogEntity);
 
@@ -139,11 +144,13 @@ describe("BlogService", () => {
   describe("update", () => {
     it("should update the blog", async () => {
       const id = generateBlogDto().id;
-      const blogDto = generateBlogDto();
+      const blogDto = generateBlogViewDto();
       const blogEntity = generateBlogEntity();
 
       jest.spyOn(blogConverter, "convertToEntity").mockReturnValue(blogEntity);
       jest.spyOn(blogConverter, "convertToDto").mockReturnValue(blogDto);
+      jest.spyOn(googleDriveClient, 'downloadFile').mockResolvedValue(generateDownloadedFileModel());
+
 
       blogRepository.save.mockReturnValue(blogEntity);
 
@@ -154,6 +161,7 @@ describe("BlogService", () => {
     it("should throw EntitiesNotFoundByIdsException", async () => {
       const id = 1;
       const blogDto = generateBlogDto();
+      jest.spyOn(googleDriveClient, 'downloadFile').mockResolvedValue(generateDownloadedFileModel());
       blogRepository.findOne.mockReturnValue(null);
       try {
         await blogService.updateBlog(id, blogDto);
@@ -165,7 +173,7 @@ describe("BlogService", () => {
 
   describe("search", () => {
     it("should search the blog", async () => {
-      const blogDto = generateBlogDto();
+      const blogDto = generateBlogViewDto();
       const searchResult = [blogDto];
       const blogEntity = generateBlogEntity();
       const mockSearchResultEntity = [blogEntity];
@@ -173,6 +181,8 @@ describe("BlogService", () => {
 
       blogRepository.findBy.mockReturnValue(mockSearchResultEntity);
       jest.spyOn(blogConverter, "convertToDto").mockReturnValue(blogDto);
+      jest.spyOn(googleDriveClient, 'downloadFile').mockResolvedValue(generateDownloadedFileModel());
+
 
       const actualSearchResult = await blogService.searchBlog(blogSearchDto);
 

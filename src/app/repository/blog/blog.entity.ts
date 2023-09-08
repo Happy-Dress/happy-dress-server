@@ -15,5 +15,5 @@ export class BlogEntity extends IdentifiedEntity {
     isPublished: boolean;
 
     @Column({ nullable: false })
-    htmlLinkBlog: string;
+    htmlLinkId: string;
 }

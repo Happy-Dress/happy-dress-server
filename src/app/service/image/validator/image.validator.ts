@@ -5,14 +5,14 @@ import {
   MIN_IMAGE_SIZE,
 } from '../constants/validate-image/validate-image.constants';
 import { Injectable } from '@nestjs/common';
-import { FailedUploadResult } from '../model/FailedUploadResult';
 import {
   INVALID_EXTENSION_MESSAGE,
   INVALID_IMAGES_AMOUNT_MESSAGE,
   INVALID_SIZE_MESSAGE,
 } from '../../../messages/constants/messages.constants';
-import { Image } from '../model/Image';
-import { ImageValidationResult } from '../model/ImageValidationResult';
+import { Image } from '../model/Image.model';
+import { ImageValidationResult } from '../model/ImageValidationResult.model';
+import { FailedImage } from '../model/FailedImage.model';
 
 @Injectable()
 export class ImageValidator {
@@ -29,8 +29,8 @@ export class ImageValidator {
     };
   }
 
-  private getOverLimitImages(images: Image[]): Map<number, FailedUploadResult> {
-    const oddImagesMap: Map<number, FailedUploadResult> = new Map;
+  private getOverLimitImages(images: Image[]): Map<number, FailedImage> {
+    const oddImagesMap: Map<number, FailedImage> = new Map;
     if (images.length >= MAX_AMOUNT) {
       const oddImages = images.slice(MAX_AMOUNT, images.length);
             oddImages.forEach(image => {
@@ -40,8 +40,8 @@ export class ImageValidator {
     return oddImagesMap;
   }
 
-  private getInvalidImages(images: Image[]): Map<number, FailedUploadResult> {
-    const failedImages: Map<number, FailedUploadResult> = new Map;
+  private getInvalidImages(images: Image[]): Map<number, FailedImage> {
+    const failedImages: Map<number, FailedImage> = new Map;
         images.forEach(image => {
           const reason = this.checkIsValidExtension(image) || this.checkIsValidSize(image);
           if (reason) {
@@ -51,14 +51,14 @@ export class ImageValidator {
         return failedImages;
   }
     
-  private getValidImages(images: Image[], failedImages: Map<number, FailedUploadResult>): Image[] {
+  private getValidImages(images: Image[], failedImages: Map<number, FailedImage>): Image[] {
     return images.filter(image => !failedImages.has(image.id));
   }
     
-  private getFailedResult(image: Image, reason: string): FailedUploadResult {
+  private getFailedResult(image: Image, reason: string): FailedImage {
     return {
       id: image.id,
-      fileName: image.originalname,
+      imageName: image.originalname,
       reason,
     };
   }
