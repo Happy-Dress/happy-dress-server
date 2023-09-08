@@ -18,9 +18,10 @@ import { JwtAccessAuthGuard } from '../../../security/guards/jwt.access.auth.gua
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BlogUploadResultDto } from '../../../../service/blog/model/blog-upload-result.dto';
 import { NullFileValidationPipe } from '../../../../validation/file.validation.pipe';
+import { BlogViewDto } from '../../../../service/blog/model/blog-view.dto';
 
-@ApiTags('blog')
-@Controller('blog')
+@ApiTags('secure_blog')
+@Controller('secure/blog')
 export class BlogSecureController {
 
     @Inject()
@@ -32,7 +33,7 @@ export class BlogSecureController {
       description: 'successful get blog response',
       type: BlogDto,
     })
-    async getBlog(@Param('id', new ParseIntPipe()) id: number): Promise<BlogDto> {
+    async getBlog(@Param('id', new ParseIntPipe()) id: number): Promise<BlogViewDto> {
       return await this.blogService.getBlog(id);
     }
 
@@ -42,7 +43,7 @@ export class BlogSecureController {
       description: 'successful search blog response',
       type: BlogDto,
     })
-    async searchBlog(@Body() blogSearchDto: BlogSearchDto): Promise<BlogDto[]> {
+    async searchBlog(@Body() blogSearchDto: BlogSearchDto): Promise<BlogViewDto[]> {
       return await this.blogService.searchBlog(blogSearchDto);
     }
 
@@ -63,7 +64,7 @@ export class BlogSecureController {
       description: 'successful create blog response',
       type: BlogDto,
     })
-    async createBlog(@Body() blogDto: BlogDto): Promise<BlogDto> {
+    async createBlog(@Body() blogDto: BlogDto): Promise<BlogViewDto> {
       return await this.blogService.createBlog(blogDto);
     }
 
@@ -75,7 +76,7 @@ export class BlogSecureController {
     })
     async updateBlog(
       @Param('id', new ParseIntPipe()) id: number,
-        @Body() blogDto: BlogDto): Promise<BlogDto> {
+        @Body() blogDto: BlogDto): Promise<BlogViewDto> {
       return await this.blogService.updateBlog(id, blogDto);
     }
 

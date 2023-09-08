@@ -1,8 +1,8 @@
 import {BlogController} from "../../../../../app/controller/api/unsecure/blog/blog.controller";
 import {IBlogService} from "../../../../../app/service/blog/blog.service.abstraction";
 import {Test} from "@nestjs/testing";
-import {BlogDto} from "../../../../../app/service/blog/model/blog.dto";
 import {BlogSearchDto} from "../../../../../app/service/blog/model/blog-search.dto";
+import {BlogViewDto} from "../../../../../app/service/blog/model/blog-view.dto";
 
 describe('BlogController', () => {
     let blogController: BlogController;
@@ -29,7 +29,7 @@ describe('BlogController', () => {
     describe('get', () => {
         it('should return blog by id', async () => {
             const id = 1;
-            const result = {} as Promise<BlogDto>;
+            const result = {} as Promise<BlogViewDto>;
             jest.spyOn(blogService, 'getBlog').mockImplementation(() => result);
             const actualResult = await blogController.getBlog(id);
             expect(actualResult).toBe(result);
@@ -39,7 +39,7 @@ describe('BlogController', () => {
     describe('search', () => {
         it('should find blog by many options', async () => {
             const blogSearchDto = {} as BlogSearchDto;
-            const result = {} as Promise<BlogDto[]>;
+            const result = {} as Promise<BlogViewDto[]>;
             jest.spyOn(blogService, 'searchBlog').mockImplementation(() => result);
             const actualResult = await blogController.searchBlog(blogSearchDto);
             expect(actualResult).toBe(result);

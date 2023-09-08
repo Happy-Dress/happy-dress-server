@@ -1,14 +1,17 @@
 import { BlogDto } from '../../model/blog.dto';
 import { BlogEntity } from '../../../../repository/blog/blog.entity';
+import { DownloadedFileModel } from '../../../../client/google-drive/models/DownloadedFile.model';
+import { BlogViewDto } from '../../model/blog-view.dto';
 
 export class BlogConverter {
-  public convertToDto(blog: BlogEntity): BlogDto {
+  public convertToDto(blog: BlogEntity, blogFile: DownloadedFileModel): BlogViewDto {
     return {
       id: blog.id,
       name: blog.name,
       shortDescription: blog.shortDescription,
       isPublished: blog.isPublished,
-      htmlLinkBlog: blog.htmlLinkBlog,
+      htmlLinkId: blog.htmlLinkId,
+      htmlFile: blogFile,
     };
   }
   
@@ -18,7 +21,7 @@ export class BlogConverter {
       name: blogDto.name,
       shortDescription: blogDto.shortDescription,
       isPublished: blogDto.isPublished,
-      htmlLinkBlog: blogDto.htmlLinkBlog,
+      htmlLinkId: blogDto.htmlLinkId,
     };
   }
 }

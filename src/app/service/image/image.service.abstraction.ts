@@ -1,6 +1,6 @@
-import { FilesUploadResult } from './model/FilesUploadResult';
+import { ImagesUploadResult } from './model/ImagesUploadResult.model';
 
 export abstract class IImageService {
 
-  public abstract uploadImages(images: Express.Multer.File[]): Promise<FilesUploadResult>;
+  public abstract uploadImages(images: Express.Multer.File[]): Promise<ImagesUploadResult>;
 }

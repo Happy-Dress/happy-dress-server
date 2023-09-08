@@ -1,4 +1,4 @@
-import { Image } from '../../../../app/service/image/model/Image';
+import { Image } from '../../../../app/service/image/model/Image.model';
 import { GoogleDriveClient } from '../../../../app/client/google-drive/impl/google-drive.client';
 
 describe('GoogleDriveClient', () => {
