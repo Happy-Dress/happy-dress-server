@@ -4,6 +4,7 @@ import {BlogSecureController} from "../../../../../app/controller/api/secure/blo
 import {BlogDto} from "../../../../../app/service/blog/model/blog.dto";
 import {BlogSearchDto} from "../../../../../app/service/blog/model/blog-search.dto";
 import {BlogUploadResultDto} from "../../../../../app/service/blog/model/blog-upload-result.dto";
+import {BlogViewDto} from "../../../../../app/service/blog/model/blog-view.dto";
 
 describe('BlogSecureController', () => {
     let blogSecureController: BlogSecureController;
@@ -34,7 +35,7 @@ describe('BlogSecureController', () => {
     describe('get', () => {
         it('should return blog by id', async () => {
             const id = 1;
-            const result = {} as Promise<BlogDto>;
+            const result = {} as Promise<BlogViewDto>;
             jest.spyOn(blogService, 'getBlog').mockImplementation(() => result);
             const actualResult = await blogSecureController.getBlog(id);
             expect(actualResult).toBe(result);
@@ -44,7 +45,7 @@ describe('BlogSecureController', () => {
     describe('create', () => {
         it('should create blog', async () => {
             const blog = {} as BlogDto;
-            const result = {} as Promise<BlogDto>;
+            const result = {} as Promise<BlogViewDto>;
             jest.spyOn(blogService, 'createBlog').mockImplementation(() => result);
             const actualResult = await blogSecureController.createBlog(blog);
             expect(actualResult).toBe(result);
@@ -55,7 +56,7 @@ describe('BlogSecureController', () => {
         it('should update blog', async () => {
             const id = 1;
             const blog = {} as BlogDto;
-            const result = {} as Promise<BlogDto>;
+            const result = {} as Promise<BlogViewDto>;
             jest.spyOn(blogService, 'updateBlog').mockImplementation(() => result);
             const actualResult = await blogSecureController.updateBlog(id, blog);
             expect(actualResult).toBe(result);
@@ -65,7 +66,7 @@ describe('BlogSecureController', () => {
     describe('search', () => {
         it('should find blog by many options', async () => {
             const blogSearchDto = {} as BlogSearchDto;
-            const result = {} as Promise<BlogDto[]>;
+            const result = {} as Promise<BlogViewDto[]>;
             jest.spyOn(blogService, 'searchBlog').mockImplementation(() => result);
             const actualResult = await blogSecureController.searchBlog(blogSearchDto);
             expect(actualResult).toBe(result);

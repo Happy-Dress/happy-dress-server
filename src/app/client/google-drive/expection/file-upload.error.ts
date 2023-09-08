@@ -1,12 +1,12 @@
-import { FailedUploadResult } from '../../../service/image/model/FailedUploadResult';
+import { FailedUploadResult } from '../models/FailedUploadResult.model';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class FileUploadError extends HttpException {
     private readonly failedFile: FailedUploadResult;
 
-    constructor(failedImage: FailedUploadResult) {
-        super(failedImage.reason, HttpStatus.INTERNAL_SERVER_ERROR);
-        this.failedFile = failedImage;
+    constructor(failedFile: FailedUploadResult) {
+        super(failedFile.reason, HttpStatus.INTERNAL_SERVER_ERROR);
+        this.failedFile = failedFile;
     }
 
     public getFailedFiles(): FailedUploadResult {

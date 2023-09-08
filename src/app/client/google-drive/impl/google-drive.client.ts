@@ -1,22 +1,26 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { IGoogleDriveClient } from '../google-drive.client.abstraction';
-import { UploadedFileModel } from '../models/uploaded-file.model';
+import { UploadedFileModel } from '../models/UploadedFile.model';
 import * as stream from 'stream';
 import { drive_v3, google } from 'googleapis';
 import * as path from 'path';
 import { FileUploadError } from '../expection/file-upload.error';
 import Drive = drive_v3.Drive;
-import { FilesUploadResult } from '../../../service/image/model/FilesUploadResult';
-import { FailedUploadResult } from '../../../service/image/model/FailedUploadResult';
-import { FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE } from '../../../messages/constants/messages.constants';
+import { FilesUploadResult } from '../models/FilesUploadResult.model';
+import { FailedUploadResult } from '../models/FailedUploadResult.model';
+import {
+  FAILED_DOWNLOAD_GOOGLE_DRIVE_MESSAGE,
+  FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE,
+} from '../../../messages/constants/messages.constants';
 import Params$Resource$Files$Create = drive_v3.Params$Resource$Files$Create;
 import { GaxiosPromise } from '@googleapis/docs';
+import { FileDownloadError } from '../expection/file-download.error';
+import { DownloadedFileModel } from '../models/DownloadedFile.model';
 
 @Injectable()
 export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBootstrap {
 
     private readonly CREDENTIALS_FILE_NAME = 'google-credentials.json';
-    private readonly FILE_DEFAULT_URL = 'http://drive.google.com/uc?export=view&id=';
     private readonly API_RESPONSE_FIELDS = 'id,name';
     private readonly STATUS_FULFILLED = 'fulfilled';
     private readonly STATUS_REJECTED = 'rejected';
@@ -44,6 +48,43 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
       };
     }
 
+    public async uploadFile(file: Express.Multer.File, folderName: string, fileId?: number): Promise<UploadedFileModel> {
+      try {
+        const folderId = await this.getFolderId(folderName);
+        const params = this.getCreatingParams(file, folderId);
+        const { data: { id, name } = {} } = await this.googleDriveApi.files.create(params);
+        return {
+          id: fileId || 0,
+          fileId: id,
+          fileName: name,
+        };
+      } catch (e) {
+        throw new FileUploadError({
+          id: fileId || 0,
+          fileName: file.originalname,
+          reason: `${FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE}`,
+        });
+      }
+    }
+
+    public async downloadFile(fileId: string, id?: number): Promise<DownloadedFileModel> {
+      try {
+        const downloadedFile = await this.googleDriveApi.files.get({ fileId, alt: 'media' });
+        return {
+          id: id || 0,
+          file: downloadedFile.data,
+        };
+      } catch (e) {
+        throw new FileDownloadError({
+          id: 0,
+          fileId,
+          reason: `${FAILED_DOWNLOAD_GOOGLE_DRIVE_MESSAGE}`,
+        });
+      }
+    }
+    
+    
+
     private getUploadedFiles(uploadResponse: PromiseSettledResult<UploadedFileModel>[]): UploadedFileModel[] {
       return uploadResponse
         .filter(response => response.status === this.STATUS_FULFILLED)
@@ -56,26 +97,6 @@ export class GoogleDriveClient implements IGoogleDriveClient, OnApplicationBoots
         .filter(response => response.status === this.STATUS_REJECTED)
         .map(response => response as PromiseRejectedResult)
         .map(response => (response.reason as FileUploadError).getFailedFiles());
-    }
-
-    public async uploadFile(file: Express.Multer.File, folderName: string, fileId?: number): Promise<UploadedFileModel> {
-      try {
-        const folderId = await this.getFolderId(folderName);
-        const params = this.getCreatingParams(file, folderId);
-        const { data: { id, name } = {} } = await this.googleDriveApi.files.create(params);
-        return {
-          id: fileId || 0,
-          fileUrl: `${this.FILE_DEFAULT_URL}${id}`,
-          fileName: name,
-        };
-      } catch (e) {
-          console.log(e);
-          throw new FileUploadError({
-            id: fileId || 0,
-            fileName: file.originalname,
-            reason: `${FAILED_UPLOAD_GOOGLE_DRIVE_MESSAGE}`,
-          });
-      }
     }
 
     private getCreatingParams(file: Express.Multer.File, folderId: string): Params$Resource$Files$Create {

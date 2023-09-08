@@ -13,6 +13,7 @@ import { EntitiesNotFoundByIdsException } from '../../../exception/entities-not-
 import { EntityDuplicateFieldException } from '../../../exception/entity-duplicate-field.exception';
 import { INVALID_EXTENSION_MESSAGE } from '../../../messages/constants/messages.constants';
 import { Transactional } from 'typeorm-transactional';
+import { BlogViewDto } from '../model/blog-view.dto';
 
 
 const BLOG = 'Блог';
@@ -31,13 +32,13 @@ export class BlogService implements IBlogService {
     private readonly blogConverter: BlogConverter;
 
     @Transactional()
-    public async searchBlog(blogSearchDto: BlogSearchDto): Promise<BlogDto[]> {
+    public async searchBlog(blogSearchDto: BlogSearchDto): Promise<BlogViewDto[]> {
       const blogFindOptions = this.buildBlogFindOptions(blogSearchDto);  
       const blogEntities = await this.blogRepository.findBy(blogFindOptions);
       if (!blogEntities) {
         throw new EntityNotFoundByFieldsException(Object.values(blogSearchDto).map(value => String(value)), BLOG);
       }
-      return blogEntities.map(entity => this.blogConverter.convertToDto(entity));
+      return await Promise.all(blogEntities.map(async (entity) => await this.getBlog(entity.id)));
     }
     
     public async uploadFileBlog(htmlBlog: Express.Multer.File): Promise<BlogUploadResultDto> {
@@ -48,21 +49,22 @@ export class BlogService implements IBlogService {
       }
     }
 
-    public async getBlog(id: number): Promise<BlogDto> {
+    public async getBlog(id: number): Promise<BlogViewDto> {
       const blogEntity = await this.blogRepository.findOne({ where: { id } });
       if (!blogEntity) {
         throw new EntitiesNotFoundByIdsException([id], BLOG);
       }
-      return this.blogConverter.convertToDto(blogEntity);
+      const blogFile = await this.googleDriveClient.downloadFile(blogEntity.htmlLinkId);
+      return this.blogConverter.convertToDto(blogEntity, blogFile);
     }
     
     @Transactional()
-    public async createBlog(blogDto: BlogDto): Promise<BlogDto> {
+    public async createBlog(blogDto: BlogDto): Promise<BlogViewDto> {
       blogDto = this.validateBlogDto(blogDto);
       const blogEntity = this.blogConverter.convertToEntity(blogDto);
-      let blogEntitySaved: BlogEntity;
       try {
-        blogEntitySaved = await this.blogRepository.save(blogEntity);
+        const blogEntitySaved = await this.blogRepository.save(blogEntity);
+        return await this.getBlog(blogEntitySaved.id);
       } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
           throw new EntityDuplicateFieldException(BLOG);
@@ -70,17 +72,16 @@ export class BlogService implements IBlogService {
           throw error;
         }
       }
-      return this.blogConverter.convertToDto(blogEntitySaved);
-    } 
+    }
     
     @Transactional()
-    public async updateBlog(id: number, blogDto: BlogDto): Promise<BlogDto> {
+    public async updateBlog(id: number, blogDto: BlogDto): Promise<BlogViewDto> {
       await this.getBlog(id);
       blogDto = this.validateBlogDto(blogDto);
       blogDto.id = id;
       const blogEntity = this.blogConverter.convertToEntity(blogDto);
       const blogEntitySaved = await this.blogRepository.save(blogEntity);
-      return this.blogConverter.convertToDto(blogEntitySaved);
+      return this.getBlog(blogEntitySaved.id);
     } 
     
     @Transactional()

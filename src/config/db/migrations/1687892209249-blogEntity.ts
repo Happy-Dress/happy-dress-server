@@ -33,7 +33,7 @@ export class blogEntity1687892209249 implements MigrationInterface {
                   isNullable: false,
                 },
                 {
-                  name: 'htmlLinkBlog',
+                  name: 'htmlLinkId',
                   type: 'varchar',
                   isNullable: false,
                 },

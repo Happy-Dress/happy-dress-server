@@ -39,6 +39,7 @@ import { BlogConverter } from './blog/util/converters/blog.converter';
 import { BlogEntity } from '../repository/blog/blog.entity';
 import { IBlogService } from './blog/blog.service.abstraction';
 import { BlogService } from './blog/impl/blog.service';
+import { ImageConverter } from './image/util/converters/image.converter';
 
 @Module({
   // Delegates
@@ -83,6 +84,7 @@ import { BlogService } from './blog/impl/blog.service';
     SizeConverter,
     ProductConverter,
     BlogConverter,
+    ImageConverter,  
 
     // Crud services
     MaterialsCrudService,
