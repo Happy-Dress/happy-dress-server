@@ -10,6 +10,8 @@ import { ProductsSecureController } from './api/secure/products/products.secure.
 import { SettingsSecureController } from './api/secure/settings/settings.secure.controller';
 import { AuthenticationSecureController } from './api/secure/authentication/authentication.secure.controller';
 import { JwtRefreshStrategy } from './security/strategy/jwt.refresh.strategy';
+import { BlogSecureController } from './api/secure/blog/blog.secure.controller';
+import { BlogController } from './api/unsecure/blog/blog.controller';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { JwtRefreshStrategy } from './security/strategy/jwt.refresh.strategy';
   controllers: [
     ImageSecureController,
     AuthenticationController,
-    AuthenticationSecureController,  
+    AuthenticationSecureController,
+    BlogSecureController,
+    BlogController,  
     SettingsController,
     SettingsSecureController,
     ProductsController,
