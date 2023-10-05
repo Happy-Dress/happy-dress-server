@@ -135,7 +135,7 @@ export class ProductsService implements IProductsService {
     const productColorImagesMap = MapUtils.groupBy(productColorImageEntities, (entity) => entity.product.id);
 
     const productViewDtos = await Promise.all(
-        products.map(product =>
+        resultProducts.map(product =>
             this.productConverter.convertToViewDto(product, productColorSizesMap.get(product.id), productColorImagesMap.get(product.id))
         ),
     );
@@ -145,7 +145,7 @@ export class ProductsService implements IProductsService {
       currentPage: productSearchDto.page,
       itemsPerPage: productSearchDto.limit,
       totalItems: productViewDtos.length,
-      totalPages: products.length / productViewDtos.length || 0,
+      totalPages: Math.ceil(products.length / productSearchDto.limit) || 0,
     };
   }
 
