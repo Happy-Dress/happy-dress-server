@@ -5,7 +5,7 @@ import { ImagesUploadResult } from '../../model/ImagesUploadResult.model';
 @Injectable()
 export class ImageConverter {
     
-    private readonly IMAGE_DEFAULT_URL = 'http://drive.google.com/uc?export=view&id=';
+    private readonly IMAGE_DEFAULT_URL = 'http://drive.google.com/uc?export=view&authuser=0&id=';
     public convertToImagesUploadResult(files: FilesUploadResult): ImagesUploadResult {
       return {
         uploadedImages: files.uploadedFiles.map((file) => {
