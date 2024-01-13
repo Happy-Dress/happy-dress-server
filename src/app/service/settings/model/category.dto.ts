@@ -1,7 +1,7 @@
-import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsString, MaxLength, MinLength } from 'class-validator';
 import {
   DESCRIPTION_TOO_LONG,
-  DESCRIPTION_TOO_SHORT, INVALID_GOOGLE_DRIVE_LINK,
+  DESCRIPTION_TOO_SHORT,
 } from '../../../messages/constants/messages.constants';
 import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 import { ApiProperty } from '@nestjs/swagger';
@@ -21,6 +21,5 @@ export class CategoryDto extends SimpleListSetting {
 
     @ApiProperty()
     @IsString()
-    @Matches(/http:\/\/drive.google.com\/uc\?export=view&id=/, { message: INVALID_GOOGLE_DRIVE_LINK })
     imageUrl: string;
 }
