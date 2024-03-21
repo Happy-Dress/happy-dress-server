@@ -90,7 +90,7 @@ export class ProductsService implements IProductsService {
 
     const productColorImageEntities = await this.productColorImagesRepository.findBy({ product: {
       id: id,
-    } } as FindOptionsWhere<ProductColorSizeEntity>);
+    } } as FindOptionsWhere<ProductColorImageEntity>);
 
     return this.productConverter.convertToViewDto(productEntity, productColorSizeEntities, productColorImageEntities);
   }

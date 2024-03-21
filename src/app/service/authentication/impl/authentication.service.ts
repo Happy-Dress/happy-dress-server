@@ -41,8 +41,8 @@ export class AuthenticationService implements IAuthenticationService {
 
     public async getUser(credentials: UserCredentials): Promise<UserEntity> {
       const user = await this.userService.findByLogin(credentials.login);
-      const isUserValid = await this.areCredentialsInvalid(credentials, user);
-      if (isUserValid) {
+      const isUserInvalid = await this.areCredentialsInvalid(credentials, user);
+      if (isUserInvalid) {
         throw new UnauthorizedException(INVALID_LOGIN_OR_PASSWORD);
       }
       return user;

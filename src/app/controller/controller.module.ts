@@ -12,6 +12,8 @@ import { AuthenticationSecureController } from './api/secure/authentication/auth
 import { JwtRefreshStrategy } from './security/strategy/jwt.refresh.strategy';
 import { BlogSecureController } from './api/secure/blog/blog.secure.controller';
 import { BlogController } from './api/unsecure/blog/blog.controller';
+import { OrdersController } from './api/unsecure/orders/orders.controller';
+import { OrdersSecureController } from './api/secure/orders/orders.secure.controller';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { BlogController } from './api/unsecure/blog/blog.controller';
     SettingsSecureController,
     ProductsController,
     ProductsSecureController,
+    OrdersController,
+    OrdersSecureController,  
   ],
   providers: [JwtAccessStrategy, JwtRefreshStrategy],
 })

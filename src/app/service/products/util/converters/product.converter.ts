@@ -10,6 +10,7 @@ import {
   ProductColorImageEntity,
 } from '../../../../repository/product/product-color-image/entity/product-color-image.entity';
 import { ProductColorImageViewDto } from '../../model/product-color-image.view.dto';
+import { ProductOrderViewDto } from '../../model/product-order-view.dto';
 
 
 @Injectable()
@@ -65,6 +66,24 @@ export class ProductConverter  {
         imageURLs: productColorImage.imageUrls,
       };
     });
+  }
+  
+  async convertToProductOrderedViewDto(productEntity: ProductEntity, productColorImageEntity: ProductColorImageEntity, productColorSizeEntity: ProductColorSizeEntity): Promise<ProductOrderViewDto> {
+    const productViewDto = await this.convertToViewDto(productEntity, [productColorSizeEntity], [productColorImageEntity]);
+    const productColorImageViewDto = this.convertToProductColorImageViewDtos([productColorImageEntity])[0];
+    const productColorSizeViewDto = this.convertToProductColorSizeViewDtos([productColorSizeEntity])[0];
+
+    return {
+      id: productViewDto.id,
+      name: productViewDto.name,
+      description: productViewDto.description,
+      mainImageUrl: productColorImageViewDto.imageURLs[0],
+      category: productViewDto.category,
+      model: productViewDto.model,
+      materials: productViewDto.materials,
+      productColorSize: productColorSizeViewDto,
+      productColorImage: productColorImageViewDto,
+    };
   }
 
   convertToPartialEntity(productDto: ProductDto): Partial<ProductEntity> {

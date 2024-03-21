@@ -40,6 +40,12 @@ import { BlogEntity } from '../repository/blog/blog.entity';
 import { IBlogService } from './blog/blog.service.abstraction';
 import { BlogService } from './blog/impl/blog.service';
 import { ImageConverter } from './image/util/converters/image.converter';
+import { IOrdersService } from './orders/orders.service.abstraction';
+import { OrdersService } from './orders/impl/orders.service';
+import { OrderConverter } from './orders/util/converters/order.converter';
+import { OrderEntity } from '../repository/order/entity/order.entity';
+import { OrderStatusConverter } from './orders/util/converters/order-status.converter';
+import { OrderStatusEntity } from '../repository/order/order-status/entity/order-status.entity';
 
 @Module({
   // Delegates
@@ -72,6 +78,10 @@ import { ImageConverter } from './image/util/converters/image.converter';
       provide: IBlogService,
       useClass: BlogService,
     },
+    {
+      provide: IOrdersService,
+      useClass: OrdersService,
+    },
 
     // Validators
     ImageValidator,
@@ -84,7 +94,9 @@ import { ImageConverter } from './image/util/converters/image.converter';
     SizeConverter,
     ProductConverter,
     BlogConverter,
-    ImageConverter,  
+    ImageConverter,
+    OrderConverter,
+    OrderStatusConverter,
 
     // Crud services
     MaterialsCrudService,
@@ -96,8 +108,8 @@ import { ImageConverter } from './image/util/converters/image.converter';
   imports: [
     ClientModule,
         TypeOrmModule.forFeature([UserEntity, CategoryEntity, ModelEntity, MaterialEntity, ColorEntity,
-          SizeEntity, ProductEntity, ProductColorSizeEntity, ProductColorImageEntity, BlogEntity]),
+          SizeEntity, ProductEntity, ProductColorSizeEntity, ProductColorImageEntity, BlogEntity, OrderEntity, OrderStatusEntity]),
   ],
-  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService, IProductsService, IBlogService],
+  exports: [IImageService, IUserService, IAuthenticationService, ISettingsService, IProductsService, IBlogService, IOrdersService],
 })
 export class ServiceModule {}
