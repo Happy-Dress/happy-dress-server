@@ -47,23 +47,35 @@ export class CloudStorageClient implements ICloudStorageClient, OnApplicationBoo
       return uploadResponse
         .filter(response => response.status === this.STATUS_REJECTED)
         .map(response => response as PromiseRejectedResult)
-        .map(response => (response.reason as FileUploadError).getFailedFiles());
+        .map(response => new FileUploadError(response.reason).getFailedFiles());
     }
 
-    private async uploadFile(file: Express.Multer.File, folderName: string, fileId?: number): Promise<UploadedFileModel> {
-      try {
+    private uploadFile(file: Express.Multer.File, folderName: string, fileId?: number): Promise<UploadedFileModel> {
+      return new Promise((resolve, reject) => {
+     
+        file.originalname = `${new Date().getTime()}_${file.originalname}`;
         const blob = this.bucket.file(file.originalname);
-        const stream = blob.createWriteStream();
-        stream.end(file.buffer);
-        return Promise.resolve({
-          id: fileId,
-          fileName: file.originalname,
-          fileId: blob.name,
+        const stream = blob.createWriteStream({
+          resumable: false,
         });
-      } catch (err) {
-        throw err;
-      }
 
+            stream.on('finish', () => {
+                resolve({
+                  id: fileId,
+                  fileName: file.originalname,
+                  fileId: blob.name,
+                });
+            });
+
+            stream.on('error', (err) => {
+                reject({
+                  id: fileId,
+                  fileName: file.originalname,
+                  reason: err.message,
+                });
+            });
+            stream.end(file.buffer);
+      });
     }
 
 
