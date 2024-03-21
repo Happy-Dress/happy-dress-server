@@ -18,4 +18,11 @@ export class ImageSecureController {
   public async uploadImages(@UploadedFiles(NullFilesValidationPipe) files: Express.Multer.File[]): Promise<ImagesUploadResult> {
     return this.imageService.uploadImages(files);
   }
+
+  @UseGuards(JwtAccessAuthGuard)
+  @Post('upload-cloud-storage')
+  @UseInterceptors(FilesInterceptor('files'))
+  public async uploadImagesToGoogleDrive(@UploadedFiles(NullFilesValidationPipe) files: Express.Multer.File[]): Promise<ImagesUploadResult> {
+    return this.imageService.uploadImagesToGoogleDrive(files);
+  }
 }
