@@ -5,7 +5,7 @@ import { ImagesUploadResult } from '../../model/ImagesUploadResult.model';
 @Injectable()
 export class ImageConverter {
     
-    private readonly IMAGE_DEFAULT_URL = 'https://lh3.google.com/u/0/d/';
+    private readonly IMAGE_DEFAULT_URL = 'https://storage.googleapis.com/happy-dress-prod/';
     public convertToImagesUploadResult(files: FilesUploadResult): ImagesUploadResult {
       return {
         uploadedImages: files.uploadedFiles.map((file) => {

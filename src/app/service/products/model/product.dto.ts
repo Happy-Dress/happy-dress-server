@@ -47,7 +47,7 @@ export class ProductDto implements IdentifiedModel {
     @ApiProperty()
     @IsNotEmpty({ message: EMPTY_FIELD.replace('$TYPE', 'Главное фото') })
     @IsString()
-    @Matches(/http:\/\/drive.google.com\/uc\?export=view&id=/, { message: INVALID_GOOGLE_DRIVE_LINK })
+    @Matches(/https:\/\/storage.googleapis.com\/happy-dress-prod/, { message: INVALID_GOOGLE_DRIVE_LINK })
     mainImageUrl: string;
 
     @ApiProperty()
