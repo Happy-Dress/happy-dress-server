@@ -5,6 +5,7 @@ import { IGoogleDriveClient } from '../../../client/google-drive/google-drive.cl
 import { Image } from '../model/Image.model';
 import { ImageConverter } from '../util/converters/image.converter';
 import { ImagesUploadResult } from '../model/ImagesUploadResult.model';
+import { ICloudStorageClient } from '../../../client/cloud-storage/cloud-storage.client.abstraction';
 
 const IMAGES_FOLDER_NAME = 'images';
 
@@ -13,6 +14,9 @@ export class ImageService implements IImageService {
 
     @Inject()
     private readonly googleDriveClient: IGoogleDriveClient;
+
+    @Inject()
+    private readonly cloudStorageClient: ICloudStorageClient;
 
     @Inject()
     private readonly imageValidator: ImageValidator;
@@ -25,6 +29,15 @@ export class ImageService implements IImageService {
       const images: Image[] = files.map((file, index) => ({ id : index, ...file }));
       const { validImages, invalidImagesMap } = this.imageValidator.getImageValidationResult(images);
       const filesUploadResult = await this.googleDriveClient.uploadFiles(validImages, IMAGES_FOLDER_NAME);
+      const imageUploadResult = this.imageConverter.convertToImagesUploadResult(filesUploadResult);
+      imageUploadResult.failedImages.push(...invalidImagesMap.values());
+      return imageUploadResult;
+    }
+
+    public async uploadImagesToGoogleDrive(files: Express.Multer.File[]): Promise<ImagesUploadResult> {
+      const images: Image[] = files.map((file, index) => ({ id : index, ...file }));
+      const { validImages, invalidImagesMap } = this.imageValidator.getImageValidationResult(images);
+      const filesUploadResult = await this.cloudStorageClient.uploadFiles(validImages, IMAGES_FOLDER_NAME);
       const imageUploadResult = this.imageConverter.convertToImagesUploadResult(filesUploadResult);
       imageUploadResult.failedImages.push(...invalidImagesMap.values());
       return imageUploadResult;

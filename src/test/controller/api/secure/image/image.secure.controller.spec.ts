@@ -13,6 +13,7 @@ describe('ImageSecureController', () => {
             provide: IImageService,
             useValue: {
               uploadImages: jest.fn(),
+              uploadImagesToGoogleDrive: jest.fn(),
             },
           },
         ],
@@ -31,5 +32,13 @@ describe('ImageSecureController', () => {
             const actualResult = await imageController.uploadImages(files);
             expect(actualResult).toBe(result);
         });
+
+        it('should upload images to google cloud storage', async () => {
+          const files = [] as any[];
+          const result = {} as any;
+            jest.spyOn(imageService, 'uploadImagesToGoogleDrive').mockImplementation(() => result);
+            const actualResult = await imageController.uploadImagesToGoogleDrive(files);
+            expect(actualResult).toBe(result);
+        })
     });
 });
