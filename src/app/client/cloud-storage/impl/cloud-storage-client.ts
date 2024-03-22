@@ -52,8 +52,7 @@ export class CloudStorageClient implements ICloudStorageClient, OnApplicationBoo
 
     private uploadFile(file: Express.Multer.File, folderName: string, fileId?: number): Promise<UploadedFileModel> {
       return new Promise((resolve, reject) => {
-     
-        file.originalname = `${new Date().getTime()}_${file.originalname}`;
+        file.originalname = `${new Date().toLocaleDateString()}/${new Date().getTime()}_${fileId}_${file.originalname}`;
         const blob = this.bucket.file(file.originalname);
         const stream = blob.createWriteStream({
           resumable: false,
