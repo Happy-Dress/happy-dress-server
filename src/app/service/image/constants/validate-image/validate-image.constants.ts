@@ -1,4 +1,4 @@
-export const MAX_IMAGE_SIZE = 1e7;
+export const MAX_IMAGE_SIZE = 1e100;
 export const MIN_IMAGE_SIZE = 1e3;
 export const COEFFICIENT_BYTES_TO_MEGABYTES = 1e-6;
 
