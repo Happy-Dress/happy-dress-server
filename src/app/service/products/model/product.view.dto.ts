@@ -5,11 +5,11 @@ import { SimpleListSetting } from '../../util/model/dto/simple.list.setting';
 import { ProductColorSizeViewDto } from './product-color-size.view.dto';
 import { ProductColorImageViewDto } from './product-color-image.view.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
-import { INVALID_NAME_DETECTED, NAME_TOO_LONG, NAME_TOO_SHORT } from '../../../messages/constants/messages.constants';
+import { IsString, MaxLength, MinLength } from 'class-validator';
+import {  NAME_TOO_LONG, NAME_TOO_SHORT } from '../../../messages/constants/messages.constants';
 
 const MIN_LENGTH_NAME = 3;
-const MAX_LENGTH_NAME = 20;
+const MAX_LENGTH_NAME = 30;
 
 export class ProductViewDto implements Omit<SimpleListSetting, 'orderNumber'> {
 
